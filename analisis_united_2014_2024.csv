@@ -1,0 +1,12 @@
+año,pts_utd,pos_utd,gf_utd,ga_utd,entrenador,pts_champ,gf_champ,ga_champ,brecha_puntos,brecha_ataque,brecha_defensa,pts_por_gol,es_transicion
+2014,64,7,64,43,David Moyes,86,102,37,22,38,6,1.0,False
+2015,70,4,62,37,Louis van Gaal,87,73,32,17,11,5,1.13,False
+2016,66,5,49,35,Louis van Gaal,81,68,36,15,19,-1,1.35,False
+2017,69,6,54,29,José Mourinho,93,85,33,24,31,-4,1.28,False
+2018,81,2,68,28,José Mourinho,100,106,27,19,38,1,1.19,False
+2019,66,6,65,54,Mourinho / Solskjær,98,95,23,32,30,31,1.02,True
+2020,66,3,66,36,Ole Gunnar Solskjær,99,85,33,33,19,3,1.0,False
+2021,74,2,73,44,Ole Gunnar Solskjær,86,83,32,12,10,12,1.01,False
+2022,58,6,57,57,Solskjær / Rangnick,93,99,26,35,42,31,1.02,True
+2023,75,3,58,43,Erik ten Hag,89,94,33,14,36,10,1.29,False
+2024,60,8,57,58,Erik ten Hag,91,96,34,31,39,24,1.05,False
