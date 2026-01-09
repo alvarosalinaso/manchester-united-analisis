@@ -17,6 +17,65 @@ def preparar_datos(df):
     """
     Limpieza y creación de métricas avanzadas para el análisis de fútbol.
     """
+    # Crear la métrica 'Points Per Game' (PPG).
+    if 'played' in df.columns and 'points' in df.columns:
+        df['ppg'] = (df['points'] / df['played']).round(3)
+    else:
+        df['ppg'] = df['points']
+    return df
+
+def analizar_campeones(df):
+    """
+    Filtra y analiza el rendimiento histórico de los ganadores de la liga.
+    """
+    campeones = df[df['position'] == 1].copy()
+    campeones = campeones.sort_values('season_end_year')
+    cols_interes = ['season_end_year', 'team', 'played', 'points', 'ppg', 'won', 'lost']
+    return campeones[cols_interes]
+
+def visualizar_evolucion(campeones):
+    plt.figure(figsize=(12, 6))
+    plt.plot(campeones['season_end_year'], campeones['ppg'], marker='o', linestyle='-', color='#38003c', label='Puntos por Partido')
+    plt.title('Evolución del Rendimiento del Campeón (1993-2024)', fontsize=14, fontweight='bold')
+    plt.xlabel('Temporada', fontsize=12)
+    plt.ylabel('Puntos por Partido (PPG)', fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.axhline(y=campeones['ppg'].mean(), color='r', linestyle=':', label=f'Promedio Histórico ({campeones["ppg"].mean():.2f})')
+    plt.legend()
+    print("\n📊 Generando gráfico de evolución...")
+    plt.show()
+
+def main():
+    archivo = 'pl-tables-1993-2024.csv'
+    df = cargar_datos(archivo)
+    if df is not None:
+        df = preparar_datos(df)
+        print("\n--- 🏆 Análisis de Campeones Históricos ---")
+        df_campeones = analizar_campeones(df)
+        print(df_campeones.head())
+        visualizar_evolucion(df_campeones)
+
+if __name__ == "__main__":
+    main()
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def cargar_datos(ruta_archivo):
+    """
+    Carga el dataset de la Premier League y maneja errores comunes.
+    """
+    try:
+        df = pd.read_csv(ruta_archivo)
+        print(f"✅ Dataset cargado correctamente: {df.shape[0]} registros encontrados.")
+        return df
+    except FileNotFoundError:
+        print("❌ Error: No se encontró el archivo CSV. Verifica la ruta.")
+        return None
+
+def preparar_datos(df):
+    """
+    Limpieza y creación de métricas avanzadas para el análisis de fútbol.
+    """
     # Como analistas, sabemos que la liga cambió de 42 a 38 partidos en la temporada 95/96.
     # Para comparar el rendimiento históricamente, creamos la métrica 'Points Per Game' (PPG).
     df['ppg'] = df['points'] / df['played']
