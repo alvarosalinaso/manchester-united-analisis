@@ -60,6 +60,6 @@ Este es un proyecto de portafolio. Sugerencias y mejoras son bienvenidas vía is
 MIT License - Libre para uso educativo y personal.
 
 ## 📞 Contacto
-- **Autor**: [Tu Nombre]
-- **LinkedIn**: [Tu LinkedIn]
-- **Email**: [tu.email@example.com]
+- **Autor**: Álvaro Salinas Ortiz
+- **LinkedIn**: [\[Tu LinkedIn\]](https://www.linkedin.com/in/alvaro-salinas-ortiz/)
+- **Email**: alvarosalinasortiz@gmail.com 
