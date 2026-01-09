@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Data files
-*.csv
+# Track CSVs used for analysis (remove this comment or add specific patterns if you want to ignore some CSVs)
 *.xlsx
 *.json
 
@@ -141,3 +141,4 @@ dmypy.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+python-installer.exe
