@@ -116,7 +116,7 @@ def graficar_eficiencia_y_brecha(df):
     ax2.grid(True)
     
     plt.tight_layout()
-    plt.savefig('eficiencia_y_brecha.png')
+    plt.savefig('assets/figures/eficiencia_y_brecha.png')
     plt.close()
     print("✅ Gráfico guardado como 'eficiencia_y_brecha.png'")
 
@@ -140,14 +140,14 @@ def graficar_rentabilidad_ofensiva(df):
     plt.xlabel('Goles a Favor Promedio')
     plt.ylabel('Puntos por Gol')
     plt.grid(True, alpha=0.2)
-    plt.savefig('rentabilidad_ofensiva.png')
+    plt.savefig('assets/figures/rentabilidad_ofensiva.png')
     plt.close()
-    print("✅ Gráfico guardado como 'rentabilidad_ofensiva.png'")
+    print("✅ Gráfico guardado como 'assets/figures/rentabilidad_ofensiva.png'")
 
 # ==========================================
 # EXPORTACIÓN Y CONCLUSIONES
 # ==========================================
-def exportar_csv(df, nombre_archivo='analisis_united_2014_2024.csv'):
+def exportar_csv(df, nombre_archivo='assets/data/analisis_united_2014_2024.csv'):
     """
     Exporta el DataFrame a CSV para uso en herramientas de visualización externas.
     
@@ -155,6 +155,9 @@ def exportar_csv(df, nombre_archivo='analisis_united_2014_2024.csv'):
         df (pd.DataFrame): DataFrame a exportar.
         nombre_archivo (str): Nombre del archivo CSV.
     """
+    # Asegurarse de que la carpeta existe
+    import os
+    os.makedirs(os.path.dirname(nombre_archivo), exist_ok=True)
     df.to_csv(nombre_archivo, index=False)
     print(f"✅ Datos exportados a '{nombre_archivo}'")
 
