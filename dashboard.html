@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Álvaro Salinas — Portafolio Data Analytics</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a1a;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+.header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #e5e5e0}
+.header h1{font-size:24px;font-weight:500;margin-bottom:6px}
+.header p{font-size:14px;color:#6b6b67}
+.links{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.links a{font-size:12px;color:#185fa5;text-decoration:none;padding:4px 10px;border:1px solid #b5d4f4;border-radius:6px}
+.links a:hover{background:#e6f1fb}
+.tabs{display:flex;gap:8px;margin-bottom:1.5rem}
+.tab{padding:8px 20px;border-radius:8px;border:1px solid #d3d1c7;font-size:13px;cursor:pointer;background:white;color:#5f5e5a;transition:all 0.15s}
+.tab.active{background:#2c2c2a;color:white;border-color:#2c2c2a;font-weight:500}
+.section{display:none}.section.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.kpi{background:white;border:1px solid #e5e5e0;border-radius:10px;padding:14px 16px}
+.kpi-label{font-size:12px;color:#6b6b67;margin-bottom:6px}
+.kpi-value{font-size:22px;font-weight:500}
+.kpi-sub{font-size:11px;color:#888780;margin-top:3px}
+.chart-card{background:white;border:1px solid #e5e5e0;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.chart-title{font-size:13px;font-weight:500;margin-bottom:1rem;color:#2c2c2a}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px;font-size:12px;color:#6b6b67}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e5e5e0;font-size:12px;color:#888780;text-align:center}
+@media(max-width:650px){.kpis{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Álvaro Salinas Ortiz — Portafolio de análisis de datos</h1>
+    <p>Análisis de datos deportivos con Python · Visualización · Machine Learning</p>
+    <div class="links">
+      <a href="https://github.com/alvarosalinaso/manchester-united-analisis" target="_blank">github: man utd análisis</a>
+      <a href="https://github.com/alvarosalinaso/united-passing-efficiency-24-25" target="_blank">github: passing efficiency</a>
+      <a href="https://github.com/alvarosalinaso/chilean-videogames-analysis" target="_blank">github: videojuegos chile</a>
+      <a href="https://github.com/alvarosalinaso" target="_blank">github: perfil</a>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('utd',this)">Man United histórico</button>
+    <button class="tab" onclick="showTab('pases',this)">Pases 2024/25</button>
+  </div>
+
+  <div id="utd" class="section active">
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Pts promedio / temporada</div><div class="kpi-value">68.1</div><div class="kpi-sub">2014 – 2024</div></div>
+      <div class="kpi"><div class="kpi-label">Brecha media vs campeón</div><div class="kpi-value">23.8 pts</div><div class="kpi-sub">por temporada</div></div>
+      <div class="kpi"><div class="kpi-label">Mayor eficiencia</div><div class="kpi-value">van Gaal</div><div class="kpi-sub">1.24 pts / gol</div></div>
+      <div class="kpi"><div class="kpi-label">Costo inestabilidad</div><div class="kpi-value">~10 pts</div><div class="kpi-sub">en años de transición</div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Puntos del Man United vs campeón por temporada</div>
+      <div class="legend"><span><span class="dot" style="background:#c0392b"></span>Man United</span><span><span class="dot" style="background:#888780"></span>Campeón</span></div>
+      <div style="position:relative;height:260px"><canvas id="c1"></canvas></div>
+    </div>
+    <div class="grid2">
+      <div class="chart-card">
+        <div class="chart-title">Eficiencia por entrenador (pts/gol)</div>
+        <div style="position:relative;height:240px"><canvas id="c2"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Brecha de puntos vs campeón por año</div>
+        <div style="position:relative;height:240px"><canvas id="c3"></canvas></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Goles a favor vs goles en contra</div>
+      <div style="position:relative;height:220px"><canvas id="c4"></canvas></div>
+    </div>
+  </div>
+
+  <div id="pases" class="section">
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Jugador más progresivo</div><div class="kpi-value">Fernandes</div><div class="kpi-sub">463 pases progresivos</div></div>
+      <div class="kpi"><div class="kpi-label">Mayor % completado (MF)</div><div class="kpi-value">Ugarte</div><div class="kpi-sub">86.8%</div></div>
+      <div class="kpi"><div class="kpi-label">Más pases clave</div><div class="kpi-value">Fernandes</div><div class="kpi-sub">135 KP</div></div>
+      <div class="kpi"><div class="kpi-label">Mediocampistas</div><div class="kpi-value">7</div><div class="kpi-sub">temporada 24/25</div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Top 10 jugadores por pases completados</div>
+      <div style="position:relative;height:380px"><canvas id="c5"></canvas></div>
+    </div>
+    <div class="grid2">
+      <div class="chart-card">
+        <div class="chart-title">Pases progresivos (PrgP) — top 10</div>
+        <div style="position:relative;height:320px"><canvas id="c6"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">% completado vs pases progresivos (MF)</div>
+        <div style="position:relative;height:320px"><canvas id="c7"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Álvaro Salinas Ortiz · alvarosalinasortiz@gmail.com · github.com/alvarosalinaso</footer>
+</div>
+<script>
+const RED='#c0392b',GRAY='#888780',BLUE='#378ADD';
+const utd={años:[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],pts:[64,70,66,69,81,66,66,74,58,75,60],champ:[86,87,81,93,100,98,99,86,93,89,91],brecha:[22,17,15,24,19,32,33,12,35,14,31],gf:[64,62,49,54,68,65,66,73,57,58,57],ga:[43,37,35,29,28,54,36,44,57,43,58]};
+const efic={labels:['Van Gaal','Mourinho','ten Hag','Sol/Rang','Mou/Sol','Solskjær','Moyes'],vals:[1.24,1.24,1.17,1.02,1.02,1.01,1.00]};
+const pas={players:['Fernandes','Onana','Mazraoui','Dalot','Martínez','de Ligt','Casemiro','Maguire','Mainoo','Ugarte'],cmp:[2422,1277,2272,1890,1720,1717,1323,1317,805,1115],prgp:[463,4,192,172,184,75,157,73,73,79],mfP:['Fernandes','Casemiro','Mainoo','Ugarte','Eriksen','Garnacho','Mount'],mfCmp:[75.8,80.8,86.9,86.8,79.2,78.9,80.7],mfPrg:[463,157,73,79,77,78,47]};
+function mk(id,type,labels,datasets,opts){new Chart(document.getElementById(id),{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},...opts}});}
+mk('c1','line',utd.años,[{label:'Man Utd',data:utd.pts,borderColor:RED,backgroundColor:RED+'22',tension:0.3,fill:true,pointRadius:4},{label:'Campeón',data:utd.champ,borderColor:GRAY,backgroundColor:GRAY+'22',tension:0.3,fill:true,pointRadius:4,borderDash:[5,3]}],{scales:{y:{min:50,max:105}}});
+mk('c2','bar',efic.labels,[{data:efic.vals,backgroundColor:efic.vals.map(v=>v>=1.20?RED:GRAY+'88'),borderRadius:4}],{indexAxis:'y',scales:{x:{min:0.9,max:1.3}}});
+mk('c3','bar',utd.años,[{data:utd.brecha,backgroundColor:utd.brecha.map(v=>v>=30?RED+'bb':v>=20?'#e67e2299':'#27ae6099'),borderRadius:4}],{scales:{y:{min:0,max:40}}});
+mk('c4','bar',utd.años,[{label:'GF',data:utd.gf,backgroundColor:BLUE+'cc',borderRadius:3},{label:'GA',data:utd.ga,backgroundColor:RED+'cc',borderRadius:3}],{plugins:{legend:{display:true,position:'top',labels:{boxWidth:10,font:{size:11}}}}});
+mk('c5','bar',pas.players,[{data:pas.cmp,backgroundColor:pas.players.map((_,i)=>i===0?RED:BLUE+'99'),borderRadius:4}],{indexAxis:'y',scales:{x:{beginAtZero:true}}});
+mk('c6','bar',pas.players,[{data:pas.prgp,backgroundColor:pas.prgp.map((_,i)=>i===0?RED:GRAY+'99'),borderRadius:4}],{indexAxis:'y',scales:{x:{beginAtZero:true}}});
+new Chart(document.getElementById('c7'),{type:'bubble',data:{datasets:pas.mfP.map((p,i)=>({label:p,data:[{x:pas.mfCmp[i],y:pas.mfPrg[i],r:10}],backgroundColor:i===0?RED+'cc':BLUE+'88'}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:10},padding:8}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.x}% · ${ctx.parsed.y} PrgP`}}},scales:{x:{title:{display:true,text:'% pases completados',font:{size:11}},min:74,max:90},y:{title:{display:true,text:'Pases progresivos',font:{size:11}},min:30,max:500}}}});
+function showTab(id,el){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
+</script>
+</body>
+</html>
