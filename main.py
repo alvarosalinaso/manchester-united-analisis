@@ -1,139 +1,61 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+"""
+Manchester United Performance Analysis (2014-2024)
+Punto de entrada principal del proyecto.
+"""
+from src.manutd_analysis.data import cargar_y_filtrar_datos
+from src.manutd_analysis.analysis import (
+    analizar_eficiencia,
+    analizar_estabilidad,
+    calcular_costo_inestabilidad,
+)
+from src.manutd_analysis.plots import (
+    graficar_eficiencia_y_brecha,
+    graficar_rentabilidad_ofensiva,
+)
 
-def cargar_datos(ruta_archivo):
-    """
-    Carga el dataset de la Premier League y maneja errores comunes.
-    """
-    try:
-        df = pd.read_csv(ruta_archivo)
-        print(f"✅ Dataset cargado correctamente: {df.shape[0]} registros encontrados.")
-        return df
-    except FileNotFoundError:
-        print("❌ Error: No se encontró el archivo CSV. Verifica la ruta.")
-        return None
 
-def preparar_datos(df):
-    """
-    Limpieza y creación de métricas avanzadas para el análisis de fútbol.
-    """
-    # Crear la métrica 'Points Per Game' (PPG).
-    if 'played' in df.columns and 'points' in df.columns:
-        df['ppg'] = (df['points'] / df['played']).round(3)
-    else:
-        df['ppg'] = df['points']
-    return df
+def imprimir_conclusiones(df):
+    """Imprime las conclusiones finales del análisis."""
+    print("\n" + "=" * 60)
+    print("📜 CONCLUSIONES: LA DÉCADA DE LA IRREGULARIDAD")
+    print("=" * 60)
+    print(f"  · Brecha promedio con el campeón : {df['brecha_puntos'].mean():.1f} pts")
+    print(f"  · Brecha ofensiva media          : {df['brecha_ataque'].mean():.1f} goles")
+    print(f"  · PPG promedio del período        : {df['ppg'].mean():.3f}")
 
-def analizar_campeones(df):
-    """
-    Filtra y analiza el rendimiento histórico de los ganadores de la liga.
-    """
-    campeones = df[df['position'] == 1].copy()
-    campeones = campeones.sort_values('season_end_year')
-    cols_interes = ['season_end_year', 'team', 'played', 'points', 'ppg', 'won', 'lost']
-    return campeones[cols_interes]
+    comparativa = analizar_estabilidad(df)
+    costo = calcular_costo_inestabilidad(comparativa)
+    print(f"  · Costo de la inestabilidad       : ~{costo:.1f} pts por temporada de transición")
+    print("=" * 60)
 
-def visualizar_evolucion(campeones):
-    plt.figure(figsize=(12, 6))
-    plt.plot(campeones['season_end_year'], campeones['ppg'], marker='o', linestyle='-', color='#38003c', label='Puntos por Partido')
-    plt.title('Evolución del Rendimiento del Campeón (1993-2024)', fontsize=14, fontweight='bold')
-    plt.xlabel('Temporada', fontsize=12)
-    plt.ylabel('Puntos por Partido (PPG)', fontsize=12)
-    plt.grid(True, linestyle='--', alpha=0.7)
-    plt.axhline(y=campeones['ppg'].mean(), color='r', linestyle=':', label=f'Promedio Histórico ({campeones["ppg"].mean():.2f})')
-    plt.legend()
-    print("\n📊 Generando gráfico de evolución...")
-    plt.show()
 
 def main():
-    archivo = 'pl-tables-1993-2024.csv'
-    df = cargar_datos(archivo)
-    if df is not None:
-        df = preparar_datos(df)
-        print("\n--- 🏆 Análisis de Campeones Históricos ---")
-        df_campeones = analizar_campeones(df)
-        print(df_campeones.head())
-        visualizar_evolucion(df_campeones)
+    print("🔄 Cargando datos...")
+    df = cargar_y_filtrar_datos()
 
-if __name__ == "__main__":
-    main()
-import pandas as pd
-import matplotlib.pyplot as plt
+    if df is None:
+        print("❌ No se pudieron cargar los datos. Verifica que 'pl-tables-1993-2024.csv' exista.")
+        return
 
-def cargar_datos(ruta_archivo):
-    """
-    Carga el dataset de la Premier League y maneja errores comunes.
-    """
-    try:
-        df = pd.read_csv(ruta_archivo)
-        print(f"✅ Dataset cargado correctamente: {df.shape[0]} registros encontrados.")
-        return df
-    except FileNotFoundError:
-        print("❌ Error: No se encontró el archivo CSV. Verifica la ruta.")
-        return None
+    print(f"✅ Datos cargados: {len(df)} temporadas analizadas.\n")
 
-def preparar_datos(df):
-    """
-    Limpieza y creación de métricas avanzadas para el análisis de fútbol.
-    """
-    # Como analistas, sabemos que la liga cambió de 42 a 38 partidos en la temporada 95/96.
-    # Para comparar el rendimiento históricamente, creamos la métrica 'Points Per Game' (PPG).
-    df['ppg'] = df['points'] / df['played']
-    
-    # Redondeamos a 2 decimales para facilitar la lectura
-    df['ppg'] = df['ppg'].round(2)
-    return df
+    # Análisis
+    print("--- 📈 EFICIENCIA POR ENTRENADOR (Pts/Gol) ---")
+    print(analizar_eficiencia(df).to_string())
 
-def analizar_campeones(df):
-    """
-    Filtra y analiza el rendimiento histórico de los ganadores de la liga.
-    """
-    # Filtramos solo la posición 1 (Campeones)
-    campeones = df[df['position'] == 1].copy()
-    
-    # Ordenamos cronológicamente
-    campeones = campeones.sort_values('season_end_year')
-    
-    # Seleccionamos columnas clave para el reporte
-    cols_interes = ['season_end_year', 'team', 'played', 'points', 'ppg', 'won', 'lost']
-    return campeones[cols_interes]
+    print("\n--- ⚠️  IMPACTO DE LA INESTABILIDAD ---")
+    comparativa = analizar_estabilidad(df)
+    print(comparativa.to_string())
 
-def visualizar_evolucion(campeones):
-    """
-    Genera un gráfico de línea mostrando la dificultad para ganar la liga a lo largo del tiempo.
-    """
-    plt.figure(figsize=(12, 6))
-    
-    # Graficamos los Puntos por Partido (PPG) para ser justos entre eras
-    plt.plot(campeones['season_end_year'], campeones['ppg'], marker='o', linestyle='-', color='#38003c', label='Puntos por Partido')
-    
-    plt.title('Evolución del Rendimiento del Campeón (1993-2024)', fontsize=14, fontweight='bold')
-    plt.xlabel('Temporada', fontsize=12)
-    plt.ylabel('Puntos por Partido (PPG)', fontsize=12)
-    plt.grid(True, linestyle='--', alpha=0.7)
-    plt.axhline(y=campeones['ppg'].mean(), color='r', linestyle=':', label=f'Promedio Histórico ({campeones["ppg"].mean():.2f})')
-    plt.legend()
-    
-    print("\n📊 Generando gráfico de evolución...")
-    plt.show()
+    # Visualizaciones
+    print("\n🎨 Generando gráficos...")
+    graficar_eficiencia_y_brecha(df)
+    graficar_rentabilidad_ofensiva(df)
 
-def main():
-    archivo = 'pl-tables-1993-2024.csv'
-    
-    # 1. Ingesta de datos
-    df = cargar_datos(archivo)
-    
-    if df is not None:
-        # 2. Procesamiento
-        df = preparar_datos(df)
-        
-        # 3. Análisis
-        print("\n--- 🏆 Análisis de Campeones Históricos ---")
-        df_campeones = analizar_campeones(df)
-        print(df_campeones.head())
-        
-        # 4. Visualización
-        visualizar_evolucion(df_campeones)
+    # Conclusiones
+    imprimir_conclusiones(df)
+    print("\n✅ Análisis completado.")
+
 
 if __name__ == "__main__":
     main()
