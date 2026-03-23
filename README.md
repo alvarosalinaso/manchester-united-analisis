@@ -1,20 +1,20 @@
-[![CI](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml)
+[![Integración Continua](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml)
 
-# Manchester United: Auditoría de Dinero Perdido
+# Manchester United: Auditoría de Gasto Neto
 
-Análisis duro transversal y financiero del desgaste deportivo del Manchester United (Post-Ferguson). Esto no es sobre goles en contra, esto es sobre cuánto dinero le costó a los dueños cada punto obtenido por cada entrenador que pasó por el banquillo.
+Análisis financiero del desgaste deportivo del Manchester United (Post-Ferguson). Esto examina cuánto dinero le costó a los dueños cada punto obtenido por cada entrenador que pasó por el banquillo en la última década.
 
-## El Flujo de Datos y el Panel Visual
-El repositorio expone una herramienta visual cruda para gerencia. Las métricas claves:
-- **Gasto Neto por Punto:** La división pura entre la inyección de libras esterlinas al mercado de fichajes y el rendimiento real final en la tabla de posiciones.
-- **Táctica contra Azar:** Mapas de correlación que comprueban que recibir goles no te hunde tanto financieramente como no anotarlos. 
-- **Correcciones Recientes:** 
+## Flujo de Datos y Panel Visual
+El repositorio expone una herramienta visual para la alta gerencia deportiva. Las métricas claves:
+- **Gasto Neto por Punto**: La división pura entre la inyección de libras esterlinas al mercado de fichajes y el rendimiento real final en la tabla de posiciones.
+- **Táctica contra Azar**: Mapas de correlación que verifican estadísticamente si recibir goles condena a un equipo financieramente de la misma manera que no anotarlos. 
+- **Filosofía de Falla Rápida**: 
   - Código purgado de estructuras redundantes. 
-  - Errores silenciados (excepciones genéricas) totalmente removidos bajo la filosofía de "Falla Rápida".
-  - Refactorización de rutas asegurando despliegues estables sin importar desde qué carpeta ejecutes la aplicación.
+  - Excepciones genéricas y ocultas removidas para evitar errores silenciosos en la ejecución visual.
+  - Resolución dinámica de archivos asegurando despliegues estables sin importar desde dónde ejecutes la aplicación en tu computadora.
 
 ## Configuración Inicial
-Este proyecto inicia rápidamente usando Python. Solamente requiere instalar las dependencias visuales de la aplicación.
+Este proyecto inicia utilizando un entorno ligero de Python. Solamente requiere instalar las dependencias visuales antes de la ejecución.
 
 ```powershell
 python -m venv .venv
@@ -23,6 +23,6 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Despliégalo, lee los números y fíjate por qué la directiva prefiere mantener contratos de riesgo bajo antes que cortar de raíz y pagar altas sumas por destituciones (Compensación = $32 millones enterrados en técnicos despedidos).
+Despliégalo, lee los números y analiza por qué la directiva prefiere mantener contratos bajos antes que pagar altas sumas por destituciones (Compensaciones históricas superan los 32 millones por técnicos despedidos).
 
 > Álvaro Salinas Ortiz | alvarosalinasortiz@gmail.com | [LinkedIn](https://www.linkedin.com/in/alvaro-salinas-ortiz)
