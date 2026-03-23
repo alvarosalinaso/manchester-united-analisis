@@ -1,40 +1,28 @@
-# Manchester United: Auditoría de Rendimiento (2014-2024)
+[![CI](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml)
 
-Números crudos sobre el rendimiento post-Ferguson. Acá se ve matemáticamente cuánto cuesta echar entrenadores a mitad de temporada y la falta de rumbo deportivo.
+# Manchester United: Auditoría de "Plata Quemada"
 
-## 📊 Objetivo
-Evidenciar con datos financieros y deportivos (PPG, Costo por Punto) el nivel de inestabilidad del club en la última década.
+Análisis duro transversal y financiero del desgaste deportivo del Manchester United (Post-Ferguson). Esto no es sobre goles en contra, esto es sobre cuánto dinero le costó a INEOS/Glazers cada punto obtenido por cada entrenador que pasó por la banca.
 
-## 🛠️ Stack
-- Python 3.8+
-- Pandas / Seaborn
-- Pytest
+## El Pipeline y el Dashboard
+El repositorio expone una herramienta visual cruda para gerencia. Las métricas claves:
+- **Net Spend per Point (Costo por Punto):** La división pura entre la inyección de libras esterlinas al mercado de fichajes y el rendimiento real final en la tabla.
+- **Táctica vs Ruleta:** Mapas LOWESS de correlación que comprueban que comer goles no te hunde tanto financieramente como no meterlos. 
+- **Bugfixes:** 
+  - Código purgado de estructuras redundantes. 
+  - Errores silenciados (`try-catch` genéricos en Plotly) totalmente removidos bajo la filosofía de "Fail-Fast".
+  - Refactorización de rutas usando `pathlib` asegurando despliegues de entorno agnósticos (sin importar desde qué carpeta corras la aplicación, siempre levanta).
 
-## 📁 Repo
+## Setup Local
+Este proyecto levanta al vuelo usando Python vainilla. Solamente requiere instalar las dependencias visuales de `streamlit` y `plotly`.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+streamlit run app.py
 ```
-manchester-united-analisis/
-├── src/ # scripts
-├── tests/ # unit tests
-├── assets/ # img resultantes
-└── pyproject.toml
-```
 
-## Setup Rapido
+Despliégalo, lee los números y fíjate por qué la directiva prefiere mantener contratos de riesgo bajo antes que cortar de raíz y pagar compensaciones (Comp Fee = $32M enterrados en técnicos despedidos).
 
-1. `pip install -e .`
-2. `pytest`
-3. Para correr el scraper/analisis base:
-    ```python
-    from manutd_analysis.data import load_raw_data
-    from manutd_analysis.plots import plot_efficiency
-    
-    df = load_raw_data()
-    plot_efficiency(df)
-    ```
-
-## 📈 Hard Facts
-- **La Brecha**: El equipo promedia ~20 puntos menos que el campeón de turno. 
-- **Costo Hundido**: Tirar a un DT a la basura en medio del torneo destroza los puntos finales.
-- **Mourinho & Van Gaal**: Estadísticamente los únicos que armaron un sistema eficiente de puntos/gol, pese al odio mediático.
-
-> Creado por Álvaro Salinas Ortiz (alvarosalinasortiz@gmail.com)
+> Álvaro Salinas Ortiz | alvarosalinasortiz@gmail.com | [LinkedIn](https://www.linkedin.com/in/alvaro-salinas-ortiz)
