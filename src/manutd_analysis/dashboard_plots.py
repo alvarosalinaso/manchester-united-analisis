@@ -33,11 +33,16 @@ def graficar_tendencia(df, trendline=False):
         line=dict(color="#2ea043", dash="dash")
     ))
     
-    for _, row in df[df["manager_fired"]].dropna(subset=['season']).iterrows():
-        if row["season"] and str(row["season"]) != 'nan':
-            fig_pts.add_vline(x=row["season"], line_dash="dot", line_color="#e3b341", 
-                              annotation_text="⚠️ Despido/DT", annotation_position="top left",
-                              annotation_font_size=10, annotation_font_color="#e3b341")
+    for idx, row in df[df["manager"] != df["manager"].shift(-1)].dropna().iterrows():
+        if row["season"] != df["season"].iloc[-1]:
+            # Plotly bug workaround: add_vline with annotations crashes on string categorical axes
+            fig_pts.add_vline(x=row["season"], line_dash="dot", line_color="#e3b341")
+            fig_pts.add_annotation(
+                x=row["season"], y=0.95, yref="paper",
+                text="⚠️ Despido/DT", showarrow=False,
+                xanchor="left", yanchor="top",
+                font=dict(size=10, color="#e3b341")
+            )
 
     if trendline:
         z = sm.nonparametric.lowess(df["points"], range(len(df)), frac=0.3)
