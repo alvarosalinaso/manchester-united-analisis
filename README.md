@@ -1,56 +1,40 @@
-# Manchester United Performance Analysis (2014-2024)
+# Manchester United: Auditoría de Rendimiento (2014-2024)
 
-Análisis detallado del rendimiento del Manchester United en la Premier League post-Ferguson. Identifica patrones de irregularidad y cuantifica el costo de la inestabilidad.
+Números crudos sobre el rendimiento post-Ferguson. Acá se ve matemáticamente cuánto cuesta echar entrenadores a mitad de temporada y la falta de rumbo deportivo.
 
 ## 📊 Objetivo
-Demostrar con datos cómo la falta de consistencia en el banquillo ha costado puntos y títulos, proporcionando métricas claras de eficiencia por entrenador.
+Evidenciar con datos financieros y deportivos (PPG, Costo por Punto) el nivel de inestabilidad del club en la última década.
 
-## 🛠️ Tecnologías
-- **Python 3.8+**
-- **Pandas**: Procesamiento de datos.
-- **Seaborn / Matplotlib**: Visualización de datos de alta calidad.
-- **Pytest**: Pruebas automatizadas.
+## 🛠️ Stack
+- Python 3.8+
+- Pandas / Seaborn
+- Pytest
 
-## 📁 Estructura
+## 📁 Repo
 ```
 manchester-united-analisis/
-├── src/
-│   └── manutd_analysis/  # Paquete principal
-│       ├── data.py       # Carga de datos
-│       ├── analysis.py   # Lógica de métricas
-│       └── plots.py      # Gráficos
-├── tests/                # Tests unitarios
-├── assets/               # Gráficos generados y datos
-└── pyproject.toml        # Configuración del proyecto
+├── src/ # scripts
+├── tests/ # unit tests
+├── assets/ # img resultantes
+└── pyproject.toml
 ```
 
-## 🚀 Inicio Rápido
+## Setup Rapido
 
-1.  **Instalar dependencias**:
-    ```bash
-    pip install -e .
-    ```
-
-2.  **Correr los tests**:
-    ```bash
-    pytest
-    ```
-
-3.  **Generar análisis**:
-    Puedes importar el paquete en tus scripts:
+1. `pip install -e .`
+2. `pytest`
+3. Para correr el scraper/analisis base:
     ```python
-    from manutd_analysis.data import cargar_y_filtrar_datos
-    from manutd_analysis.plots import graficar_rentabilidad_ofensiva
+    from manutd_analysis.data import load_raw_data
+    from manutd_analysis.plots import plot_efficiency
     
-    df = cargar_y_filtrar_datos()
-    graficar_rentabilidad_ofensiva(df)
+    df = load_raw_data()
+    plot_efficiency(df)
     ```
 
-## 📈 Resultados Clave
-- **Brecha con el Campeón**: ~20 puntos promedio por temporada.
-- **Costo de Inestabilidad**: Los años con cambio de DT cuestan puntos significativos.
-- **Eficiencia**: Mourinho y Van Gaal mostraron la mejor relación puntos/gol.
+## 📈 Hard Facts
+- **La Brecha**: El equipo promedia ~20 puntos menos que el campeón de turno. 
+- **Costo Hundido**: Tirar a un DT a la basura en medio del torneo destroza los puntos finales.
+- **Mourinho & Van Gaal**: Estadísticamente los únicos que armaron un sistema eficiente de puntos/gol, pese al odio mediático.
 
-## 📞 Contacto
-- **Autor**: Álvaro Salinas Ortiz
-- **Email**: alvarosalinasortiz@gmail.com
+> Creado por Álvaro Salinas Ortiz (alvarosalinasortiz@gmail.com)
