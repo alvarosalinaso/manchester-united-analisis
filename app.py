@@ -251,11 +251,26 @@ with tab1:
 
     # Marcadores de cambio de DT
     fired_df = df_f[df_f["manager_fired"]]
-    for _, row in fired_df.iterrows():
-        fig_pts.add_vline(
-            x=row["season"], line_dash="dot", line_color="#e3b341", line_width=1.5,
-            annotation_text=f"⚠ Despido", annotation_font_color="#e3b341", annotation_font_size=10,
-        )
+# --- CÓDIGO CORREGIDO PARA GRÁFICO DE PUNTOS ---
+# Aseguramos que 'season' tenga formato válido y no haya nulos antes de graficar
+df_events = df_events.dropna(subset=['season'])
+
+for _, row in df_events.iterrows():
+    # Validación estricta: Solo graficar si el valor es convertible a posición en el eje
+    if row["season"] and str(row["season"]) != 'nan':
+        try:
+            fig_pts.add_vline(
+                x=row["season"], 
+                line_dash="dot", 
+                line_color="#e3b341", 
+                line_width=1.5,
+                annotation_text=f"⚠️ {row.get('event_name', 'Evento')}", 
+                annotation_position="top left",
+                annotation_font_size=10,
+                annotation_font_color="#e3b341"
+            )
+        except Exception as e:
+            continue # Si un evento falla, no tumbamos todo el gráfico
 
     fig_pts.update_layout(
         **PLOTLY_THEME,
