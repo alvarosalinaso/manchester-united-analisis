@@ -80,13 +80,12 @@ with st.sidebar:
 st.markdown("<h1 style='margin-bottom:0;'>⚽ Manchester United · Diagnóstico Estructural</h1>", unsafe_allow_html=True)
 st.markdown("<p style='font-size:1.1rem; color:#8b949e; margin-top:.2rem;'>Benchmarking directivo de la Premier League Post-Ferguson. Un análisis financiero-deportivo que expone las falencias estructurales detrás de más de una década de inestabilidad.</p><hr>", unsafe_allow_html=True)
 
-# KPI ROW
-cols = st.columns(5)
-cols[0].metric("Temporadas Analizadas", f"{kpis['n_seasons']}")
-cols[1].metric("Puntos Perdidos vs Campeón", f"{kpis['total_gap']}", f"↑ {kpis['total_gap']//kpis['n_seasons']} pts de brecha anual", delta_color="inverse")
-cols[2].metric("Ritmo de Puntos (PPG)", f"{kpis['avg_ppg']:.2f}", "↓ Lejos del 1.97 de Mourinho", delta_color="inverse")
-cols[3].metric("Costo Despidos / DTs", f"£{kpis['total_comp']}M", "Hoyo financiero", delta_color="inverse")
-cols[4].metric("Aterrizaje Promedio PL", f"{kpis['avg_pos']:.1f}°")
+# KPIs
+cols = st.columns(4)
+cols[0].metric("Temporadas Analizadas", f"{kpis['n_seasons']}", "Post-Ferguson")
+cols[1].metric("Brecha Acumulada", f"{kpis['total_gap']} pts", "Distancia del Nº 1", delta_color="inverse")
+cols[2].metric("Net Spend Gasto", f"£{kpis['total_net_spend']:.0f}M", "Inversión Fichajes", delta_color="inverse")
+cols[3].metric("Posición Promedio", f"{kpis['avg_pos']:.1f}", "Fuera de Champions")
 
 # Paneles descriptivos iniciales
 col1, col2 = st.columns(2)
@@ -109,9 +108,15 @@ st.plotly_chart(graficar_eficiencia_dt(df_grp), use_container_width=True)
 with st.expander("Ver desglose financiero y contractual de rendimiento por técnico"):
     st.dataframe(df_grp, use_container_width=True, hide_index=True)
 
-# ─────────────────────────────── SECCIÓN 3 ───────────────────────────────
-st.markdown("<div class='section-header'>3. Elasticidad Táctica y Correlaciones de Crisis 🧮</div>", unsafe_allow_html=True)
-st.markdown("<div class='section-text'>¿El United falla por ser un flan en defensa o por un ataque anémico? La Inteligencia de Datos responde esta duda: <b>La Matriz de Correlación (izquierda)</b> demuestra estadísticamente que los goles en contra (`ga`) no tienen relación sólida directa con el hundimiento en la tabla. El problema es netamente ofensivo. <b>La Regresión (derecha)</b> demuestra esa altísima elasticidad matemática entre la falta de creatividad goleadora y el vacío de puntos obtenido al final de mayo.</div>", unsafe_allow_html=True)
+# ─────────────────────────────── SECCIÓN 3: AUDITORÍA FINANCIERA ───────────────────────────────
+st.markdown("<div class='section-header'>3. Auditoría de Capital: Costo por Punto Obtenido 💷</div>", unsafe_allow_html=True)
+st.markdown("<div class='section-text'>¿Justifica el gasto multimillonario la posición final en la tabla? En este panel de <b>Business Intelligence Financiero</b>, analizamos el <i>Net Spend</i> (Gasto Neto en Fichajes) acumulado por cada estratega. Calculando el KPI de <b>Costo por Punto (£M)</b>, respondemos la gran pregunta corporativa: ¿quién fue eficiente con el capital de INEOS y quién trituró presupuesto sin retorno deportivo matemático?</div>", unsafe_allow_html=True)
+
+st.plotly_chart(graficar_costo_por_punto(df_grp), use_container_width=True)
+
+# ─────────────────────────────── SECCIÓN 4 ───────────────────────────────
+st.markdown("<div class='section-header'>4. Elasticidad Táctica y Correlaciones de Crisis 🧮</div>", unsafe_allow_html=True)
+st.markdown("<div class='section-text'>¿El United falla por ser de cristal en defensa o por un ataque anémico? La Data responde esta duda corporativa: <b>La Matriz de Correlación (izquierda)</b> demuestra estadísticamente que los 'Goles en Contra' (`ga`) no tienen relación causal fuerte con el hundimiento de puntos finales. El problema estructural es puramente la <b>Elasticidad Ofensiva</b> (`gf`). <b>La Regresión (derecha)</b> demuestra esa enorme brecha entre tu inversión en defensa vs el vacío de puntos obtenido al final de mayo al no anotar 70 goles.</div>", unsafe_allow_html=True)
 
 c1, c2 = st.columns(2)
 with c1:
@@ -119,9 +124,9 @@ with c1:
 with c2:
     st.plotly_chart(graficar_regresion_gf(df_f), use_container_width=True)
 
-# ─────────────────────────────── SECCIÓN 4: MODELO ML ───────────────────────────────
-st.markdown("<div class='section-header'>4. Simulador Algorítmico y Estrategia a Futuro 🔮</div>", unsafe_allow_html=True)
-st.markdown("<div class='section-text'>La directiva de INEOS necesita proyectar a futuro. Modificando los deslizadores de la interfaz construimos un escenario del club para la siguiente temporada. Un algoritmo de Inteligencia Artificial (<b>Random Forest Regressor</b>) procesará miles de árboles de decisión en milisegundos usando el historial del Big-6 de Inglaterra y predecirá cuántos puntos finales obtendrá el Manchester United a fines de mayo.</div>", unsafe_allow_html=True)
+# ─────────────────────────────── SECCIÓN 5: MODELO ML ───────────────────────────────
+st.markdown("<div class='section-header'>5. Simulador Algorítmico y Estrategia a Futuro 🔮</div>", unsafe_allow_html=True)
+st.markdown("<div class='section-text'>La directiva de INEOS necesita proyectar. Modificando los deslizadores corporativos simulamos un escenario financiero y deportivo para el club. Un algoritmo de Inteligencia Artificial (<b>Random Forest Regressor</b>) procesará árboles de decisión empleando el historial macro del Big-6 de Inglaterra y estimará cuántos puntos finales absolutos son esperables estadísticamente.</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='ia-panel'>", unsafe_allow_html=True)
 sc1, sc2, sc3 = st.columns(3)

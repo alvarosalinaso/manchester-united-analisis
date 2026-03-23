@@ -23,6 +23,7 @@ def kpi_globales(df: pd.DataFrame) -> dict:
         "total_gap": df["gap"].sum(),
         "avg_ppg": df["ppg"].mean(),
         "total_comp": df["comp_fee_m"].sum(),
+        "total_net_spend": df["net_spend_m"].sum(),
         "titles": 0,  # 2014-2024
         "avg_pos": df["position"].mean()
     }
@@ -37,9 +38,11 @@ def agrupar_por_entrenador(df: pd.DataFrame) -> pd.DataFrame:
         avg_pos=("position", "mean"),
         avg_gf=("gf", "mean"),
         avg_ga=("ga", "mean"),
-        total_comp=("comp_fee_m", "sum")
+        total_comp=("comp_fee_m", "sum"),
+        total_net_spend=("net_spend_m", "sum")
     ).reset_index()
     
     grp["ppg"] = grp["ppg"].round(3)
     grp["avg_pos"] = grp["avg_pos"].round(1)
+    grp["cost_per_point"] = (grp["total_net_spend"] / grp["pts_total"]).round(2)
     return grp.sort_values("ppg", ascending=False)

@@ -1,12 +1,12 @@
-season,manager,manager_clean,points,champ_pts,position,gf,ga,wins,draws,losses,games,manager_fired,ucl_exits,comp_fee_m
-2013-14,Moyes,D. Moyes,64,86,7,64,43,19,7,12,38,True,GS,5
-2014-15,Van Gaal,L. Van Gaal,70,87,4,62,37,20,10,8,38,False,R16,0
-2015-16,Van Gaal,L. Van Gaal,66,78,5,49,35,19,9,10,38,False,R16,0
-2016-17,Mourinho,J. Mourinho,69,93,6,54,35,18,15,5,38,True,SF,19.6
-2017-18,Mourinho,J. Mourinho,81,100,2,68,28,25,6,7,38,False,R16,0
-2018-19,Solskjær,O. Solskjær,66,98,6,65,54,19,9,10,38,True,R16,7.5
-2019-20,Solskjær,O. Solskjær,66,81,3,66,36,18,12,8,38,False,QF,0
-2020-21,Solskjær,O. Solskjær,74,86,2,73,44,21,11,6,38,False,R16,0
-2021-22,Rangnick/Ten Hag,Mixed,58,93,6,57,57,16,10,12,38,True,GS,0
-2022-23,Ten Hag,E. Ten Hag,75,89,3,58,43,23,6,9,38,False,R16,0
-2023-24,Ten Hag,E. Ten Hag,60,89,8,42,66,15,7,16,38,False,GS,0
+season,manager,manager_clean,points,champ_pts,position,gf,ga,wins,draws,losses,games,manager_fired,ucl_exits,comp_fee_m,net_spend_m
+2013-14,Moyes,D. Moyes,64,86,7,64,43,19,7,12,38,True,GS,5,65
+2014-15,Van Gaal,L. Van Gaal,70,87,4,62,37,20,10,8,38,False,R16,0,130
+2015-16,Van Gaal,L. Van Gaal,66,78,5,49,35,19,9,10,38,False,R16,0,100
+2016-17,Mourinho,J. Mourinho,69,93,6,54,35,18,15,5,38,True,SF,19.6,135
+2017-18,Mourinho,J. Mourinho,81,100,2,68,28,25,6,7,38,False,R16,0,130
+2018-19,Solskjær,O. Solskjær,66,98,6,65,54,19,9,10,38,True,R16,7.5,50
+2019-20,Solskjær,O. Solskjær,66,81,3,66,36,18,12,8,38,False,QF,0,135
+2020-21,Solskjær,O. Solskjær,74,86,2,73,44,21,11,6,38,False,R16,0,60
+2021-22,Rangnick/Ten Hag,Mixed,58,93,6,57,57,16,10,12,38,True,GS,0,100
+2022-23,Ten Hag,E. Ten Hag,75,89,3,58,43,23,6,9,38,False,R16,0,200
+2023-24,Ten Hag,E. Ten Hag,60,89,8,42,66,15,7,16,38,False,GS,0,150

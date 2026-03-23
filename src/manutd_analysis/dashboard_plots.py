@@ -73,7 +73,7 @@ def graficar_eficiencia_dt(df_grp):
     return fig_mgr
 
 def graficar_correlacion(df):
-    cols_corr = ["points", "gf", "ga", "wins", "comp_fee_m", "gap"]
+    cols_corr = ["points", "gf", "ga", "wins", "net_spend_m", "comp_fee_m"]
     corr = df[cols_corr].corr()
     fig_corr = go.Figure(data=go.Heatmap(
         z=corr.values, x=corr.columns, y=corr.columns,
@@ -90,3 +90,15 @@ def graficar_regresion_gf(df):
                          color_discrete_sequence=["#2ea043"])
     fig_reg.update_layout(**PLOTLY_THEME)
     return fig_reg
+
+def graficar_costo_por_punto(df_grp):
+    # Sort to show highest cost first
+    df_sorted = df_grp.sort_values("cost_per_point", ascending=True)
+    fig_cost = px.bar(df_sorted, x="cost_per_point", y="manager_clean", orientation='h',
+                      text="cost_per_point", color="cost_per_point",
+                      color_continuous_scale="RdYlGn_r",
+                      title="Auditoría de Capital: Costo por Punto Obtenido",
+                      labels={"cost_per_point": "Costo de 1 Punto (£ Millones)", "manager_clean": "Director Técnico"})
+    fig_cost.update_traces(texttemplate='£%{text}M', textposition='outside')
+    fig_cost.update_layout(**PLOTLY_THEME, coloraxis_showscale=False)
+    return fig_cost
