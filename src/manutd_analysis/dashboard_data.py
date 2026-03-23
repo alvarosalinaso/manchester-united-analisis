@@ -1,10 +1,12 @@
 import pandas as pd
 import streamlit as st
 
+from pathlib import Path
 @st.cache_data
 def cargar_datos_streamlit() -> pd.DataFrame:
     """Carga los datos preprocesados para el dashboard y genera KPIs."""
-    df = pd.read_csv("data/raw/streamlit_data.csv")
+    p = Path(__file__).parent.parent.parent / "data" / "raw" / "streamlit_data.csv"
+    df = pd.read_csv(p)
     df["ppg"]     = (df["points"] / df["games"]).round(3)
     df["gap"]     = df["champ_pts"] - df["points"]
     df["gd"]      = df["gf"] - df["ga"]

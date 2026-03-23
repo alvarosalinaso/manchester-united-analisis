@@ -18,13 +18,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-try:
-    df_base = cargar_datos_streamlit()
-    kpi_dict = kpi_globales(df_base)
-    dt_agg = agrupar_por_entrenador(df_base)
-except Exception as e:
-    st.error("No levantan los datos. Carga data/raw/streamlit_data.csv")
-    st.stop()
+df_base = cargar_datos_streamlit()
+kpi_dict = kpi_globales(df_base)
+dt_agg = agrupar_por_entrenador(df_base)
 
 with st.sidebar:
     st.markdown("<h2 style='color:#ff4b4b;text-align:center;'>Man Utd Stats</h2><hr>", unsafe_allow_html=True)
