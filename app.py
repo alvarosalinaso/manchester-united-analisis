@@ -1,4 +1,4 @@
-"""
+﻿"""
 ═══════════════════════════════════════════════════════════════════════════════
   Manchester United Performance Analysis — Streamlit App
   Autor : Álvaro Salinas Ortiz  |  github.com/alvarosalinaso
@@ -262,8 +262,8 @@ with tab1:
         title="Puntos por temporada — Manchester United vs Campeón de la Premier League",
         height=420, barmode="overlay",
         legend=dict(orientation="h", y=-0.15, x=0),
-        xaxis=dict(tickangle=-25),
     )
+    fig_pts.update_xaxes(tickangle=-25)
     st.plotly_chart(fig_pts, use_container_width=True)
 
     # Row 2
@@ -278,7 +278,8 @@ with tab1:
                                      name="Diferencial", line=dict(color=COLORS["accent"], width=2.5),
                                      marker=dict(size=6)))
         fig_gd.update_layout(**PLOTLY_THEME, title="Goles: a favor / en contra / diferencial",
-                               height=320, barmode="overlay", xaxis=dict(tickangle=-25))
+                               height=320, barmode="overlay")
+        fig_gd.update_xaxes(tickangle=-25)
         st.plotly_chart(fig_gd, use_container_width=True)
 
     with col_b:
@@ -295,9 +296,10 @@ with tab1:
                           annotation_text="Champions League zone", annotation_font_color=COLORS["champ"])
         fig_pos.update_layout(
             **PLOTLY_THEME, title="Posición final en Premier League",
-            height=320, yaxis=dict(autorange="reversed", range=[0.5, 10.5]),
-            xaxis=dict(tickangle=-25), showlegend=False,
+            height=320, showlegend=False,
         )
+        fig_pos.update_xaxes(tickangle=-25)
+        fig_pos.update_yaxes(autorange="reversed", range=[0.5, 10.5])
         st.plotly_chart(fig_pos, use_container_width=True)
 
 
@@ -321,8 +323,9 @@ with tab2:
                           annotation_text="Elite (>2.0 ppg)", annotation_font_color=COLORS["champ"])
         fig_mgr.update_layout(
             **PLOTLY_THEME, title="Puntos por partido (PPG) — Comparativa de gestiones",
-            height=360, xaxis=dict(range=[0.8, 2.3]),
+            height=360,
         )
+        fig_mgr.update_xaxes(range=[0.8, 2.3])
         st.plotly_chart(fig_mgr, use_container_width=True)
 
     with col_r:
@@ -413,9 +416,9 @@ with tab3:
         ))
         fig_reg.update_layout(**PLOTLY_THEME,
                                title="Regresión: Goles a Favor → Puntos",
-                               height=320,
-                               xaxis=dict(title="Goles a favor"),
-                               yaxis=dict(title="Puntos"))
+                               height=320)
+        fig_reg.update_xaxes(title="Goles a favor")
+        fig_reg.update_yaxes(title="Puntos")
         st.plotly_chart(fig_reg, use_container_width=True)
 
 
@@ -495,3 +498,4 @@ st.markdown("""
   <a href='https://www.linkedin.com/in/alvaro-salinas-ortiz/' style='color:#58a6ff;'>LinkedIn</a>
 </div>
 """, unsafe_allow_html=True)
+
