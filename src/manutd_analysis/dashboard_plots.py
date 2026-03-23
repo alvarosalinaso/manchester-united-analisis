@@ -35,8 +35,15 @@ def graficar_tendencia(df, trendline=False):
     
     for idx, row in df[df["manager"] != df["manager"].shift(-1)].dropna().iterrows():
         if row["season"] != df["season"].iloc[-1]:
-            # Plotly bug workaround: add_vline with annotations crashes on string categorical axes
-            fig_pts.add_vline(x=row["season"], line_dash="dot", line_color="#e3b341")
+            # Plotly bug workaround: add_vline crashes on string categorical axes
+            # Must strictly use add_shape primitive
+            fig_pts.add_shape(
+                type="line",
+                x0=row["season"], x1=row["season"],
+                y0=0, y1=1,
+                xref="x", yref="paper",
+                line=dict(color="#e3b341", dash="dot")
+            )
             fig_pts.add_annotation(
                 x=row["season"], y=0.95, yref="paper",
                 text="⚠️ Despido/DT", showarrow=False,
