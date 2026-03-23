@@ -2,6 +2,8 @@
 
 # Manchester United: Auditoría de Gasto Neto
 
+🚀 **[Ver Panel Interactivo en Vivo](https://altatbxqv5yf4mcxtqre39.streamlit.app)**
+
 Análisis financiero del desgaste deportivo del Manchester United (Post-Ferguson). Esto examina cuánto dinero le costó a los dueños cada punto obtenido por cada entrenador que pasó por el banquillo en la última década.
 
 ## Flujo de Datos y Panel Visual
