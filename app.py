@@ -1,4 +1,4 @@
-﻿"""
+"""
 ═══════════════════════════════════════════════════════════════════════════════
   Manchester United Performance Analysis — Streamlit App
   Autor : Álvaro Salinas Ortiz  |  github.com/alvarosalinaso
@@ -498,4 +498,3 @@ st.markdown("""
   <a href='https://www.linkedin.com/in/alvaro-salinas-ortiz/' style='color:#58a6ff;'>LinkedIn</a>
 </div>
 """, unsafe_allow_html=True)
-
