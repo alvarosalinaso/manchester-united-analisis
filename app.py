@@ -22,7 +22,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 from scipy import stats
 import warnings
 
@@ -144,18 +143,24 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     st.markdown("---")
 
+    st.markdown("**📊 Datos**")
     sel_seasons = st.multiselect(
         "Temporadas", df["season"].tolist(),
         default=df["season"].tolist(), key="seasons_sel",
+        help="Seleccioná las temporadas que querés incluir en los gráficos. Por defecto todas."
     )
     sel_managers = st.multiselect(
         "Entrenadores", df["manager_clean"].unique().tolist(),
         default=df["manager_clean"].unique().tolist(), key="mgr_sel",
+        help="Filtrar por entrenador para ver solo sus temporadas."
     )
 
     st.markdown("---")
-    benchmark_mode = st.toggle("📌 Modo comparativa vs PL Top 6", value=True)
-    show_trend     = st.toggle("📈 Mostrar línea de tendencia", value=True)
+    st.markdown("**⚙️ Opciones de gráfico**")
+    benchmark_mode = st.toggle("📌 Comparativa vs Campeón PL", value=True,
+        help="Muestra la línea del campeón de cada temporada y la brecha de puntos.")
+    show_trend     = st.toggle("📈 Línea de tendencia", value=True,
+        help="Agrega una regresión lineal para visualizar la dirección de los puntos a lo largo del tiempo.")
 
     st.markdown("---")
     st.markdown(
@@ -207,6 +212,13 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 # ══════════════════════ TAB 1: HISTÓRICO ══════════════════════
 with tab1:
+    st.markdown("""
+    <div style="background:#161b22;padding:.8rem 1.2rem;border-radius:10px;border-left:4px solid #DA291C;margin-bottom:1.2rem;font-size:.9rem;color:#8b949e;">
+    <strong>Rendimiento histórico del Manchester United en Premier League (2013–2024):</strong>
+    evolución de puntos, goles y posición frente al campeón de cada temporada.
+    Las marcas <span style="color:#e3b341;">⚠️</span> indican cambio de entrenador.
+    </div>
+    """, unsafe_allow_html=True)
     # Chart 1: Puntos con comparativa
     fig_pts = go.Figure()
     fig_pts.add_trace(go.Bar(
@@ -219,8 +231,8 @@ with tab1:
         ),
         text=df_f["points"], textposition="outside",
         textfont=dict(size=11, color="#e6edf3"),
-        hovertemplate="<b>%{x}</b><br>Puntos: %{y}<br>DT: " +
-                      df_f["manager_clean"].values[0] + "<extra></extra>",
+        customdata=df_f[["manager_clean", "season"]],
+        hovertemplate="<b>%{customdata[1]}</b><br>Puntos: %{y}<br>DT: %{customdata[0]}<extra></extra>",
     ))
     if benchmark_mode:
         fig_pts.add_trace(go.Scatter(
@@ -305,6 +317,13 @@ with tab1:
 
 # ══════════════════════ TAB 2: ENTRENADORES ══════════════════════
 with tab2:
+    st.markdown("""
+    <div style="background:#161b22;padding:.8rem 1.2rem;border-radius:10px;border-left:4px solid #DA291C;margin-bottom:1.2rem;font-size:.9rem;color:#8b949e;">
+    <strong>Comparativa de gestiones técnicas (PPG):</strong>
+    ranking de entrenadores por puntos por partido, con detalles de goles, posición media y
+    coste de indemnizaciones. La línea punteada marca el umbral de elite (>2.0 PPG).
+    </div>
+    """, unsafe_allow_html=True)
     col_l, col_r = st.columns([3, 2])
     with col_l:
         fig_mgr = go.Figure()
@@ -361,6 +380,13 @@ with tab2:
 
 # ══════════════════════ TAB 3: DIAGNÓSTICO ══════════════════════
 with tab3:
+    st.markdown("""
+    <div style="background:#161b22;padding:.8rem 1.2rem;border-radius:10px;border-left:4px solid #DA291C;margin-bottom:1.2rem;font-size:.9rem;color:#8b949e;">
+    <strong>Análisis de variables correlacionadas y distribución de resultados:</strong>
+    matriz de correlación, apilado de victorias/empates/derrotas por temporada y
+    regresión lineal entre goles a favor y puntos totales.
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("#### 🔬 Análisis de correlaciones sistémicas")
 
     corr_vars = ["points", "gf", "ga", "gd", "wins", "position", "gap"]
@@ -424,6 +450,12 @@ with tab3:
 
 # ══════════════════════ TAB 4: SIMULADOR ══════════════════════
 with tab4:
+    st.markdown("""
+    <div style="background:#161b22;padding:.8rem 1.2rem;border-radius:10px;border-left:4px solid #DA291C;margin-bottom:1.2rem;font-size:.9rem;color:#8b949e;">
+    <strong>Simulador de rendimiento esperado:</strong>
+    ajustá los parámetros del equipo y el DT para projectar puntos, posición y clasificación europea.
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("#### 🔮 Simulador de rendimiento esperado")
     st.caption("Estima los puntos y la posición final según los parámetros ingresados")
 
