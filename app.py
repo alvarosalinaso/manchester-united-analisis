@@ -263,11 +263,14 @@ with tab1:
 
     # Marcadores de cambio de DT
     fired_df = df_f[df_f["manager_fired"]]
+    season_positions = {s: i for i, s in enumerate(df_f["season"])}
     for _, row in fired_df.iterrows():
-        fig_pts.add_vline(
-            x=row["season"], line_dash="dot", line_color="#e3b341", line_width=1.5,
-            annotation_text=f"⚠ Despido", annotation_font_color="#e3b341", annotation_font_size=10,
-        )
+        pos = season_positions.get(row["season"])
+        if pos is not None:
+            fig_pts.add_vline(
+                x=pos, line_dash="dot", line_color="#e3b341", line_width=1.5,
+                annotation_text=f"⚠ Despido", annotation_font_color="#e3b341", annotation_font_size=10,
+            )
 
     fig_pts.update_layout(
         **PLOTLY_THEME,
