@@ -1,4 +1,5 @@
 """Módulo de análisis de rendimiento del Manchester United."""
+
 import pandas as pd
 
 
@@ -32,9 +33,7 @@ def analizar_estabilidad(df: pd.DataFrame) -> pd.DataFrame:
     tmp = df.copy()
     tmp["es_transicion"] = tmp["entrenador"].astype(str).str.contains("/", regex=False)
     comparativa = (
-        tmp.groupby("es_transicion")[["pts_utd", "brecha_puntos", "gf_utd", "ppg"]]
-        .mean()
-        .round(2)
+        tmp.groupby("es_transicion")[["pts_utd", "brecha_puntos", "gf_utd", "ppg"]].mean().round(2)
     )
     comparativa.index = ["Estable (1 Técnico)", "Transición (Relevo)"]
     return comparativa
@@ -69,7 +68,9 @@ def resumen_por_entrenador(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         DataFrame con promedios de pts_utd, gf_utd, ppg, pts_por_gol y brecha_puntos.
     """
-    _validar_columnas(df, {"entrenador", "pts_utd", "gf_utd", "ppg", "pts_por_gol", "brecha_puntos"})
+    _validar_columnas(
+        df, {"entrenador", "pts_utd", "gf_utd", "ppg", "pts_por_gol", "brecha_puntos"}
+    )
     return (
         df.groupby("entrenador")
         .agg(
@@ -86,6 +87,7 @@ def resumen_por_entrenador(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _validar_columnas(df: pd.DataFrame, requeridas: set) -> None:
     faltantes = requeridas - set(df.columns)

@@ -2,13 +2,14 @@
 Manchester United Performance Analysis (2014-2024)
 Punto de entrada principal del proyecto.
 """
-from src.manutd_analysis.data import cargar_y_filtrar_datos
-from src.manutd_analysis.analysis import (
+
+from manutd_analysis.analysis import (
     analizar_eficiencia,
     analizar_estabilidad,
     calcular_costo_inestabilidad,
 )
-from src.manutd_analysis.plots import (
+from manutd_analysis.data import cargar_y_filtrar_datos
+from manutd_analysis.plots import (
     graficar_eficiencia_y_brecha,
     graficar_rentabilidad_ofensiva,
 )
