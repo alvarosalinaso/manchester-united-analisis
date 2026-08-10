@@ -1,4 +1,5 @@
 """Módulo de visualización del análisis del Manchester United."""
+
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -7,6 +8,7 @@ import pandas as pd
 
 try:
     import seaborn as sns
+
     sns.set_theme(style="whitegrid", palette="muted")
     HAS_SEABORN = True
 except ImportError:
@@ -28,9 +30,7 @@ def _guardar(fig: plt.Figure, nombre: str, out_dir: str) -> Path:
     return ruta
 
 
-def graficar_eficiencia_y_brecha(
-    df: pd.DataFrame, out_dir: str = _DEFAULT_OUT
-) -> Path:
+def graficar_eficiencia_y_brecha(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Path:
     """
     Genera un panel de 2 gráficos:
       - Izquierda: Eficiencia media (Pts/Gol) por entrenador (barras).
@@ -48,37 +48,65 @@ def graficar_eficiencia_y_brecha(
     ax1.set_ylabel("Puntos por Gol")
     ax1.tick_params(axis="x", rotation=40)
     ax1.yaxis.set_major_formatter(mticker.FormatStrFormatter("%.2f"))
-    ax1.axhline(resumen.mean(), color="gray", linestyle="--", linewidth=0.8, label=f"Media: {resumen.mean():.2f}")
+    ax1.axhline(
+        resumen.mean(),
+        color="gray",
+        linestyle="--",
+        linewidth=0.8,
+        label=f"Media: {resumen.mean():.2f}",
+    )
     ax1.legend(fontsize=8)
 
     # ── Brecha ────────────────────────────────────────────────────────────────
-    ax2.plot(df["año"], df["brecha_puntos"], marker="o", color=_RED, linewidth=2, label="Brecha vs. campeón")
+    ax2.plot(
+        df["año"],
+        df["brecha_puntos"],
+        marker="o",
+        color=_RED,
+        linewidth=2,
+        label="Brecha vs. campeón",
+    )
     ax2.fill_between(df["año"], df["brecha_puntos"], alpha=0.15, color=_RED)
     ax2.set_title("Brecha de Puntos con el Campeón", fontweight="bold")
     ax2.set_xlabel("Temporada")
     ax2.set_ylabel("Puntos de diferencia")
-    ax2.axhline(df["brecha_puntos"].mean(), color="gray", linestyle="--", linewidth=0.8,
-                label=f"Media: {df['brecha_puntos'].mean():.1f}")
+    ax2.axhline(
+        df["brecha_puntos"].mean(),
+        color="gray",
+        linestyle="--",
+        linewidth=0.8,
+        label=f"Media: {df['brecha_puntos'].mean():.1f}",
+    )
     ax2.legend(fontsize=8)
     ax2.grid(True, alpha=0.3)
 
     return _guardar(fig, "eficiencia_y_brecha.png", out_dir)
 
 
-def graficar_rentabilidad_ofensiva(
-    df: pd.DataFrame, out_dir: str = _DEFAULT_OUT
-) -> Path:
+def graficar_rentabilidad_ofensiva(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Path:
     """
     Scatter plot: Volumen ofensivo (Goles/temporada) vs. Eficiencia (Pts/Gol)
     con cuadrantes centrados en el promedio grupal.
     """
     fig, ax = plt.subplots(figsize=(10, 7))
-    resumen = df.groupby("entrenador").agg(
-        gf_utd=("gf_utd", "mean"),
-        pts_por_gol=("pts_por_gol", "mean"),
-    ).reset_index()
+    resumen = (
+        df.groupby("entrenador")
+        .agg(
+            gf_utd=("gf_utd", "mean"),
+            pts_por_gol=("pts_por_gol", "mean"),
+        )
+        .reset_index()
+    )
 
-    ax.scatter(resumen["gf_utd"], resumen["pts_por_gol"], s=180, color=_RED, zorder=3, edgecolors=_DARK, linewidth=0.7)
+    ax.scatter(
+        resumen["gf_utd"],
+        resumen["pts_por_gol"],
+        s=180,
+        color=_RED,
+        zorder=3,
+        edgecolors=_DARK,
+        linewidth=0.7,
+    )
 
     for _, row in resumen.iterrows():
         ax.annotate(
@@ -96,8 +124,22 @@ def graficar_rentabilidad_ofensiva(
 
     # Etiquetas de cuadrantes
     xlim, ylim = ax.get_xlim(), ax.get_ylim()
-    ax.text(media_x + 0.5, ylim[1] * 0.98, "Alto volumen\nAlta eficiencia", fontsize=7, color="green", va="top")
-    ax.text(xlim[0] + 0.3, ylim[1] * 0.98, "Bajo volumen\nAlta eficiencia", fontsize=7, color="gray", va="top")
+    ax.text(
+        media_x + 0.5,
+        ylim[1] * 0.98,
+        "Alto volumen\nAlta eficiencia",
+        fontsize=7,
+        color="green",
+        va="top",
+    )
+    ax.text(
+        xlim[0] + 0.3,
+        ylim[1] * 0.98,
+        "Bajo volumen\nAlta eficiencia",
+        fontsize=7,
+        color="gray",
+        va="top",
+    )
 
     ax.set_title("Rentabilidad Ofensiva: Volumen vs. Eficiencia", fontweight="bold")
     ax.set_xlabel("Goles a Favor (promedio por temporada)")
@@ -107,9 +149,7 @@ def graficar_rentabilidad_ofensiva(
     return _guardar(fig, "rentabilidad_ofensiva.png", out_dir)
 
 
-def graficar_ppg_historico(
-    df: pd.DataFrame, out_dir: str = _DEFAULT_OUT
-) -> Path:
+def graficar_ppg_historico(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Path:
     """
     Línea temporal de Puntos por Partido (PPG) con anotación del entrenador.
     """
@@ -131,8 +171,13 @@ def graficar_ppg_historico(
     ax.set_title("Puntos por Partido (PPG) — Man Utd 2014-2024", fontweight="bold")
     ax.set_xlabel("Temporada")
     ax.set_ylabel("PPG")
-    ax.axhline(df["ppg"].mean(), color="gray", linestyle="--", linewidth=0.8,
-               label=f"Media período: {df['ppg'].mean():.3f}")
+    ax.axhline(
+        df["ppg"].mean(),
+        color="gray",
+        linestyle="--",
+        linewidth=0.8,
+        label=f"Media período: {df['ppg'].mean():.3f}",
+    )
     ax.legend(fontsize=8)
     ax.grid(True, alpha=0.3)
 

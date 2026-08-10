@@ -1,4 +1,5 @@
 """Módulo para carga y filtrado de datos del Manchester United."""
+
 from pathlib import Path
 from typing import Optional
 
@@ -32,9 +33,7 @@ def _resolver_ruta(ruta: str) -> Path:
     for c in candidatos:
         if c.exists():
             return c.resolve()
-    raise FileNotFoundError(
-        f"No se encontró '{ruta}'. Colócalo en la raíz del proyecto."
-    )
+    raise FileNotFoundError(f"No se encontró '{ruta}'. Colócalo en la raíz del proyecto.")
 
 
 def cargar_y_filtrar_datos(
@@ -80,25 +79,22 @@ def cargar_y_filtrar_datos(
         united["entrenador"] = united["año"].map(ENTRENADORES)
 
         # ── Campeones ─────────────────────────────────────────────────────────
-        campeones = (
-            df.loc[df["position"] == 1, ["season_end_year", "points", "gf", "ga"]]
-            .rename(
-                columns={
-                    "season_end_year": "año",
-                    "points": "pts_champ",
-                    "gf": "gf_champ",
-                    "ga": "ga_champ",
-                }
-            )
+        campeones = df.loc[df["position"] == 1, ["season_end_year", "points", "gf", "ga"]].rename(
+            columns={
+                "season_end_year": "año",
+                "points": "pts_champ",
+                "gf": "gf_champ",
+                "ga": "ga_champ",
+            }
         )
 
         # ── Merge y KPIs ──────────────────────────────────────────────────────
         df_final = pd.merge(united, campeones, on="año", how="inner")
-        df_final["brecha_puntos"]  = df_final["pts_champ"]  - df_final["pts_utd"]
-        df_final["brecha_ataque"]  = df_final["gf_champ"]   - df_final["gf_utd"]
-        df_final["brecha_defensa"] = df_final["ga_utd"]     - df_final["ga_champ"]
-        df_final["pts_por_gol"]    = (df_final["pts_utd"] / df_final["gf_utd"]).round(2)
-        df_final["ppg"]            = (df_final["pts_utd"] / df_final["played"]).round(3)
+        df_final["brecha_puntos"] = df_final["pts_champ"] - df_final["pts_utd"]
+        df_final["brecha_ataque"] = df_final["gf_champ"] - df_final["gf_utd"]
+        df_final["brecha_defensa"] = df_final["ga_utd"] - df_final["ga_champ"]
+        df_final["pts_por_gol"] = (df_final["pts_utd"] / df_final["gf_utd"]).round(2)
+        df_final["ppg"] = (df_final["pts_utd"] / df_final["played"]).round(3)
 
         return df_final.reset_index(drop=True)
 

@@ -1,40 +1,45 @@
 """Test suite para manutd_analysis."""
-import pytest
+
 import pandas as pd
-from manutd_analysis.data import cargar_y_filtrar_datos, ENTRENADORES
+import pytest
+
 from manutd_analysis.analysis import (
     analizar_eficiencia,
     analizar_estabilidad,
     calcular_costo_inestabilidad,
     resumen_por_entrenador,
 )
-
+from manutd_analysis.data import ENTRENADORES, cargar_y_filtrar_datos
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
+
 
 @pytest.fixture
 def mock_df() -> pd.DataFrame:
     """DataFrame mínimo con 4 temporadas ficticias."""
-    return pd.DataFrame({
-        "año":           [2015, 2016, 2019, 2020],
-        "entrenador":    ["Van Gaal", "Van Gaal", "Mourinho / Solskjær", "Solskjær"],
-        "pts_utd":       [70, 66, 58, 66],
-        "pos_utd":       [4, 5, 6, 3],
-        "gf_utd":        [62, 49, 65, 66],
-        "ga_utd":        [37, 35, 54, 36],
-        "played":        [38, 38, 38, 38],
-        "pts_champ":     [87, 93, 98, 86],
-        "gf_champ":      [98, 106, 106, 102],
-        "ga_champ":      [22, 27, 35, 35],
-        "brecha_puntos": [17, 27, 40, 20],
-        "brecha_ataque": [36, 57, 41, 36],
-        "brecha_defensa":[15, 8, 19, 1],
-        "pts_por_gol":   [1.13, 1.35, 0.89, 1.00],
-        "ppg":           [1.842, 1.737, 1.526, 1.737],
-    })
+    return pd.DataFrame(
+        {
+            "año": [2015, 2016, 2019, 2020],
+            "entrenador": ["Van Gaal", "Van Gaal", "Mourinho / Solskjær", "Solskjær"],
+            "pts_utd": [70, 66, 58, 66],
+            "pos_utd": [4, 5, 6, 3],
+            "gf_utd": [62, 49, 65, 66],
+            "ga_utd": [37, 35, 54, 36],
+            "played": [38, 38, 38, 38],
+            "pts_champ": [87, 93, 98, 86],
+            "gf_champ": [98, 106, 106, 102],
+            "ga_champ": [22, 27, 35, 35],
+            "brecha_puntos": [17, 27, 40, 20],
+            "brecha_ataque": [36, 57, 41, 36],
+            "brecha_defensa": [15, 8, 19, 1],
+            "pts_por_gol": [1.13, 1.35, 0.89, 1.00],
+            "ppg": [1.842, 1.737, 1.526, 1.737],
+        }
+    )
 
 
 # ── Tests: carga de datos ─────────────────────────────────────────────────────
+
 
 def test_data_loading_archivo_inexistente():
     """Si el archivo no existe, debe retornar None sin lanzar excepción."""
@@ -49,6 +54,7 @@ def test_entrenadores_cubre_todas_las_temporadas():
 
 
 # ── Tests: análisis ───────────────────────────────────────────────────────────
+
 
 def test_analizar_eficiencia_retorna_serie(mock_df):
     res = analizar_eficiencia(mock_df)
