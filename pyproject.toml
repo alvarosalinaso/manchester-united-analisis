@@ -8,7 +8,7 @@ version = "0.1.0"
 authors = [
   { name = "Alvaro Salinas Ortiz", email = "alvarosalinasortiz@gmail.com" },
 ]
-description = "Análisis de rendimiento del Manchester United (2014-2024)"
+description = "AnÃ¡lisis de rendimiento del Manchester United (2014-2024)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
@@ -19,7 +19,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
