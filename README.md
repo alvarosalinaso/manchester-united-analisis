@@ -21,7 +21,7 @@ Análisis detallado del rendimiento del Manchester United en la Premier League d
 
 ## Dashboard en Vivo
 
-👉 **[manchester-united-analisis.streamlit.app](https://manchester-united-analisis.streamlit.app)**
+👉 **[manchester-united-analisis.streamlit.app](https://manchester-united-analisis.streamlit.app)** — *Se activa al desplegar en Streamlit Cloud.*
 
 ## Hallazgos Clave
 
