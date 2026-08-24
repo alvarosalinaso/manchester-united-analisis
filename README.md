@@ -89,6 +89,38 @@ Analisis de correlacion entre variables clave: puntos, gol differential, gasto e
 
 **Dashboard integrado completo:** [Portfolio Web](https://alvarosalinaso.github.io/portfolio-web/) con tabs dedicados a metricas historicas, analisis por entrenador, diagnostico financiero y simulador predictivo.
 
+## Visual Analytics
+
+Interactividad multinivel para exploración de datos y presentación ejecutiva.
+
+<details>
+<summary><strong>Datawrapper — Gráfico interactivo</strong></summary>
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+  <iframe src="https://datawrapper.dwcdn.net/vfOvM/" title="Benchmark Premier League — Manchester United vs Top 6 vs Resto" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
+</div>
+</details>
+
+<details>
+<summary><strong>Flourish — Visualización animada</strong></summary>
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+  <iframe src="https://flo.uri.sh/visualisation/7937275/embed" title="Evolución de Posición por Entrenador — Man United 2014-2024" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
+</div>
+</details>
+
+<details>
+<summary><strong>Observable — Notebook interactivo</strong></summary>
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+  <iframe src="https://observablehq.com/@alvarosalinaso/manutd-correlation" title="Correlación Gasto Neto vs Puntos" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
+</div>
+</details>
+
+**Hallazgos clave**: El gasto neto del Manchester United no correlaciona positivamente con los puntos, indicando ineficiencia en la inversión de fichajes.
+
+---
+
 ## 6. Reproducibilidad y Entorno Tecnico
 
 Este estudio esta disenado para ser completamente reproducible. El entorno tecnico y los comandos exactos se documentan a continuacion.
