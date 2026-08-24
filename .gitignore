@@ -57,9 +57,6 @@ ipython_config.py
 # Excel / OpenXML sources (raw)
 *.xlsx
 
-# Streamlit
-.streamlit/
-
 # OS generated files
 .DS_Store
 .DS_Store?
