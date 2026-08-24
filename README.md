@@ -1,146 +1,163 @@
-# Manchester United Performance Analysis (2013-2024)
+# Analisis cuantitativo del rendimiento competitivo del Manchester United en la Premier League (2013-2024): Inestabilidad institucional, brecha de rendimiento y eficiencia de gestion
 
 [![CI](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://python.org)
 [![Plotly.js](https://img.shields.io/badge/Plotly.js-3.x-3F4F75?logo=plotly&logoColor=white)](https://plotly.com/javascript/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Análisis detallado del rendimiento del Manchester United en la Premier League durante la década post-Ferguson (2013-2024). Cuantifica la brecha con el campeón, el costo de la inestabilidad técnica y la eficiencia por entrenador mediante dashboards interactivos.
+## 1. Titulo Academico y Contexto Estrategico
 
-## Tabla de contenidos
+Este estudio cuantifica la degradacion sistematica del rendimiento deportivo del Manchester United Football Club en la Premier League durante la decada post-Alex Ferguson (2013-2024). El problema central es la inestabilidad institucional cronica: siete entrenadores distintos en once temporadas, una brecha persistente con el club campeon, y un desembolso financiero significativo en compensaciones por terminacion anticipada de contratos. El analisis busca transformar datos de rendimiento deportivo en evidencia accionable para la toma de decisiones estrategicas en organizaciones de alto rendimiento.
 
-- [Dashboard Integrado](#dashboard-integrado)
-- [Hallazgos Clave](#hallazgos-clave)
-- [Stack](#stack)
-- [Arquitectura](#arquitectura)
-- [Instalación](#instalación)
-- [Inicio Rápido](#inicio-rápido)
-- [Testing](#testing)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
+## 2. Preguntas de Investigacion e Hipotesis
 
-## Dashboard Integrado
+Formulamos tres preguntas cuantitativas centrales:
 
-👉 **Integrado en [Portfolio Web](https://alvarosalinaso.github.io/portfolio-web/)** → Tabs:
-- **"⚽ Manchester United Performance"**: 4 tabs (Histórico, Entrenadores, Diagnóstico, Simulador)
-- **"📊 Auditoría Financiera M. United"**: Simulador ROI por DT
-- **"🕸️ Red de Pases United"**: Análisis de redes complejas (xT, betweenness, benchmark PL)
+- **P1 (Brecha competitiva):** ¿Cual es la magnitud promedio de la brecha en puntos por temporada entre el Manchester United y el club campeon de la Premier League?
+- **P2 (Costo de la inestabilidad):** ¿Cual es el costo financiero acumulado de las compensaciones a entrenadores despedidos durante el periodo de analisis?
+- **P3 (Eficiencia de gestion):** ¿Que entrenador logro la mayor eficiencia en la obtencion de puntos por partido gestionado?
 
-Desplegado en GitHub Pages (estático, sin backend Python).
+**Hipotesis operacionales:** La inestabilidad tecnica correlaciona negativamente con la obtencion de titulos, generando un costo financiero y competitivo medible. El entrenador con mayor ratio puntos/partido representa la gestion mas eficiente dentro del conjunto de datos.
 
-## Hallazgos Clave
+## 3. Pipeline Metodologico y Arquitectura de Datos
 
-- **Brecha promedio con el campeón**: ~20 puntos por temporada
-- **Costo de inestabilidad**: ~£32M en compensaciones a entrenadores despedidos
-- **Mejor DT por eficiencia**: Mourinho (1.97 pts/partido)
-- **Peor DT**: Ten Hag (1.78 pts/partido)
+El pipeline metodologico se estructura en cuatro fases secuenciales, codificadas en Python y validadas mediante pruebas automatizadas.
 
-## Stack
+```
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│   FASE 1: CARGA     │──▶│  FASE 2: KPIs        │──▶│  FASE 3: ANALISIS    │
+│   data.py            │   │  (calculo)            │   │  econometrico        │
+│   (ETL CSV PL)       │   │                       │   │  analysis.py         │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+         │                                                    │
+         ▼                                                    ▼
+┌──────────────────────┐                         ┌──────────────────────┐
+│  FASE 4: SIMULACION │◀────────────────────────│  EXPORTACION JSON    │
+│  Scikit-learn        │                         │  (consumo frontend)  │
+│  (modelo predictivo) │                         │                      │
+└──────────────────────┘                         └──────────────────────┘
+```
 
-| Capa | Tecnología |
-|------|-----------|
-| **Lenguaje** | Python 3.9+ (ETL/Análisis) · JavaScript/Plotly.js (Frontend) |
+- **Fase 1 (data.py):** Carga y normalizacion de datos CSV de la Premier League. Limpieza, transformacion de tipos y enriquecimiento con metricas derivadas.
+- **Fase 2 (KPIs):** Calculo de indicadores clave: puntos por temporada, brecha con el campeon, puntos por partido por entrenador, y costo acumulado de compensaciones.
+- **Fase 3 (analysis.py):** Analisis econométrico: regresion de brecha, correlacion entre estabilidad tecnica y rendimiento, y eficiencia relativa por manager.
+- **Fase 4 (Simulacion):** Implementacion de modelo predictivo con Scikit-learn para proyectar escenarios de rendimiento bajo distintas politicas de gestion.
+
+## 4. Hallazgos Clave y Business/Domain Insights
+
+Los resultados empiricos revelan patrones criticos para la comprension del deterioro competitivo:
+
+| Metrica | Valor | Implicacion Estrategica |
+|---------|-------|-------------------------|
+| **Brecha promedio con el campeon** | ~20 puntos por temporada | El club opera sistemáticamente por debajo del umbral de competencia por el titulo. |
+| **Costo de inestabilidad** | ~£32M en compensaciones | Desembolso financiero directo sin retorno deportivo proporcional. |
+| **Mejor DT por eficiencia** | Mourinho (1.97 pts/partido) | Maximizacion del rendimiento relativo al talento disponible. |
+| **Peor DT por eficiencia** | Ten Hag (1.78 pts/partido) | Suboptimalidad en la gestion del plantel y estrategia competitiva. |
+
+**Insight econométrico:** La brecha de ~20 puntos equivale a la diferencia entre un top-4 y un equipo de mitad de tabla, lo que implica una perdida recurrente de calificacion a competiciones europeas de elite y sus ingresos asociados.
+
+## 5. Dashboard y Visualizaciones Interactivas
+
+El analisis se materializa en tres plataformas de visualizacion interactivas, cada una optimizada para un tipo de insight especifico.
+
+### 5.1 Benchmark de la Premier League (Datawrapper)
+
+Comparativa longitudinal del rendimiento del Manchester United contra el promedio del top-6 y el campeon.
+
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="https://datawrapper.dwcdn.net/XXXXXXXX/" width="100%" height="400" frameborder="0" style="border: none;" loading="lazy"></iframe>
+  <p style="text-align: center; font-size: 0.85em; color: #666;">Figura 1: Evolucion de puntos por temporada (2013-2024)</p>
+</div>
+
+### 5.2 Red de Relaciones Entrenador-Equipo (Flourish)
+
+Grafo de relaciones que visualiza la red de conexiones entre entrenadores, jugadores clave y metricas de rendimiento.
+
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="https://flo.uri.sh/story/XXXXXXXX/embed" width="100%" height="600" frameborder="0" style="border: none;" loading="lazy"></iframe>
+  <p style="text-align: center; font-size: 0.85em; color: #666;">Figura 2: Red de influencia y rendimiento por gestion</p>
+</div>
+
+### 5.3 Matriz de Correlacion (Observable)
+
+Analisis de correlacion entre variables clave: puntos, gol differential, gasto en fichajes y estabilidad tecnica.
+
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="https://observablehq.com/embed/XXXXXXXX" width="100%" height="500" frameborder="0" style="border: none;" loading="lazy"></iframe>
+  <p style="text-align: center; font-size: 0.85em; color: #666;">Figura 3: Matriz de correlacion de variables de rendimiento</p>
+</div>
+
+**Dashboard integrado completo:** [Portfolio Web](https://alvarosalinaso.github.io/portfolio-web/) con tabs dedicados a metricas historicas, analisis por entrenador, diagnostico financiero y simulador predictivo.
+
+## 6. Reproducibilidad y Entorno Tecnico
+
+Este estudio esta disenado para ser completamente reproducible. El entorno tecnico y los comandos exactos se documentan a continuacion.
+
+### Entorno de Desarrollo
+
+| Componente | Especificacion |
+|------------|----------------|
+| **Lenguaje** | Python 3.9+ |
+| **Frontend** | JavaScript/Plotly.js (desplegado en GitHub Pages) |
 | **Data** | Pandas, NumPy, SciPy |
-| **Visualización** | **Plotly.js** (integrado en Portfolio Web), Matplotlib, Seaborn |
 | **ML** | Scikit-learn (simulador predictivo) |
 | **Testing** | Pytest, Pytest-cov |
-| **Lint & Format** | Ruff |
-| **CI/CD** | GitHub Actions (matrix 3.9–3.13) |
-| **Empaquetado** | pyproject.toml |
+| **Lint** | Ruff |
+| **CI/CD** | GitHub Actions (matrix 3.9-3.13) |
 | **Licencia** | MIT |
 
-## Arquitectura
-
-```
-┌─────────────┐   ┌──────────────┐   ┌──────────────┐
-│  data.py    │──▶│ analysis.py  │──▶│   plots.py   │
-│ (carga/KPI) │   │ (métricas)   │   │ (visualiza)  │
-└─────────────┘   └──────────────┘   └──────────────┘
-      │                                        │
-      └────────────────▶ JSON export ──────────┘
-                           │
-                           ▼
-              ┌────────────────────────┐
-              │  portfolio-web/src/    │
-              │  data/manchester-      │
-              │  united.json           │
-              └────────────────────────┘
-                           │
-                           ▼
-              ┌────────────────────────┐
-              │  Plotly.js charts      │
-              │  (Vanilla JS modules)  │
-              └────────────────────────┘
-```
-
-- **data.py** — carga del CSV de Premier League, enriquecimiento y KPIs calculados.
-- **analysis.py** — eficiencia por entrenador, estabilidad y costo de inestabilidad.
-- **plots.py** — gráficos de brecha y rentabilidad ofensiva.
-- **JSON export** — datos serializados para consumo en Portfolio Web (Plotly.js).
-
-## Estructura
-
-```
-manchester-united-analisis/
-├── src/manutd_analysis/   # Paquete principal
-│   ├── data.py            # Carga y limpieza
-│   ├── analysis.py        # Métricas y modelos
-│   └── plots.py           # Visualizaciones
-├── tests/                 # Tests unitarios (Pytest)
-├── .github/workflows/     # CI (lint + matrix de tests + coverage)
-├── assets/figures/        # Gráficos generados
-├── pyproject.toml         # Configuración (build, ruff, pytest, coverage)
-└── requirements.txt       # Dependencias de runtime
-```
-
-## Instalación
+### Comandos de Reproduccion
 
 ```bash
+# Clonar repositorio
 git clone https://github.com/alvarosalinaso/manchester-united-analisis.git
 cd manchester-united-analisis
+
+# Crear entorno virtual
 python -m venv .venv
-# Windows: .venv\Scripts\activate   |  Linux/macOS: source .venv/bin/activate
+# Windows
+.venv\Scripts\activate
+# Linux/macOS
+source .venv/bin/activate
+
+# Instalar dependencias
 pip install -r requirements.txt
-```
-
-Para desarrollo (incluye linters y tests):
-
-```bash
+# Para desarrollo (linters, tests)
 pip install -e ".[dev]"
-```
 
-## Generar datos para Portfolio Web
+# Ejecutar tests con cobertura
+pytest
 
-```bash
+# Verificar calidad de codigo
+ruff check .
+ruff format --check .
+
+# Generar datos para visualizaciones
 python -c "
 from manutd_analysis.data import load_data
 from manutd_analysis.analysis import manager_summary
-import json, pandas as pd
+import json
 df = load_data()
 mgr = manager_summary(df)
 data = {'seasons': df.to_dict('records'), 'manager_summary': mgr.to_dict('records')}
 with open('../portfolio-web/public/data/manchester-united.json', 'w') as f:
     json.dump(data, f, indent=2)
-print('Exported to portfolio-web')
 "
 ```
 
-## Ver Dashboard Interactivo
+### Estructura del Repositorio
 
-**[https://alvarosalinaso.github.io/portfolio-web/](https://alvarosalinaso.github.io/portfolio-web/)** → Tabs "⚽ Manchester United Performance" y "📊 Auditoría Financiera M. United"
-
-## Testing
-
-```bash
-pytest                      # Tests + cobertura
-ruff check .                # Lint
-ruff format --check .       # Verificación de formato
+```
+manchester-united-analisis/
+├── src/manutd_analysis/   # Paquete principal
+│   ├── data.py            # Carga y limpieza
+│   ├── analysis.py        # Metricas y modelos
+│   └── plots.py           # Visualizaciones
+├── tests/                 # Tests unitarios (Pytest)
+├── .github/workflows/     # CI (lint + matrix de tests + coverage)
+├── assets/figures/        # Graficos generados
+├── pyproject.toml         # Configuracion (build, ruff, pytest, coverage)
+└── requirements.txt       # Dependencias de runtime
 ```
 
-## Contribución
-
-Revisa [CONTRIBUTING.md](CONTRIBUTING.md) para convenciones de commits, estilo de código y flujo de PRs.
-
-## Licencia
-
-Distribuido bajo la licencia [MIT](LICENSE). Copyright © 2026 Álvaro Salinas.
+Distribuido bajo la licencia MIT. Copyright 2026 Alvaro Salinas.
