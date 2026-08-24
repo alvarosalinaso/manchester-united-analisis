@@ -1,15 +1,15 @@
-# Manchester United Performance Analysis (2014-2024)
+# Manchester United Performance Analysis (2013-2024)
 
 [![CI](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit)](https://streamlit.io)
+[![Plotly.js](https://img.shields.io/badge/Plotly.js-3.x-3F4F75?logo=plotly&logoColor=white)](https://plotly.com/javascript/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Análisis detallado del rendimiento del Manchester United en la Premier League durante la década post-Ferguson (2014-2024). Cuantifica la brecha con el campeón, el costo de la inestabilidad técnica y la eficiencia por entrenador mediante dashboards interactivos.
+Análisis detallado del rendimiento del Manchester United en la Premier League durante la década post-Ferguson (2013-2024). Cuantifica la brecha con el campeón, el costo de la inestabilidad técnica y la eficiencia por entrenador mediante dashboards interactivos.
 
 ## Tabla de contenidos
 
-- [Dashboard en Vivo](#dashboard-en-vivo)
+- [Dashboard Integrado](#dashboard-integrado)
 - [Hallazgos Clave](#hallazgos-clave)
 - [Stack](#stack)
 - [Arquitectura](#arquitectura)
@@ -19,24 +19,29 @@ Análisis detallado del rendimiento del Manchester United en la Premier League d
 - [Contribución](#contribución)
 - [Licencia](#licencia)
 
-## Dashboard en Vivo
+## Dashboard Integrado
 
-👉 **[manchester-united-analisis.streamlit.app](https://manchester-united-analisis.streamlit.app)** — *Se activa al desplegar en Streamlit Cloud.*
+👉 **Integrado en [Portfolio Web](https://alvarosalinaso.github.io/portfolio-web/)** → Tabs:
+- **"⚽ Manchester United Performance"**: 4 tabs (Histórico, Entrenadores, Diagnóstico, Simulador)
+- **"📊 Auditoría Financiera M. United"**: Simulador ROI por DT
+- **"🕸️ Red de Pases United"**: Análisis de redes complejas (xT, betweenness, benchmark PL)
+
+Desplegado en GitHub Pages (estático, sin backend Python).
 
 ## Hallazgos Clave
 
 - **Brecha promedio con el campeón**: ~20 puntos por temporada
 - **Costo de inestabilidad**: ~£32M en compensaciones a entrenadores despedidos
-- **Mejor DT por eficiencia**: Mourinho (1.86 pts/partido)
-- **Peor DT**: Ten Hag (1.58 pts/partido)
+- **Mejor DT por eficiencia**: Mourinho (1.97 pts/partido)
+- **Peor DT**: Ten Hag (1.78 pts/partido)
 
 ## Stack
 
 | Capa | Tecnología |
 |------|-----------|
-| **Lenguaje** | Python 3.9+ |
-| **Data** | Pandas, NumPy |
-| **Visualización** | Streamlit, Plotly, Matplotlib, Seaborn |
+| **Lenguaje** | Python 3.9+ (ETL/Análisis) · JavaScript/Plotly.js (Frontend) |
+| **Data** | Pandas, NumPy, SciPy |
+| **Visualización** | **Plotly.js** (integrado en Portfolio Web), Matplotlib, Seaborn |
 | **ML** | Scikit-learn (simulador predictivo) |
 | **Testing** | Pytest, Pytest-cov |
 | **Lint & Format** | Ruff |
@@ -52,13 +57,26 @@ Análisis detallado del rendimiento del Manchester United en la Premier League d
 │ (carga/KPI) │   │ (métricas)   │   │ (visualiza)  │
 └─────────────┘   └──────────────┘   └──────────────┘
       │                                        │
-      └───────▶ app.py (Streamlit) ─────▶ Dashboard
+      └────────────────▶ JSON export ──────────┘
+                           │
+                           ▼
+              ┌────────────────────────┐
+              │  portfolio-web/src/    │
+              │  data/manchester-      │
+              │  united.json           │
+              └────────────────────────┘
+                           │
+                           ▼
+              ┌────────────────────────┐
+              │  Plotly.js charts      │
+              │  (Vanilla JS modules)  │
+              └────────────────────────┘
 ```
 
 - **data.py** — carga del CSV de Premier League, enriquecimiento y KPIs calculados.
 - **analysis.py** — eficiencia por entrenador, estabilidad y costo de inestabilidad.
 - **plots.py** — gráficos de brecha y rentabilidad ofensiva.
-- **app.py** — capa de presentación (Streamlit) que orquesta los módulos.
+- **JSON export** — datos serializados para consumo en Portfolio Web (Plotly.js).
 
 ## Estructura
 
@@ -71,7 +89,6 @@ manchester-united-analisis/
 ├── tests/                 # Tests unitarios (Pytest)
 ├── .github/workflows/     # CI (lint + matrix de tests + coverage)
 ├── assets/figures/        # Gráficos generados
-├── app.py                 # Dashboard Streamlit
 ├── pyproject.toml         # Configuración (build, ruff, pytest, coverage)
 └── requirements.txt       # Dependencias de runtime
 ```
@@ -92,15 +109,25 @@ Para desarrollo (incluye linters y tests):
 pip install -e ".[dev]"
 ```
 
-## Inicio Rápido
+## Generar datos para Portfolio Web
 
 ```bash
-streamlit run app.py
+python -c "
+from manutd_analysis.data import load_data
+from manutd_analysis.analysis import manager_summary
+import json, pandas as pd
+df = load_data()
+mgr = manager_summary(df)
+data = {'seasons': df.to_dict('records'), 'manager_summary': mgr.to_dict('records')}
+with open('../portfolio-web/public/data/manchester-united.json', 'w') as f:
+    json.dump(data, f, indent=2)
+print('Exported to portfolio-web')
+"
 ```
 
-```bash
-python -c "from manutd_analysis.analysis import resumen_por_entrenador; print('OK')"  # Verificar instalación
-```
+## Ver Dashboard Interactivo
+
+**[https://alvarosalinaso.github.io/portfolio-web/](https://alvarosalinaso.github.io/portfolio-web/)** → Tabs "⚽ Manchester United Performance" y "📊 Auditoría Financiera M. United"
 
 ## Testing
 
