@@ -36,11 +36,11 @@ El pipeline metodologico se estructura en cuatro fases secuenciales, codificadas
 │  Scikit-learn        │                         │  (consumo frontend)  │
 │  (modelo predictivo) │                         │                      │
 └──────────────────────┘                         └──────────────────────┘
-         │
-         ▼
-┌──────────────────────┐
-│  FASE 5: CAUSAL      │
-│  causal_inference.py │
+         │                         ┌──────────────────────┐
+         ▼                         │  FASE 6: COHORTES    │
+┌──────────────────────┐          │  cohort_analysis.py  │
+│  FASE 5: CAUSAL      │          │  (retención por era) │
+│  causal_inference.py │          └──────────────────────┘
 │  (DiD + Placebo)     │
 └──────────────────────┘
 ```
@@ -50,6 +50,7 @@ El pipeline metodologico se estructura en cuatro fases secuenciales, codificadas
 - **Fase 3 (analysis.py):** Analisis econométrico: regresion de brecha, correlacion entre estabilidad tecnica y rendimiento, y eficiencia relativa por manager.
 - **Fase 4 (Simulacion):** Implementacion de modelo predictivo con Scikit-learn para proyectar escenarios de rendimiento bajo distintas politicas de gestion.
 - **Fase 5 (causal_inference.py):** Inferencia causal mediante Difference-in-Differences (DiD) para estimar el efecto causal de cambios de entrenador sobre el rendimiento, incluyendo test placebo con permutaciones aleatorias.
+- **Fase 6 (cohort_analysis.py):** Analisis de cohortes por era de entrenador. Retencion de jugadores, estabilidad de plantillas y efecto de transiciones de managers.
 
 ## 4. Hallazgos Clave y Business/Domain Insights
 
@@ -210,6 +211,9 @@ ruff format --check .
 # Ejecutar analisis causal
 python src/causal_inference.py
 
+# Ejecutar analisis de cohortes
+python src/cohort_analysis.py
+
 # Generar datos para visualizaciones
 python -c "
 from manutd_analysis.data import load_data
@@ -232,6 +236,7 @@ manchester-united-analisis/
 │   ├── analysis.py        # Metricas y modelos
 │   └── plots.py           # Visualizaciones
 ├── src/causal_inference.py # Inferencia causal (DiD)
+├── src/cohort_analysis.py  # Analisis de cohortes y retencion
 ├── src/statistical_tests.py # Tests estadisticos
 ├── tests/                 # Tests unitarios (Pytest)
 ├── .github/workflows/     # CI (lint + matrix de tests + coverage)

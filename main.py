@@ -4,6 +4,7 @@ Punto de entrada principal del proyecto.
 """
 
 from causal_inference import run_causal_analysis
+from cohort_analysis import run_cohort_analysis
 from manutd_analysis.analysis import (
     analizar_eficiencia,
     analizar_estabilidad,
@@ -62,6 +63,15 @@ def main():
         print(f"  Cambios analizados: {summary['n_changes']}")
         print(f"  Cambios significativos: {summary['n_significant']}")
         print(f"  ATT promedio: {summary['mean_att']:+.1f} pts")
+
+    # Análisis de cohortes
+    print("\n--- 📊 ANÁLISIS DE COHORTES ---")
+    cohort = run_cohort_analysis()
+    if cohort and "retention_summary" in cohort:
+        rs = cohort["retention_summary"]
+        print(f"  Gestores analizados: {rs['n_managers']}")
+        print(f"  Tenencia promedio: {rs['avg_tenure']} temporadas")
+        print(f"  Tasa de rotación: {rs['turnover_rate']} gestores/década")
 
     # Conclusiones
     imprimir_conclusiones(df)
