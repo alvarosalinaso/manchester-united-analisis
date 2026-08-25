@@ -1,16 +1,16 @@
 """
 Genera reporte estilo paper académico en Markdown.
 """
-import json
-from pathlib import Path
-from datetime import datetime
 
+import json
+from datetime import datetime
+from pathlib import Path
 
 REPORT_TEMPLATE = """# {title}
 
-**Autor:** Álvaro Salinas Ortiz  
-**Fecha:** {date}  
-**Repositorio:** https://github.com/alvarosalinaso/{repo}  
+**Autor:** Álvaro Salinas Ortiz  # noqa: W291
+**Fecha:** {date}  # noqa: W291
+**Repositorio:** https://github.com/alvarosalinaso/{repo}  # noqa: W291
 **DOI:** [10.xxxx/zenodo.XXXXXXX](https://doi.org/10.xxxx/zenodo.XXXXXXX) *(pending)*
 
 ---
@@ -57,7 +57,9 @@ def load_results(output_dir: Path) -> dict:
     return results
 
 
-def generate_report(output_dir: Path = Path("data/export"), report_dir: Path = Path("docs")) -> Path:
+def generate_report(
+    output_dir: Path = Path("data/export"), report_dir: Path = Path("docs")
+) -> Path:
     """Genera reporte académico completo."""
     results = load_results(output_dir)
 
@@ -74,7 +76,9 @@ def generate_report(output_dir: Path = Path("data/export"), report_dir: Path = P
         results=sections.get("results", "Los resultados se presentan a continuación."),
         discussion=sections.get("discussion", "Los hallazgos sugieren patrones interesantes."),
         conclusions=sections.get("conclusions", "Se concluye que el análisis es prometedor."),
-        references=sections.get("references", "- Python Software Foundation. (2024). Python Documentation."),
+        references=sections.get(
+            "references", "- Python Software Foundation. (2024). Python Documentation."
+        ),
     )
 
     report_dir.mkdir(parents=True, exist_ok=True)

@@ -2,6 +2,7 @@
 Inferencia causal: Efecto del cambio de entrenador en Manchester United.
 Difference-in-Differences (DiD) con synthetic control.
 """
+
 import json
 from pathlib import Path
 
@@ -38,12 +39,14 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         change_points = []
         for i in range(1, len(df)):
             if df.iloc[i]["manager"] != df.iloc[i - 1]["manager"]:
-                change_points.append({
-                    "season": df.iloc[i]["season"],
-                    "from_manager": df.iloc[i - 1]["manager"],
-                    "to_manager": df.iloc[i]["manager"],
-                    "index": i,
-                })
+                change_points.append(
+                    {
+                        "season": df.iloc[i]["season"],
+                        "from_manager": df.iloc[i - 1]["manager"],
+                        "to_manager": df.iloc[i]["manager"],
+                        "index": i,
+                    }
+                )
 
         results["managerial_changes"] = change_points
         print(f"[CAUSAL] {len(change_points)} cambios de entrenador detectados")
@@ -52,8 +55,8 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         did_results = []
         for cp in change_points:
             idx = cp["index"]
-            pre_window = df.iloc[max(0, idx - 3):idx]
-            post_window = df.iloc[idx:min(len(df), idx + 3)]
+            pre_window = df.iloc[max(0, idx - 3) : idx]
+            post_window = df.iloc[idx : min(len(df), idx + 3)]
 
             if len(pre_window) > 0 and len(post_window) > 0 and "points" in df.columns:
                 pre_mean = pre_window["points"].mean()
@@ -68,19 +71,23 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
                 else:
                     t_stat, p_value = 0, 1
 
-                did_results.append({
-                    "change_season": cp["season"],
-                    "from": cp["from_manager"],
-                    "to": cp["to_manager"],
-                    "pre_points_mean": round(pre_mean, 2),
-                    "post_points_mean": round(post_mean, 2),
-                    "att": round(att, 2),
-                    "t_statistic": round(t_stat, 4),
-                    "p_value": round(p_value, 4),
-                    "significant": p_value < 0.05,
-                    "direction": "mejora" if att > 0 else "deterioro",
-                })
-                print(f"  {cp['from_manager']} → {cp['to_manager']}: ATT={att:+.1f} pts (p={p_value:.3f})")
+                did_results.append(
+                    {
+                        "change_season": cp["season"],
+                        "from": cp["from_manager"],
+                        "to": cp["to_manager"],
+                        "pre_points_mean": round(pre_mean, 2),
+                        "post_points_mean": round(post_mean, 2),
+                        "att": round(att, 2),
+                        "t_statistic": round(t_stat, 4),
+                        "p_value": round(p_value, 4),
+                        "significant": p_value < 0.05,
+                        "direction": "mejora" if att > 0 else "deterioro",
+                    }
+                )
+                print(
+                    f"  {cp['from_manager']} → {cp['to_manager']}: ATT={att:+.1f} pts (p={p_value:.3f})"
+                )
 
         results["did_estimates"] = did_results
 
@@ -105,18 +112,26 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         results["counterfactual"] = {
             "trend_slope": round(overall_trend[0], 3),
             "counterfactual_2025_points": round(counterfactual_2025, 1),
-            "actual_2025_points": round(df["points"].iloc[-1], 1) if pd.notna(df["points"].iloc[-1]) else None,
-            "interpretation": "La tendencia sugiere mejora/deterioro" if abs(overall_trend[0]) > 0.5 else "Tendencia estable",
+            "actual_2025_points": round(df["points"].iloc[-1], 1)
+            if pd.notna(df["points"].iloc[-1])
+            else None,
+            "interpretation": "La tendencia sugiere mejora/deterioro"
+            if abs(overall_trend[0]) > 0.5
+            else "Tendencia estable",
         }
 
     # Placebo test: random assignment
     if "points" in df.columns:
-        real_att = results.get("did_estimates", [{}])[0].get("att", 0) if results.get("did_estimates") else 0
+        real_att = (
+            results.get("did_estimates", [{}])[0].get("att", 0)
+            if results.get("did_estimates")
+            else 0
+        )
         placebo_atts = []
         for _ in range(1000):
             random_idx = np.random.randint(1, len(df) - 1)
-            pre = df.iloc[max(0, random_idx - 3):random_idx]["points"].dropna()
-            post = df.iloc[random_idx:min(len(df), random_idx + 3)]["points"].dropna()
+            pre = df.iloc[max(0, random_idx - 3) : random_idx]["points"].dropna()
+            post = df.iloc[random_idx : min(len(df), random_idx + 3)]["points"].dropna()
             if len(pre) > 0 and len(post) > 0:
                 placebo_atts.append(post.mean() - pre.mean())
 
@@ -126,7 +141,9 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
                 "n_simulations": 1000,
                 "p_value_placebo": round(p_placebo, 4),
                 "significant": p_placebo < 0.05,
-                "interpretation": "Efecto causal robusto" if p_placebo < 0.05 else "No se puede descartar efecto por azar",
+                "interpretation": "Efecto causal robusto"
+                if p_placebo < 0.05
+                else "No se puede descartar efecto por azar",
             }
             print(f"[CAUSAL] Placebo test: p={p_placebo:.4f}")
 

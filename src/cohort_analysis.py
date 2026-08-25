@@ -2,12 +2,14 @@
 Análisis de cohortes y retención — Manchester United.
 Analiza retención de jugadores y estabilidad de plantillas por era de entrenador.
 """
+
 import json
 from pathlib import Path
 
 try:
-    import pandas as pd
     import numpy as np
+    import pandas as pd
+
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
@@ -48,7 +50,9 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         cohort = {
             "manager": mgr,
             "tenure_seasons": tenure_seasons,
-            "seasons_range": f"{mgr_df['season'].iloc[0]} - {mgr_df['season'].iloc[-1]}" if "season" in mgr_df.columns else "N/A",
+            "seasons_range": f"{mgr_df['season'].iloc[0]} - {mgr_df['season'].iloc[-1]}"
+            if "season" in mgr_df.columns
+            else "N/A",
         }
 
         # Performance metrics
@@ -82,8 +86,14 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
 
         results["retention_summary"] = {
             "longest_tenure": {"manager": longest["manager"], "seasons": longest["tenure_seasons"]},
-            "best_performance": {"manager": best["manager"], "avg_points": best.get("avg_points", 0)},
-            "most_stable": {"manager": most_stable["manager"], "stability": most_stable.get("stability_score", 0)},
+            "best_performance": {
+                "manager": best["manager"],
+                "avg_points": best.get("avg_points", 0),
+            },
+            "most_stable": {
+                "manager": most_stable["manager"],
+                "stability": most_stable.get("stability_score", 0),
+            },
             "n_managers": len(cohort_data),
             "avg_tenure": round(np.mean([c["tenure_seasons"] for c in cohort_data]), 1),
             "avg_tenure_industry": 2.5,  # Industry average
@@ -99,15 +109,26 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         # Identify manager transition effects
         transitions = []
         for i in range(1, len(df_sorted)):
-            if df_sorted.iloc[i]["manager"] != df_sorted.iloc[i-1]["manager"]:
-                transitions.append({
-                    "season": df_sorted.iloc[i]["season"],
-                    "from": df_sorted.iloc[i-1]["manager"],
-                    "to": df_sorted.iloc[i]["manager"],
-                    "points_before": int(df_sorted.iloc[i-1]["points"]) if pd.notna(df_sorted.iloc[i-1]["points"]) else None,
-                    "points_after": int(df_sorted.iloc[i]["points"]) if pd.notna(df_sorted.iloc[i]["points"]) else None,
-                    "change": round(df_sorted.iloc[i]["points"] - df_sorted.iloc[i-1]["points"], 2) if pd.notna(df_sorted.iloc[i]["points"]) and pd.notna(df_sorted.iloc[i-1]["points"]) else None,
-                })
+            if df_sorted.iloc[i]["manager"] != df_sorted.iloc[i - 1]["manager"]:
+                transitions.append(
+                    {
+                        "season": df_sorted.iloc[i]["season"],
+                        "from": df_sorted.iloc[i - 1]["manager"],
+                        "to": df_sorted.iloc[i]["manager"],
+                        "points_before": int(df_sorted.iloc[i - 1]["points"])
+                        if pd.notna(df_sorted.iloc[i - 1]["points"])
+                        else None,
+                        "points_after": int(df_sorted.iloc[i]["points"])
+                        if pd.notna(df_sorted.iloc[i]["points"])
+                        else None,
+                        "change": round(
+                            df_sorted.iloc[i]["points"] - df_sorted.iloc[i - 1]["points"], 2
+                        )
+                        if pd.notna(df_sorted.iloc[i]["points"])
+                        and pd.notna(df_sorted.iloc[i - 1]["points"])
+                        else None,
+                    }
+                )
 
         results["managerial_transitions"] = transitions
 
@@ -118,10 +139,16 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
             "total_transitions": len(transitions),
             "improvements": len(improvements),
             "declines": len(valid_transitions) - len(improvements),
-            "improvement_rate": round(len(improvements) / len(valid_transitions) * 100, 1) if valid_transitions else 0,
-            "avg_change": round(np.mean([t["change"] for t in valid_transitions]), 2) if valid_transitions else 0,
+            "improvement_rate": round(len(improvements) / len(valid_transitions) * 100, 1)
+            if valid_transitions
+            else 0,
+            "avg_change": round(np.mean([t["change"] for t in valid_transitions]), 2)
+            if valid_transitions
+            else 0,
         }
-        print(f"[COHORT] {len(transitions)} transiciones, {len(improvements)} mejoras ({results['transition_analysis']['improvement_rate']}%)")
+        print(
+            f"[COHORT] {len(transitions)} transiciones, {len(improvements)} mejoras ({results['transition_analysis']['improvement_rate']}%)"
+        )
 
     # Save
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -131,7 +158,9 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
     if cohort_data:
         print(f"[COHORT] {len(cohort_data)} cohortes analizadas")
         for c in cohort_data[:3]:
-            print(f"  {c['manager']}: {c['tenure_seasons']} temporadas, {c.get('avg_points', 'N/A')} pts promedio")
+            print(
+                f"  {c['manager']}: {c['tenure_seasons']} temporadas, {c.get('avg_points', 'N/A')} pts promedio"
+            )
 
     return results
 

@@ -75,14 +75,17 @@ def main():
 
     # Statistical tests
     from src.statistical_tests import run_statistical_tests
+
     run_statistical_tests()
 
     # Generate executive tables
     from src.generate_tables import generate as generate_exec_tables
+
     generate_exec_tables()
 
     # Generate paper report
     from src.generate_report import generate_report
+
     generate_report()
 
     # Conclusiones
