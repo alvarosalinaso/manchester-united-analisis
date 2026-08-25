@@ -73,6 +73,18 @@ def main():
         print(f"  Tenencia promedio: {rs['avg_tenure']} temporadas")
         print(f"  Tasa de rotación: {rs['turnover_rate']} gestores/década")
 
+    # Statistical tests
+    from src.statistical_tests import run_statistical_tests
+    run_statistical_tests()
+
+    # Generate executive tables
+    from src.generate_tables import generate as generate_exec_tables
+    generate_exec_tables()
+
+    # Generate paper report
+    from src.generate_report import generate_report
+    generate_report()
+
     # Conclusiones
     imprimir_conclusiones(df)
     print("\n✅ Análisis completado.")
