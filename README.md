@@ -36,12 +36,20 @@ El pipeline metodologico se estructura en cuatro fases secuenciales, codificadas
 │  Scikit-learn        │                         │  (consumo frontend)  │
 │  (modelo predictivo) │                         │                      │
 └──────────────────────┘                         └──────────────────────┘
+         │
+         ▼
+┌──────────────────────┐
+│  FASE 5: CAUSAL      │
+│  causal_inference.py │
+│  (DiD + Placebo)     │
+└──────────────────────┘
 ```
 
 - **Fase 1 (data.py):** Carga y normalizacion de datos CSV de la Premier League. Limpieza, transformacion de tipos y enriquecimiento con metricas derivadas.
 - **Fase 2 (KPIs):** Calculo de indicadores clave: puntos por temporada, brecha con el campeon, puntos por partido por entrenador, y costo acumulado de compensaciones.
 - **Fase 3 (analysis.py):** Analisis econométrico: regresion de brecha, correlacion entre estabilidad tecnica y rendimiento, y eficiencia relativa por manager.
 - **Fase 4 (Simulacion):** Implementacion de modelo predictivo con Scikit-learn para proyectar escenarios de rendimiento bajo distintas politicas de gestion.
+- **Fase 5 (causal_inference.py):** Inferencia causal mediante Difference-in-Differences (DiD) para estimar el efecto causal de cambios de entrenador sobre el rendimiento, incluyendo test placebo con permutaciones aleatorias.
 
 ## 4. Hallazgos Clave y Business/Domain Insights
 
@@ -199,6 +207,9 @@ pytest
 ruff check .
 ruff format --check .
 
+# Ejecutar analisis causal
+python src/causal_inference.py
+
 # Generar datos para visualizaciones
 python -c "
 from manutd_analysis.data import load_data
@@ -220,6 +231,8 @@ manchester-united-analisis/
 │   ├── data.py            # Carga y limpieza
 │   ├── analysis.py        # Metricas y modelos
 │   └── plots.py           # Visualizaciones
+├── src/causal_inference.py # Inferencia causal (DiD)
+├── src/statistical_tests.py # Tests estadisticos
 ├── tests/                 # Tests unitarios (Pytest)
 ├── .github/workflows/     # CI (lint + matrix de tests + coverage)
 ├── assets/figures/        # Graficos generados

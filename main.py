@@ -3,6 +3,7 @@ Manchester United Performance Analysis (2014-2024)
 Punto de entrada principal del proyecto.
 """
 
+from causal_inference import run_causal_analysis
 from manutd_analysis.analysis import (
     analizar_eficiencia,
     analizar_estabilidad,
@@ -52,6 +53,15 @@ def main():
     print("\n🎨 Generando gráficos...")
     graficar_eficiencia_y_brecha(df)
     graficar_rentabilidad_ofensiva(df)
+
+    # Inferencia causal
+    print("\n--- 🔬 INFERENCIA CAUSAL (DiD) ---")
+    causal = run_causal_analysis()
+    if causal and "did_summary" in causal:
+        summary = causal["did_summary"]
+        print(f"  Cambios analizados: {summary['n_changes']}")
+        print(f"  Cambios significativos: {summary['n_significant']}")
+        print(f"  ATT promedio: {summary['mean_att']:+.1f} pts")
 
     # Conclusiones
     imprimir_conclusiones(df)
