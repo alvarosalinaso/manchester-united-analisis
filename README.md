@@ -1,248 +1,105 @@
-# Analisis cuantitativo del rendimiento competitivo del Manchester United en la Premier League (2013-2024): Inestabilidad institucional, brecha de rendimiento y eficiencia de gestion
+# Manchester United: What happened after Ferguson?
 
-[![CI](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://python.org)
-[![Plotly.js](https://img.shields.io/badge/Plotly.js-3.x-3F4F75?logo=plotly&logoColor=white)](https://plotly.com/javascript/)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![CI](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarosalinaso/manchester-united-analisis/actions/workflows/ci.yml) [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## 1. Titulo Academico y Contexto Estrategico
+---
 
-Este estudio cuantifica la degradacion sistematica del rendimiento deportivo del Manchester United Football Club en la Premier League durante la decada post-Alex Ferguson (2013-2024). El problema central es la inestabilidad institucional cronica: siete entrenadores distintos en once temporadas, una brecha persistente con el club campeon, y un desembolso financiero significativo en compensaciones por terminacion anticipada de contratos. El analisis busca transformar datos de rendimiento deportivo en evidencia accionable para la toma de decisiones estrategicas en organizaciones de alto rendimiento.
+## What is this?
 
-## 2. Preguntas de Investigacion e Hipotesis
+EN: Everyone has an opinion about Manchester United's decline. I wanted to quantify it. This project uses 32 seasons of Premier League data to measure the institutional instability, the gap with champions, and whether any manager actually got good results relative to the squad.
 
-Formulamos tres preguntas cuantitativas centrales:
+ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería cuantificarlo. Este proyecto usa 32 temporadas de Premier League para medir la inestabilidad institucional, la brecha con los campeones, y si algún entrenador realmente obtuvo buenos resultados relativos al plantel.
 
-- **P1 (Brecha competitiva):** ¿Cual es la magnitud promedio de la brecha en puntos por temporada entre el Manchester United y el club campeon de la Premier League?
-- **P2 (Costo de la inestabilidad):** ¿Cual es el costo financiero acumulado de las compensaciones a entrenadores despedidos durante el periodo de analisis?
-- **P3 (Eficiencia de gestion):** ¿Que entrenador logro la mayor eficiencia en la obtencion de puntos por partido gestionado?
+---
 
-**Hipotesis operacionales:** La inestabilidad tecnica correlaciona negativamente con la obtencion de titulos, generando un costo financiero y competitivo medible. El entrenador con mayor ratio puntos/partido representa la gestion mas eficiente dentro del conjunto de datos.
+## Questions I asked
 
-## 3. Pipeline Metodologico y Arquitectura de Datos
+**P1 (Competitive gap):** How many points per season does United trail the champion by on average?
 
-El pipeline metodologico se estructura en cuatro fases secuenciales, codificadas en Python y validadas mediante pruebas automatizadas.
+**P2 (Cost of instability):** How much has United spent on firing managers in severance packages?
+
+**P3 (Manager efficiency):** Which manager got the most points per game relative to the squad available?
+
+---
+
+## How it works
 
 ```
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│   FASE 1: CARGA     │──▶│  FASE 2: KPIs        │──▶│  FASE 3: ANALISIS    │
-│   data.py            │   │  (calculo)            │   │  econometrico        │
-│   (ETL CSV PL)       │   │                       │   │  analysis.py         │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-         │                                                    │
-         ▼                                                    ▼
-┌──────────────────────┐                         ┌──────────────────────┐
-│  FASE 4: SIMULACION │◀────────────────────────│  EXPORTACION JSON    │
-│  Scikit-learn        │                         │  (consumo frontend)  │
-│  (modelo predictivo) │                         │                      │
-└──────────────────────┘                         └──────────────────────┘
-         │                         ┌──────────────────────┐
-         ▼                         │  FASE 6: COHORTES    │
-┌──────────────────────┐          │  cohort_analysis.py  │
-│  FASE 5: CAUSAL      │          │  (retención por era) │
-│  causal_inference.py │          └──────────────────────┘
-│  (DiD + Placebo)     │
-└──────────────────────┘
+data.py → load PL CSV data
+analysis.py → KPIs, gap calculation, manager efficiency
+causal_inference.py → Difference-in-Differences on managerial changes + placebo test
+cohort_analysis.py → retention by manager era
 ```
 
-- **Fase 1 (data.py):** Carga y normalizacion de datos CSV de la Premier League. Limpieza, transformacion de tipos y enriquecimiento con metricas derivadas.
-- **Fase 2 (KPIs):** Calculo de indicadores clave: puntos por temporada, brecha con el campeon, puntos por partido por entrenador, y costo acumulado de compensaciones.
-- **Fase 3 (analysis.py):** Analisis econométrico: regresion de brecha, correlacion entre estabilidad tecnica y rendimiento, y eficiencia relativa por manager.
-- **Fase 4 (Simulacion):** Implementacion de modelo predictivo con Scikit-learn para proyectar escenarios de rendimiento bajo distintas politicas de gestion.
-- **Fase 5 (causal_inference.py):** Inferencia causal mediante Difference-in-Differences (DiD) para estimar el efecto causal de cambios de entrenador sobre el rendimiento, incluyendo test placebo con permutaciones aleatorias.
-- **Fase 6 (cohort_analysis.py):** Analisis de cohortes por era de entrenador. Retencion de jugadores, estabilidad de plantillas y efecto de transiciones de managers.
+### Key methods
 
-## 4. Hallazgos Clave y Business/Domain Insights
-
-Los resultados empiricos revelan patrones criticos para la comprension del deterioro competitivo:
-
-| Metrica | Valor | Implicacion Estrategica |
-|---------|-------|-------------------------|
-| **Brecha promedio con el campeon** | ~20 puntos por temporada | El club opera sistemáticamente por debajo del umbral de competencia por el titulo. |
-| **Costo de inestabilidad** | ~£32M en compensaciones | Desembolso financiero directo sin retorno deportivo proporcional. |
-| **Mejor DT por eficiencia** | Mourinho (1.97 pts/partido) | Maximizacion del rendimiento relativo al talento disponible. |
-| **Peor DT por eficiencia** | Ten Hag (1.78 pts/partido) | Suboptimalidad en la gestion del plantel y estrategia competitiva. |
-
-**Insight econométrico:** La brecha de ~20 puntos equivale a la diferencia entre un top-4 y un equipo de mitad de tabla, lo que implica una perdida recurrente de calificacion a competiciones europeas de elite y sus ingresos asociados.
+- **Difference-in-Differences (DiD):** Estimates the causal effect of sacking a manager on subsequent performance, with placebo testing
+- **Cohort analysis:** Player retention and squad stability across manager eras
+- **OLS regression:** Relationship between managerial tenure and performance
 
 ---
 
-## Tabla Ejecutiva
+## Key findings
 
-Tabla ejecutiva estilo ejecutivo con `great_tables`. Ejecutar `src/generate_tables.py` para regenerar.
+| Metric | Value | What it means |
+|--------|-------|---------------|
+| Average gap to champion | ~20 pts/season | Consistently outside title race |
+| Manager severance cost | ~£32M | Money spent firing people |
+| Best manager (pts/game) | Mourinho (1.97) | Got most from available squad |
+| Worst manager (pts/game) | Ten Hag (1.78) | Underperformed relative to investment |
 
-<details>
-<summary><strong>Ver tabla ejecutiva</strong></summary>
-
-| Métrica | Man United | Top 6 Promedio | Δ |
-|---------|-----------|----------------|---|
-| Puntos por temporada (promedio) | ~60 | ~78 | -23% |
-| Posición media (últimos 10 años) | 5.2 | 2.8 | +86% |
-| Gasto neto fichajes (total) | ~£1.2B | ~£800M | +50% |
-| ROI inversiones | Bajo | Alto | — |
-
-*Generado con great_tables — Ejecutar `python src/generate_tables.py` para actualizar*
-</details>
+The ~20 point gap is the difference between top-4 and mid-table — meaning repeated failure to qualify for Champions League revenue.
 
 ---
 
-## 5. Dashboard y Visualizaciones Interactivas
-
-El analisis se materializa en tres plataformas de visualizacion interactivas, cada una optimizada para un tipo de insight especifico.
-
-### 5.1 Benchmark de la Premier League (Datawrapper)
-
-Comparativa longitudinal del rendimiento del Manchester United contra el promedio del top-6 y el campeon.
-
-<div style="width: 100%; max-width: 800px; margin: 0 auto;">
-  <iframe src="https://datawrapper.dwcdn.net/XXXXXXXX/" width="100%" height="400" frameborder="0" style="border: none;" loading="lazy"></iframe>
-  <p style="text-align: center; font-size: 0.85em; color: #666;">Figura 1: Evolucion de puntos por temporada (2013-2024)</p>
-</div>
-
-### 5.2 Red de Relaciones Entrenador-Equipo (Flourish)
-
-Grafo de relaciones que visualiza la red de conexiones entre entrenadores, jugadores clave y metricas de rendimiento.
-
-<div style="width: 100%; max-width: 800px; margin: 0 auto;">
-  <iframe src="https://flo.uri.sh/story/XXXXXXXX/embed" width="100%" height="600" frameborder="0" style="border: none;" loading="lazy"></iframe>
-  <p style="text-align: center; font-size: 0.85em; color: #666;">Figura 2: Red de influencia y rendimiento por gestion</p>
-</div>
-
-### 5.3 Matriz de Correlacion (Observable)
-
-Analisis de correlacion entre variables clave: puntos, gol differential, gasto en fichajes y estabilidad tecnica.
-
-<div style="width: 100%; max-width: 800px; margin: 0 auto;">
-  <iframe src="https://observablehq.com/embed/XXXXXXXX" width="100%" height="500" frameborder="0" style="border: none;" loading="lazy"></iframe>
-  <p style="text-align: center; font-size: 0.85em; color: #666;">Figura 3: Matriz de correlacion de variables de rendimiento</p>
-</div>
-
-**Dashboard integrado completo:** [Portfolio Web](https://alvarosalinaso.github.io/portfolio-web/) con tabs dedicados a metricas historicas, analisis por entrenador, diagnostico financiero y simulador predictivo.
-
-## Visual Analytics
-
-Interactividad multinivel para exploración de datos y presentación ejecutiva.
+## Visualizations
 
 <details>
-<summary><strong>Datawrapper — Gráfico interactivo</strong></summary>
+<summary><strong>Datawrapper — PL Benchmark</strong></summary>
 
 <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
-  <iframe src="https://datawrapper.dwcdn.net/vfOvM/" title="Benchmark Premier League — Manchester United vs Top 6 vs Resto" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
+  <iframe src="https://datawrapper.dwcdn.net/vfOvM/" title="PL Benchmark" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
 </div>
 </details>
 
 <details>
-<summary><strong>Flourish — Visualización animada</strong></summary>
+<summary><strong>Observable — Correlation analysis</strong></summary>
 
 <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
-  <iframe src="https://flo.uri.sh/visualisation/7937275/embed" title="Evolución de Posición por Entrenador — Man United 2014-2024" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
+  <iframe src="https://observablehq.com/@alvarosalinaso/manutd-correlation" title="Spending vs Points" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
 </div>
 </details>
 
-<details>
-<summary><strong>Observable — Notebook interactivo</strong></summary>
-
-<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
-  <iframe src="https://observablehq.com/@alvarosalinaso/manutd-correlation" title="Correlación Gasto Neto vs Puntos" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
-</div>
-</details>
-
-**Hallazgos clave**: El gasto neto del Manchester United no correlaciona positivamente con los puntos, indicando ineficiencia en la inversión de fichajes.
-
 ---
 
-## Recomendación Ejecutiva
-
-- La inversión no correlaciona con resultados (r significativo pero débil)
-- Priorizar ROI sobre gasto bruto en fichajes
-- Evaluar rendimiento por encima de posición en tabla
-
-| Prioridad | Acción | Impacto esperado |
-|-----------|--------|-----------------|
-| Alta | Cambiar KPI de "posición final" a "puntos por millón invertido" | Mejor asignación de presupuesto |
-| Media | Auditar fichajes post-2020 por ROI real | Identificar $150M en inversiones subóptimas |
-| Baja | Implementar modelo predictivo de rendimiento | Anticipar Impacto de decisiones de fichaje |
-
----
-
-## 6. Reproducibilidad y Entorno Tecnico
-
-Este estudio esta disenado para ser completamente reproducible. El entorno tecnico y los comandos exactos se documentan a continuacion.
-
-### Entorno de Desarrollo
-
-| Componente | Especificacion |
-|------------|----------------|
-| **Lenguaje** | Python 3.9+ |
-| **Frontend** | JavaScript/Plotly.js (desplegado en GitHub Pages) |
-| **Data** | Pandas, NumPy, SciPy |
-| **ML** | Scikit-learn (simulador predictivo) |
-| **Testing** | Pytest, Pytest-cov |
-| **Lint** | Ruff |
-| **CI/CD** | GitHub Actions (matrix 3.9-3.13) |
-| **Licencia** | MIT |
-
-### Comandos de Reproduccion
+## How to run
 
 ```bash
-# Clonar repositorio
 git clone https://github.com/alvarosalinaso/manchester-united-analisis.git
 cd manchester-united-analisis
-
-# Crear entorno virtual
 python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# Linux/macOS
 source .venv/bin/activate
-
-# Instalar dependencias
 pip install -r requirements.txt
-# Para desarrollo (linters, tests)
-pip install -e ".[dev]"
 
-# Ejecutar tests con cobertura
-pytest
-
-# Verificar calidad de codigo
-ruff check .
-ruff format --check .
-
-# Ejecutar analisis causal
 python src/causal_inference.py
-
-# Ejecutar analisis de cohortes
 python src/cohort_analysis.py
-
-# Generar datos para visualizaciones
-python -c "
-from manutd_analysis.data import load_data
-from manutd_analysis.analysis import manager_summary
-import json
-df = load_data()
-mgr = manager_summary(df)
-data = {'seasons': df.to_dict('records'), 'manager_summary': mgr.to_dict('records')}
-with open('../portfolio-web/public/data/manchester-united.json', 'w') as f:
-    json.dump(data, f, indent=2)
-"
+pytest
 ```
 
-### Estructura del Repositorio
+---
+
+## Project structure
 
 ```
 manchester-united-analisis/
-├── src/manutd_analysis/   # Paquete principal
-│   ├── data.py            # Carga y limpieza
-│   ├── analysis.py        # Metricas y modelos
-│   └── plots.py           # Visualizaciones
-├── src/causal_inference.py # Inferencia causal (DiD)
-├── src/cohort_analysis.py  # Analisis de cohortes y retencion
-├── src/statistical_tests.py # Tests estadisticos
-├── tests/                 # Tests unitarios (Pytest)
-├── .github/workflows/     # CI (lint + matrix de tests + coverage)
-├── assets/figures/        # Graficos generados
-├── pyproject.toml         # Configuracion (build, ruff, pytest, coverage)
-└── requirements.txt       # Dependencias de runtime
+├── src/manutd_analysis/     # Main package (data, analysis, plots)
+├── src/causal_inference.py  # DiD + placebo test
+├── src/cohort_analysis.py   # Retention by manager era
+├── tests/                   # Unit tests
+└── requirements.txt
 ```
 
-Distribuido bajo la licencia MIT. Copyright 2026 Alvaro Salinas.
+---
+
+> **Álvaro Salinas Ortiz**
+> [LinkedIn](https://www.linkedin.com/in/alvaro-salinas-ortiz) | [Portfolio](https://alvarosalinaso.github.io/portfolio-web/)
