@@ -142,6 +142,20 @@ Interactividad multinivel para exploración de datos y presentación ejecutiva.
 
 ---
 
+## Recomendación Ejecutiva
+
+- La inversión no correlaciona con resultados (r significativo pero débil)
+- Priorizar ROI sobre gasto bruto en fichajes
+- Evaluar rendimiento por encima de posición en tabla
+
+| Prioridad | Acción | Impacto esperado |
+|-----------|--------|-----------------|
+| Alta | Cambiar KPI de "posición final" a "puntos por millón invertido" | Mejor asignación de presupuesto |
+| Media | Auditar fichajes post-2020 por ROI real | Identificar $150M en inversiones subóptimas |
+| Baja | Implementar modelo predictivo de rendimiento | Anticipar Impacto de decisiones de fichaje |
+
+---
+
 ## 6. Reproducibilidad y Entorno Tecnico
 
 Este estudio esta disenado para ser completamente reproducible. El entorno tecnico y los comandos exactos se documentan a continuacion.
