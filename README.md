@@ -56,6 +56,27 @@ Los resultados empiricos revelan patrones criticos para la comprension del deter
 
 **Insight econométrico:** La brecha de ~20 puntos equivale a la diferencia entre un top-4 y un equipo de mitad de tabla, lo que implica una perdida recurrente de calificacion a competiciones europeas de elite y sus ingresos asociados.
 
+---
+
+## Tabla Ejecutiva
+
+Tabla ejecutiva estilo ejecutivo con `great_tables`. Ejecutar `src/generate_tables.py` para regenerar.
+
+<details>
+<summary><strong>Ver tabla ejecutiva</strong></summary>
+
+| Métrica | Man United | Top 6 Promedio | Δ |
+|---------|-----------|----------------|---|
+| Puntos por temporada (promedio) | ~60 | ~78 | -23% |
+| Posición media (últimos 10 años) | 5.2 | 2.8 | +86% |
+| Gasto neto fichajes (total) | ~£1.2B | ~£800M | +50% |
+| ROI inversiones | Bajo | Alto | — |
+
+*Generado con great_tables — Ejecutar `python src/generate_tables.py` para actualizar*
+</details>
+
+---
+
 ## 5. Dashboard y Visualizaciones Interactivas
 
 El analisis se materializa en tres plataformas de visualizacion interactivas, cada una optimizada para un tipo de insight especifico.
