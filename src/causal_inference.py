@@ -31,7 +31,10 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         print("[CAUSAL] pandas/statsmodels no instalados")
         return {}
 
-    df = pd.read_csv(data_dir / "analisis_united_2014_2024.csv", encoding="utf-8")
+    csv_path = data_dir / "analisis_united_2014_2024.csv"
+    if not csv_path.exists():
+        csv_path = data_dir.parent / "analisis_united_2014_2024.csv"
+    df = pd.read_csv(csv_path, encoding="utf-8")
     results = {}
 
     # Identify managerial changes
