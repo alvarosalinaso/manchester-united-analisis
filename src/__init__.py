@@ -1,0 +1,1 @@
+"""manutd_analysis package."""
