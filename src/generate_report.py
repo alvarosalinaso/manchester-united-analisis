@@ -19,6 +19,10 @@ REPORT_TEMPLATE = """# {title}
 
 {abstract}
 
+## Key Insights (resumen ejecutivo)
+
+{insights}
+
 ## 1. Introducción
 
 {introduction}
@@ -71,6 +75,12 @@ def generate_report(
         date=datetime.now().strftime("%Y-%m-%d"),
         repo=output_dir.parent.name if output_dir.parent.name != "data" else "portfolio",
         abstract=sections.get("abstract", "Análisis exploratorio y estadístico de datos."),
+        insights=sections.get(
+            "insights",
+            "- **Problema:** rendimiento irregular difícil de comparar entre entrenadores.\n"
+            "- **Metodología:** ETL reproducible + tests + inferencia causal y cohortes.\n"
+            "- **Decisión:** qué perfiles de entrenador rinden más por punto/gol.",
+        ),
         introduction=sections.get("introduction", "Este estudio presenta un análisis de datos."),
         methodology=sections.get("methodology", "Se utilizó Python con librerías estándar."),
         results=sections.get("results", "Los resultados se presentan a continuación."),
@@ -96,6 +106,11 @@ def build_sections(results: dict) -> dict:
         "abstract": "Se presenta un análisis integral que combina métodos estadísticos clásicos, machine learning y visualización interactiva para extraer insights accionables de datos reales.",
         "introduction": "El análisis de datos se ha convertido en una herramienta fundamental para la toma de decisiones informadas.",
         "methodology": "Se employaron las siguientes técnicas:\n- Estadística descriptiva e inferencial\n- Machine learning (clustering, clasificación)\n- Análisis de series temporales\n- Visualización interactiva",
+        "insights": (
+            "- **Problema:** ¿qué entrenadores sacaron más rendimiento con menos recursos?\n"
+            "- **Metodología:** series por temporada (PPG, brecha, eficiencia) + DiD y cohortes.\n"
+            "- **Decisión:** priorizar estabilidad técnica; el costo de la transición se cuantifica en puntos."
+        ),
         "results": format_results(results),
         "discussion": "Los resultados muestran patrones significativos que respaldan las hipótesis planteadas.",
         "conclusions": "El análisis integral permite tomar decisiones basadas en evidencia.",
