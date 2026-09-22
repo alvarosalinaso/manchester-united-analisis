@@ -1,7 +1,7 @@
 # Arquitectura — manchester-united-analisis
 
 ## Visión general
-Análisis de rendimiento del Manchester United (2014-2024). Datos de Premier League, series temporales por entrenador, causal inference, cohort analysis, visualizaciones matplotlib/seaborn.
+Análisis de rendimiento del Manchester United (2014-2024). Datos de Premier League, series temporales por entrenador, comparación descriptiva before/after, cohort analysis, visualizaciones matplotlib/seaborn.
 
 ## Componentes principales
 
@@ -21,7 +21,7 @@ Análisis de rendimiento del Manchester United (2014-2024). Datos de Premier Lea
   - `graficar_eficiencia_y_brecha()` — Scatter eficiencia vs brecha
   - `graficar_ppg_historico()` — Serie temporal PPG
   - `graficar_rentabilidad_ofensiva()` — GF/GA vs puntos
-- `causal_inference.py` — run_causal_analysis
+- `causal_inference.py` — run_causal_analysis (before/after descriptivo, no causal)
 - `cohort_analysis.py` — run_cohort_analysis
 - `statistical_tests.py` — run_statistical_tests
 - `generate_tables.py` — generate

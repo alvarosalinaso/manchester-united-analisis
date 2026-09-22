@@ -16,7 +16,7 @@ ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería
 
 **P1 (Competitive gap):** How many points per season does United trail the champion by on average?
 
-**P2 (Cost of instability):** How much has United spent on firing managers in severance packages?
+**P2 (Cost of instability):** How much has United spent on firing managers in severance packages? *(Not computed in this repo — no sourced figure is claimed.)*
 
 **P3 (Manager efficiency):** Which manager got the most points per game relative to the squad available?
 
@@ -27,13 +27,13 @@ ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería
 ```
 data.py → load PL CSV data
 analysis.py → KPIs, gap calculation, manager efficiency
-causal_inference.py → Difference-in-Differences on managerial changes + placebo test
+causal_inference.py → descriptive before/after on managerial changes + placebo test
 cohort_analysis.py → retention by manager era
 ```
 
 ### Key methods
 
-- **Difference-in-Differences (DiD):** Estimates the causal effect of sacking a manager on subsequent performance, with placebo testing
+- **Before/after comparison:** Descriptive pre/post points around each managerial change (NOT causal — no control group), with placebo testing
 - **Cohort analysis:** Player retention and squad stability across manager eras
 - **OLS regression:** Relationship between managerial tenure and performance
 
@@ -44,7 +44,6 @@ cohort_analysis.py → retention by manager era
 | Metric | Value | What it means |
 |--------|-------|---------------|
 | Average gap to champion | ~20 pts/season | Consistently outside title race |
-| Manager severance cost | ~£32M | Money spent firing people |
 | Best manager (pts/game) | Mourinho (1.97) | Got most from available squad |
 | Worst manager (pts/game) | Ten Hag (1.78) | Underperformed relative to investment |
 
@@ -93,7 +92,7 @@ pytest
 ```
 manchester-united-analisis/
 ├── src/manutd_analysis/     # Main package (data, analysis, plots)
-├── src/causal_inference.py  # DiD + placebo test
+├── src/causal_inference.py  # before/after + placebo test
 ├── src/cohort_analysis.py   # Retention by manager era
 ├── tests/                   # Unit tests
 └── requirements.txt

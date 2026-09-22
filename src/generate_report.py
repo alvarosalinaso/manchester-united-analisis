@@ -78,7 +78,7 @@ def generate_report(
         insights=sections.get(
             "insights",
             "- **Problema:** rendimiento irregular difícil de comparar entre entrenadores.\n"
-            "- **Metodología:** ETL reproducible + tests + inferencia causal y cohortes.\n"
+            "- **Metodología:** ETL reproducible + tests + comparación before/after y cohortes.\n"
             "- **Decisión:** qué perfiles de entrenador rinden más por punto/gol.",
         ),
         introduction=sections.get("introduction", "Este estudio presenta un análisis de datos."),
@@ -108,7 +108,7 @@ def build_sections(results: dict) -> dict:
         "methodology": "Se employaron las siguientes técnicas:\n- Estadística descriptiva e inferencial\n- Machine learning (clustering, clasificación)\n- Análisis de series temporales\n- Visualización interactiva",
         "insights": (
             "- **Problema:** ¿qué entrenadores sacaron más rendimiento con menos recursos?\n"
-            "- **Metodología:** series por temporada (PPG, brecha, eficiencia) + DiD y cohortes.\n"
+            "- **Metodología:** series por temporada (PPG, brecha, eficiencia) + before/after y cohortes.\n"
             "- **Decisión:** priorizar estabilidad técnica; el costo de la transición se cuantifica en puntos."
         ),
         "results": format_results(results),

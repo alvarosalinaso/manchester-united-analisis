@@ -1,6 +1,12 @@
 """
-Inferencia causal: Efecto del cambio de entrenador en Manchester United.
-Difference-in-Differences (DiD) con synthetic control.
+Comparación descriptiva before/after: cambios de entrenador en Manchester United.
+
+Media de puntos en ventanas pre/post de cada cambio + test placebo de cortes
+aleatorios.
+
+⚠️ NO es Difference-in-Differences ni identificación causal: no hay grupo de
+control ni tendencias paralelas verificables (n de cambios pequeño). Los
+resultados son descriptivos de la forma "antes vs después".
 """
 
 import json
@@ -18,23 +24,24 @@ except ImportError:
 
 def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("data/export")) -> dict:
     """
-    Análisis causal del efecto de cambios de entrenador.
+    Comparación before/after descriptiva en cambios de entrenador.
 
-    Usa Difference-in-Differences comparando:
-    - Grupo tratado: Manchester United bajo nuevo entrenador
-    - Grupo control: Promedio del Top 6 (Arsenal, Chelsea, Liverpool, etc.)
+    Para cada cambio calcula media de puntos en ventana pre y post
+    (sin grupo control: es descriptivo, NO estima un efecto causal).
 
     Returns:
-        dict con estimaciones causales y diagnósticos
+        dict con diferencias pre/post descriptivas y diagnósticos
     """
     if not PANDAS_AVAILABLE:
-        print("[CAUSAL] pandas/statsmodels no instalados")
+        print("[PRE/POST] pandas/statsmodels no instalados")
         return {}
 
     csv_path = data_dir / "analisis_united_2014_2024.csv"
     if not csv_path.exists():
         csv_path = data_dir.parent / "analisis_united_2014_2024.csv"
     df = pd.read_csv(csv_path, encoding="utf-8")
+    # A10: el CSV usa nombres en español; mapear a los esperados por el análisis
+    df = df.rename(columns={"entrenador": "manager", "pts_utd": "points", "año": "season"})
     results = {}
 
     # Identify managerial changes
@@ -44,17 +51,17 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
             if df.iloc[i]["manager"] != df.iloc[i - 1]["manager"]:
                 change_points.append(
                     {
-                        "season": df.iloc[i]["season"],
-                        "from_manager": df.iloc[i - 1]["manager"],
-                        "to_manager": df.iloc[i]["manager"],
+                        "season": int(df.iloc[i]["season"]),
+                        "from_manager": str(df.iloc[i - 1]["manager"]),
+                        "to_manager": str(df.iloc[i]["manager"]),
                         "index": i,
                     }
                 )
 
         results["managerial_changes"] = change_points
-        print(f"[CAUSAL] {len(change_points)} cambios de entrenador detectados")
+        print(f"[PRE/POST] {len(change_points)} cambios de entrenador detectados")
 
-        # DiD estimation for each change
+        # Before/after (pre/post) comparison for each change
         did_results = []
         for cp in change_points:
             idx = cp["index"]
@@ -65,8 +72,8 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
                 pre_mean = pre_window["points"].mean()
                 post_mean = post_window["points"].mean()
 
-                # Simple DiD estimate (ATT)
-                att = post_mean - pre_mean
+                # Diferencia descriptiva post − pre (sin grupo control)
+                delta = post_mean - pre_mean
 
                 # Statistical test
                 if len(pre_window) > 2 and len(post_window) > 2:
@@ -81,41 +88,46 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
                         "to": cp["to_manager"],
                         "pre_points_mean": round(pre_mean, 2),
                         "post_points_mean": round(post_mean, 2),
-                        "att": round(att, 2),
-                        "t_statistic": round(t_stat, 4),
-                        "p_value": round(p_value, 4),
-                        "significant": p_value < 0.05,
-                        "direction": "mejora" if att > 0 else "deterioro",
+                        "delta_points": round(delta, 2),
+                        "t_statistic": round(float(t_stat), 4),
+                        "p_value": round(float(p_value), 4),
+                        "significant": bool(p_value < 0.05),
+                        "direction": "mejora" if delta > 0 else "deterioro",
                     }
                 )
                 print(
-                    f"  {cp['from_manager']} → {cp['to_manager']}: ATT={att:+.1f} pts (p={p_value:.3f})"
+                    f"  {cp['from_manager']} → {cp['to_manager']}: Δ={delta:+.1f} pts (p={p_value:.3f})"
                 )
 
-        results["did_estimates"] = did_results
+        results["before_after_estimates"] = did_results
 
-        # Overall DiD summary
+        # Resumen descriptivo global (no causal)
         if did_results:
-            atts = [d["att"] for d in did_results]
+            deltas = [d["delta_points"] for d in did_results]
             sig_changes = [d for d in did_results if d["significant"]]
-            results["did_summary"] = {
+            results["before_after_summary"] = {
                 "n_changes": len(did_results),
                 "n_significant": len(sig_changes),
-                "mean_att": round(np.mean(atts), 2),
-                "median_att": round(np.median(atts), 2),
-                "best_change": max(did_results, key=lambda x: x["att"]) if did_results else None,
-                "worst_change": min(did_results, key=lambda x: x["att"]) if did_results else None,
+                "mean_delta": round(np.mean(deltas), 2),
+                "median_delta": round(np.median(deltas), 2),
+                "best_change": max(did_results, key=lambda x: x["delta_points"])
+                if did_results
+                else None,
+                "worst_change": min(did_results, key=lambda x: x["delta_points"])
+                if did_results
+                else None,
+                "note": "Descriptivo before/after sin grupo control — no es un efecto causal",
             }
 
-    # Counterfactual analysis: what if they kept the previous manager?
+    # Proyección de tendencia lineal descriptiva (no contrafactual causal)
     if "points" in df.columns and len(df) >= 5:
         overall_trend = np.polyfit(range(len(df)), df["points"].fillna(0).values, 1)
         counterfactual_2025 = np.polyval(overall_trend, len(df))
 
-        results["counterfactual"] = {
+        results["trend_projection"] = {
             "trend_slope": round(overall_trend[0], 3),
-            "counterfactual_2025_points": round(counterfactual_2025, 1),
-            "actual_2025_points": round(df["points"].iloc[-1], 1)
+            "projected_2025_points": round(counterfactual_2025, 1),
+            "actual_2025_points": round(float(df["points"].iloc[-1]), 1)
             if pd.notna(df["points"].iloc[-1])
             else None,
             "interpretation": "La tendencia sugiere mejora/deterioro"
@@ -125,33 +137,33 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
 
     # Placebo test: random assignment
     if "points" in df.columns:
-        real_att = (
-            results.get("did_estimates", [{}])[0].get("att", 0)
-            if results.get("did_estimates")
+        real_delta = (
+            results.get("before_after_estimates", [{}])[0].get("delta_points", 0)
+            if results.get("before_after_estimates")
             else 0
         )
-        placebo_atts = []
+        placebo_deltas = []
         for _ in range(1000):
             random_idx = np.random.randint(1, len(df) - 1)
             pre = df.iloc[max(0, random_idx - 3) : random_idx]["points"].dropna()
             post = df.iloc[random_idx : min(len(df), random_idx + 3)]["points"].dropna()
             if len(pre) > 0 and len(post) > 0:
-                placebo_atts.append(post.mean() - pre.mean())
+                placebo_deltas.append(post.mean() - pre.mean())
 
-        if placebo_atts:
-            p_placebo = np.mean([abs(a) >= abs(real_att) for a in placebo_atts])
+        if placebo_deltas:
+            p_placebo = np.mean([abs(a) >= abs(real_delta) for a in placebo_deltas])
             results["placebo_test"] = {
                 "n_simulations": 1000,
-                "p_value_placebo": round(p_placebo, 4),
-                "significant": p_placebo < 0.05,
-                "interpretation": "Efecto causal robusto"
+                "p_value_placebo": round(float(p_placebo), 4),
+                "significant": bool(p_placebo < 0.05),
+                "interpretation": "Δ pre/post mayor que el 95% de cortes aleatorios (descriptivo, no causal)"
                 if p_placebo < 0.05
-                else "No se puede descartar efecto por azar",
+                else "Δ pre/post no se distingue de cortes aleatorios (descriptivo)",
             }
-            print(f"[CAUSAL] Placebo test: p={p_placebo:.4f}")
+            print(f"[PRE/POST] Placebo test: p={p_placebo:.4f}")
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    with open(output_dir / "causal_analysis.json", "w", encoding="utf-8") as f:
+    with open(output_dir / "before_after_analysis.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
     return results

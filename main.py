@@ -55,14 +55,14 @@ def main():
     graficar_eficiencia_y_brecha(df)
     graficar_rentabilidad_ofensiva(df)
 
-    # Inferencia causal
-    print("\n--- 🔬 INFERENCIA CAUSAL (DiD) ---")
+    # Comparación descriptiva pre/post
+    print("\n--- 🔬 COMPARACIÓN PRE/POST (before/after, descriptivo) ---")
     causal = run_causal_analysis()
-    if causal and "did_summary" in causal:
-        summary = causal["did_summary"]
+    if causal and "before_after_summary" in causal:
+        summary = causal["before_after_summary"]
         print(f"  Cambios analizados: {summary['n_changes']}")
         print(f"  Cambios significativos: {summary['n_significant']}")
-        print(f"  ATT promedio: {summary['mean_att']:+.1f} pts")
+        print(f"  Δ puntos promedio: {summary['mean_delta']:+.1f} pts")
 
     # Análisis de cohortes
     print("\n--- 📊 ANÁLISIS DE COHORTES ---")
