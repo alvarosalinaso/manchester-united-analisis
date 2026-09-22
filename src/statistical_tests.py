@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 try:
-    import numpy as np
     import pandas as pd
     from scipy import stats
 

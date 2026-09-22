@@ -4,20 +4,22 @@ import pandas as pd
 import pytest
 
 from manutd_analysis.analysis import (
+    _validar_columnas,
     analizar_eficiencia,
     analizar_estabilidad,
     calcular_costo_inestabilidad,
     resumen_por_entrenador,
-    _validar_columnas,
 )
 
 
 def test_analizar_eficiencia():
     """Test analizar_eficiencia returns correct series."""
-    df = pd.DataFrame({
-        "entrenador": ["Moyes", "Van Gaal", "Mourinho", "Moyes"],
-        "pts_por_gol": [1.5, 2.0, 1.8, 1.6],
-    })
+    df = pd.DataFrame(
+        {
+            "entrenador": ["Moyes", "Van Gaal", "Mourinho", "Moyes"],
+            "pts_por_gol": [1.5, 2.0, 1.8, 1.6],
+        }
+    )
     result = analizar_eficiencia(df)
     assert isinstance(result, pd.Series)
     assert len(result) == 3  # 3 unique managers
@@ -34,13 +36,15 @@ def test_analizar_eficiencia_invalid_columns():
 
 def test_analizar_estabilidad():
     """Test analizar_estabilidad returns correct comparison."""
-    df = pd.DataFrame({
-        "entrenador": ["Moyes", "Van Gaal", "Mourinho/Solskjaer", "Solskjaer"],
-        "pts_utd": [60, 70, 65, 68],
-        "brecha_puntos": [20, 15, 18, 12],
-        "gf_utd": [60, 65, 62, 66],
-        "ppg": [1.6, 1.8, 1.7, 1.8],
-    })
+    df = pd.DataFrame(
+        {
+            "entrenador": ["Moyes", "Van Gaal", "Mourinho/Solskjaer", "Solskjaer"],
+            "pts_utd": [60, 70, 65, 68],
+            "brecha_puntos": [20, 15, 18, 12],
+            "gf_utd": [60, 65, 62, 66],
+            "ppg": [1.6, 1.8, 1.7, 1.8],
+        }
+    )
     result = analizar_estabilidad(df)
     assert isinstance(result, pd.DataFrame)
     assert result.shape == (2, 4)
@@ -50,10 +54,13 @@ def test_analizar_estabilidad():
 
 def test_calcular_costo_inestabilidad():
     """Test calcular_costo_inestabilidad returns correct difference."""
-    comp = pd.DataFrame({
-        "pts_utd": [70, 60],
-        "brecha_puntos": [15, 20],
-    }, index=["Estable (1 Técnico)", "Transición (Relevo)"])
+    comp = pd.DataFrame(
+        {
+            "pts_utd": [70, 60],
+            "brecha_puntos": [15, 20],
+        },
+        index=["Estable (1 Técnico)", "Transición (Relevo)"],
+    )
     result = calcular_costo_inestabilidad(comp)
     assert result == 10.0
 
@@ -67,15 +74,17 @@ def test_calcular_costo_inestabilidad_missing_key():
 
 def test_resumen_por_entrenador():
     """Test resumen_por_entrenador returns correct summary."""
-    df = pd.DataFrame({
-        "entrenador": ["Moyes", "Van Gaal", "Mourinho", "Moyes"],
-        "año": [2014, 2015, 2016, 2014],
-        "pts_utd": [60, 70, 65, 62],
-        "gf_utd": [60, 65, 62, 61],
-        "ppg": [1.6, 1.8, 1.7, 1.6],
-        "pts_por_gol": [1.5, 2.0, 1.8, 1.6],
-        "brecha_puntos": [20, 15, 18, 19],
-    })
+    df = pd.DataFrame(
+        {
+            "entrenador": ["Moyes", "Van Gaal", "Mourinho", "Moyes"],
+            "año": [2014, 2015, 2016, 2014],
+            "pts_utd": [60, 70, 65, 62],
+            "gf_utd": [60, 65, 62, 61],
+            "ppg": [1.6, 1.8, 1.7, 1.6],
+            "pts_por_gol": [1.5, 2.0, 1.8, 1.6],
+            "brecha_puntos": [20, 15, 18, 19],
+        }
+    )
     result = resumen_por_entrenador(df)
     assert isinstance(result, pd.DataFrame)
     assert len(result) == 3  # 3 unique managers
