@@ -3,8 +3,6 @@ Manchester United Performance Analysis (2014-2024)
 Punto de entrada principal del proyecto.
 """
 
-from causal_inference import run_causal_analysis
-from cohort_analysis import run_cohort_analysis
 from manutd_analysis.analysis import (
     analizar_eficiencia,
     analizar_estabilidad,
@@ -15,6 +13,11 @@ from manutd_analysis.plots import (
     graficar_eficiencia_y_brecha,
     graficar_rentabilidad_ofensiva,
 )
+from src.causal_inference import run_causal_analysis
+from src.cohort_analysis import run_cohort_analysis
+from src.generate_report import generate_report
+from src.generate_tables import generate as generate_exec_tables
+from src.statistical_tests import run_statistical_tests
 
 
 def imprimir_conclusiones(df):
@@ -74,18 +77,12 @@ def main():
         print(f"  Tasa de rotación: {rs['turnover_rate']} gestores/década")
 
     # Statistical tests
-    from src.statistical_tests import run_statistical_tests
-
     run_statistical_tests()
 
     # Generate executive tables
-    from src.generate_tables import generate as generate_exec_tables
-
     generate_exec_tables()
 
     # Generate paper report
-    from src.generate_report import generate_report
-
     generate_report()
 
     # Conclusiones

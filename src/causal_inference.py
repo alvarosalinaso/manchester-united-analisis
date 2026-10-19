@@ -12,6 +12,8 @@ resultados son descriptivos de la forma "antes vs después".
 import json
 from pathlib import Path
 
+from src.json_utils import json_default
+
 try:
     import numpy as np
     import pandas as pd
@@ -164,7 +166,7 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
 
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / "before_after_analysis.json", "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        json.dump(results, f, ensure_ascii=False, indent=2, default=json_default)
 
     return results
 

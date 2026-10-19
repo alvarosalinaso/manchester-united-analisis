@@ -6,6 +6,8 @@ Analiza retención de jugadores y estabilidad de plantillas por era de entrenado
 import json
 from pathlib import Path
 
+from src.json_utils import json_default
+
 try:
     import numpy as np
     import pandas as pd
@@ -33,6 +35,15 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
     if not csv_path.exists():
         csv_path = data_dir.parent / "analisis_united_2014_2024.csv"
     df = pd.read_csv(csv_path, encoding="utf-8")
+    # El CSV usa nombres en español; mapear a los esperados por el análisis
+    df = df.rename(
+        columns={
+            "entrenador": "manager",
+            "pts_utd": "points",
+            "pos_utd": "position",
+            "año": "season",
+        }
+    )
     results = {}
 
     if "manager" not in df.columns:
@@ -156,7 +167,7 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
     # Save
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / "cohort_analysis.json", "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        json.dump(results, f, ensure_ascii=False, indent=2, default=json_default)
 
     if cohort_data:
         print(f"[COHORT] {len(cohort_data)} cohortes analizadas")

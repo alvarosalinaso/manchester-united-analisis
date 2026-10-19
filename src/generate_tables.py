@@ -7,6 +7,15 @@ import pandas as pd
 
 def generate():
     df = pd.read_csv("analisis_united_2014_2024.csv", encoding="utf-8")
+    # El CSV usa nombres en español; mapear a los esperados por el groupby
+    df = df.rename(
+        columns={
+            "entrenador": "manager",
+            "pts_utd": "points",
+            "pos_utd": "position",
+            "año": "season",
+        }
+    )
     summary = (
         df.groupby("manager")
         .agg(

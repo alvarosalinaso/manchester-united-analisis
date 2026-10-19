@@ -3,6 +3,8 @@
 import json
 from pathlib import Path
 
+from src.json_utils import json_default
+
 try:
     import pandas as pd
     from scipy import stats
@@ -34,7 +36,7 @@ def run_statistical_tests(
             "r": round(r, 4),
             "r_squared": round(r**2, 4),
             "p_value": round(p, 6),
-            "significant": p < 0.05,
+            "significant": bool(p < 0.05),
             "n_observations": len(valid),
         }
         print(f"[STATS] Pearson brecha: r={r:.3f}, p={p:.4f}")
@@ -49,7 +51,7 @@ def run_statistical_tests(
             "h0": "No hay diferencia de puntos entre temporadas de transicion y normales",
             "t_statistic": round(t, 4),
             "p_value": round(p, 6),
-            "significant": p < 0.05,
+            "significant": bool(p < 0.05),
             "transicion_mean": round(transicion.mean(), 2),
             "normal_mean": round(normal.mean(), 2),
         }
@@ -65,7 +67,7 @@ def run_statistical_tests(
             "h0": "Top 4 no tiene mas puntos que el resto",
             "u_statistic": round(u, 4),
             "p_value": round(p_mw, 6),
-            "significant": p_mw < 0.05,
+            "significant": bool(p_mw < 0.05),
             "top4_median": round(top4.median(), 2),
             "resto_median": round(resto.median(), 2),
         }
@@ -81,12 +83,12 @@ def run_statistical_tests(
             "r": round(r2, 4),
             "r_squared": round(r2**2, 4),
             "p_value": round(p2, 6),
-            "significant": p2 < 0.05,
+            "significant": bool(p2 < 0.05),
             "n_observations": len(valid2),
         }
         print(f"[STATS] Pearson eficiencia: r={r2:.3f}, p={p2:.4f}")
 
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / "statistical_tests.json", "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        json.dump(results, f, ensure_ascii=False, indent=2, default=json_default)
     return results
