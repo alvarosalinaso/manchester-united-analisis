@@ -15,6 +15,7 @@ from manutd_analysis.plots import (
 )
 from src.causal_inference import run_causal_analysis
 from src.cohort_analysis import run_cohort_analysis
+from src.findings import sync_findings
 from src.generate_report import generate_report
 from src.generate_tables import generate as generate_exec_tables
 from src.statistical_tests import run_statistical_tests
@@ -84,6 +85,9 @@ def main():
 
     # Generate paper report
     generate_report()
+
+    # Sincroniza hallazgos en README.md y dashboard.html
+    sync_findings()
 
     # Conclusiones
     imprimir_conclusiones(df)
