@@ -1,6 +1,7 @@
 """
-Análisis de cohortes y retención — Manchester United.
-Analiza retención de jugadores y estabilidad de plantillas por era de entrenador.
+Análisis de cohortes por era de entrenador — Manchester United.
+Analiza tenencia, rendimiento y estabilidad de puntos por era de entrenador.
+(no hay datos de jugadores: no se analiza retención de plantel)
 """
 
 import json
@@ -22,10 +23,10 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
     Análisis de cohortes por era de entrenador.
 
     Cohorts: cada entrenador define una cohorte
-    Métricas: retención de jugadores, rendimiento acumulado, estabilidad
+    Métricas: tenencia, rendimiento acumulado, estabilidad de puntos
 
     Returns:
-        dict con análisis de cohortes y retención
+        dict con análisis de cohortes y tenencia
     """
     if not PANDAS_AVAILABLE:
         print("[COHORT] pandas no instalado")
@@ -81,7 +82,7 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
             cohort["avg_position"] = round(mgr_df["position"].mean(), 1)
             cohort["best_position"] = int(mgr_df["position"].min())
 
-        # Retention metric: consistency (lower std = more stable)
+        # Tenure metric: consistency (lower std = more stable)
         if "points_std" in cohort:
             cohort["stability_score"] = round(1 / (1 + cohort["points_std"]), 3)
 
@@ -92,13 +93,13 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
 
     results["manager_cohorts"] = cohort_data
 
-    # Retention analysis: who stayed longest?
+    # Tenure analysis: who stayed longest?
     if cohort_data:
         longest = max(cohort_data, key=lambda x: x["tenure_seasons"])
         best = max(cohort_data, key=lambda x: x.get("avg_points", 0))
         most_stable = max(cohort_data, key=lambda x: x.get("stability_score", 0))
 
-        results["retention_summary"] = {
+        results["tenure_summary"] = {
             "longest_tenure": {"manager": longest["manager"], "seasons": longest["tenure_seasons"]},
             "best_performance": {
                 "manager": best["manager"],
@@ -114,7 +115,7 @@ def run_cohort_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
             "turnover_rate": round(len(cohort_data) / 10, 2),  # managers per decade
         }
 
-    # Season-over-season retention (performance trajectory)
+    # Season-over-season performance trajectory
     if "points" in df.columns and "season" in df.columns:
         df_sorted = df.sort_values("season")
         df_sorted["points_change"] = df_sorted["points"].diff()

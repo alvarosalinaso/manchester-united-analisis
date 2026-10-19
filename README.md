@@ -6,9 +6,9 @@
 
 ## What is this?
 
-EN: Everyone has an opinion about Manchester United's decline. I wanted to quantify it. This project uses 32 seasons of Premier League data to measure the institutional instability, the gap with champions, and whether any manager actually got good results relative to the squad.
+EN: Everyone has an opinion about Manchester United's decline. I wanted to quantify it. This project uses 32 seasons of Premier League data to measure the institutional instability, the gap with champions, and how each manager performed in points per game.
 
-ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería cuantificarlo. Este proyecto usa 32 temporadas de Premier League para medir la inestabilidad institucional, la brecha con los campeones, y si algún entrenador realmente obtuvo buenos resultados relativos al plantel.
+ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería cuantificarlo. Este proyecto usa 32 temporadas de Premier League para medir la inestabilidad institucional, la brecha con los campeones, y cómo rindió cada entrenador en puntos por partido.
 
 ---
 
@@ -18,7 +18,7 @@ ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería
 
 **P2 (Cost of instability):** How much has United spent on firing managers in severance packages? *(Not computed in this repo — no sourced figure is claimed.)*
 
-**P3 (Manager efficiency):** Which manager got the most points per game relative to the squad available?
+**P3 (Manager efficiency):** Which manager averaged the most points per game?
 
 ---
 
@@ -28,14 +28,13 @@ ES: Todos tienen una opinión sobre el declive del Manchester United. Yo quería
 data.py → load PL CSV data
 analysis.py → KPIs, gap calculation, manager efficiency
 causal_inference.py → descriptive before/after on managerial changes + placebo test
-cohort_analysis.py → retention by manager era
+cohort_analysis.py → manager tenure & points stability by era
 ```
 
 ### Key methods
 
 - **Before/after comparison:** Descriptive pre/post points around each managerial change (NOT causal — no control group), with placebo testing
-- **Cohort analysis:** Player retention and squad stability across manager eras
-- **OLS regression:** Relationship between managerial tenure and performance
+- **Cohort analysis:** Manager tenure and points stability across eras
 
 ---
 
@@ -63,14 +62,6 @@ The <!-- FIND:brecha -->23.1<!-- /FIND:brecha -->-point gap is the difference be
 </div>
 </details>
 
-<details>
-<summary><strong>Observable — Correlation analysis</strong></summary>
-
-<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
-  <iframe src="https://observablehq.com/@alvarosalinaso/manutd-correlation" title="Spending vs Points" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen></iframe>
-</div>
-</details>
-
 ---
 
 ## How to run
@@ -95,7 +86,7 @@ pytest
 manchester-united-analisis/
 ├── src/manutd_analysis/     # Main package (data, analysis, plots)
 ├── src/causal_inference.py  # before/after + placebo test
-├── src/cohort_analysis.py   # Retention by manager era
+├── src/cohort_analysis.py   # Manager tenure & stability by era
 ├── tests/                   # Unit tests
 └── requirements.txt
 ```

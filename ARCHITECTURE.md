@@ -10,7 +10,6 @@ Análisis de rendimiento del Manchester United (2014-2024). Datos de Premier Lea
 - `analisis_united_2014_2024.csv` — Dataset filtrado United
 - `dw_benchmark_pl.csv` — Benchmarks
 - `flourish_bump_manager.csv` — Datos para bump charts
-- `observable_correlacion.csv` — Correlaciones
 
 ### Código (src/manutd_analysis/)
 - `data.py`:

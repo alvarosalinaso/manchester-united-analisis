@@ -71,8 +71,8 @@ def main():
     # Análisis de cohortes
     print("\n--- 📊 ANÁLISIS DE COHORTES ---")
     cohort = run_cohort_analysis()
-    if cohort and "retention_summary" in cohort:
-        rs = cohort["retention_summary"]
+    if cohort and "tenure_summary" in cohort:
+        rs = cohort["tenure_summary"]
         print(f"  Gestores analizados: {rs['n_managers']}")
         print(f"  Tenencia promedio: {rs['avg_tenure']} temporadas")
         print(f"  Tasa de rotación: {rs['turnover_rate']} gestores/década")
