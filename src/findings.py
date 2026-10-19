@@ -14,6 +14,7 @@ import pandas as pd
 
 from manutd_analysis.analysis import analizar_estabilidad, calcular_costo_inestabilidad
 from manutd_analysis.data import cargar_y_filtrar_datos
+from src.benchmark_pl import export_benchmark, render_benchmark_table
 
 
 def compute_findings(df: Optional[pd.DataFrame] = None) -> dict:
@@ -67,6 +68,7 @@ def _replace_span(text: str, key: str, value: str) -> str:
 def sync_findings(data_dir: Path = Path(".")) -> dict:
     """Escribe key_findings.json y actualiza README.md y dashboard.html."""
     findings = compute_findings()
+    bench = export_benchmark(data_dir)
 
     output_dir = data_dir / "data" / "export"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -78,6 +80,8 @@ def sync_findings(data_dir: Path = Path(".")) -> dict:
         text = readme_path.read_text(encoding="utf-8")
         text = _replace_span(text, "table", _findings_table(findings))
         text = _replace_span(text, "brecha", f"{findings['brecha_media']:.1f}")
+        if "<!-- FIND:bench -->" in text:
+            text = _replace_span(text, "bench", render_benchmark_table(bench))
         readme_path.write_text(text, encoding="utf-8")
 
     dashboard_path = data_dir / "dashboard.html"

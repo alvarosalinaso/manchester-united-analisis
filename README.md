@@ -52,6 +52,42 @@ The <!-- FIND:brecha -->23.1<!-- /FIND:brecha -->-point gap is the difference be
 
 ---
 
+## Benchmark — Premier League sin United
+
+Average points per game of the rest of the Premier League (all 20 teams per season, United excluded), season by season.
+Fuente: `pl-tables-1993-2024.csv` (tablas finales de la Premier League incluidas en el repositorio).
+
+<!-- FIND:bench -->| Season | United PPG | PL avg PPG (sin United) | Δ PPG |
+|--------|------------|--------------------------|-------|
+| 2014 | 1.68 | 1.38 | +0.30 |
+| 2015 | 1.84 | 1.35 | +0.49 |
+| 2016 | 1.74 | 1.34 | +0.40 |
+| 2017 | 1.82 | 1.37 | +0.45 |
+| 2018 | 2.13 | 1.33 | +0.80 |
+| 2019 | 1.74 | 1.39 | +0.35 |
+| 2020 | 1.74 | 1.36 | +0.38 |
+| 2021 | 1.95 | 1.36 | +0.59 |
+| 2022 | 1.53 | 1.38 | +0.15 |
+| 2023 | 1.97 | 1.35 | +0.62 |
+| 2024 | 1.58 | 1.37 | +0.21 |<!-- /FIND:bench -->
+
+---
+
+## Qué mide y qué no
+
+**Mide (2014-2024, 11 temporadas):**
+- Brecha de puntos y de goles vs el campeón de cada temporada.
+- Puntos por partido (PPG) y puntos por gol por entrenador.
+- Comparación descriptiva pre/post de cada cambio de técnico, con test placebo (semilla fija).
+- Benchmark: PPG del United vs media de la Premier League sin United por temporada.
+
+**No mide:**
+- No estima efectos causales de los cambios de técnico (sin grupo de control ni tendencias paralelas).
+- No modela gasto de transferencias, plantilla ni valor de mercado (sin fuente fiable no se inventan cifras).
+- No proyecta resultados futuros.
+
+---
+
 ## Visualizations
 
 <details>
