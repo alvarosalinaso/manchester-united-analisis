@@ -41,9 +41,11 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
         print("[PRE/POST] pandas/statsmodels no instalados")
         return {}
 
-    csv_path = data_dir / "analisis_united_2014_2024.csv"
+    csv_path = data_dir / "data" / "analisis_united_2014_2024.csv"
     if not csv_path.exists():
-        csv_path = data_dir.parent / "analisis_united_2014_2024.csv"
+        csv_path = data_dir / "analisis_united_2014_2024.csv"
+    if not csv_path.exists():
+        csv_path = data_dir.parent / "data" / "analisis_united_2014_2024.csv"
     df = pd.read_csv(csv_path, encoding="utf-8")
     # A10: el CSV usa nombres en español; mapear a los esperados por el análisis
     df = df.rename(columns={"entrenador": "manager", "pts_utd": "points", "año": "season"})

@@ -5,11 +5,12 @@ Análisis de rendimiento del Manchester United (2014-2024). Datos de Premier Lea
 
 ## Componentes principales
 
-### Datos
-- `pl-tables-1993-2024.csv` — Tablas históricas Premier League
-- `analisis_united_2014_2024.csv` — Dataset filtrado United
-- `dw_benchmark_pl.csv` — Benchmarks
-- `flourish_bump_manager.csv` — Datos para bump charts
+### Datos (en `data/`)
+- `data/pl-tables-1993-2024.csv` — Tablas históricas Premier League (20 equipos por temporada)
+- `data/analisis_united_2014_2024.csv` — Dataset filtrado United
+- `data/passing_players_2425.csv` — Exportación FBref de pases 2024-25 (plantel United)
+- `data/dw_benchmark_pl.csv` — Benchmarks
+- `data/flourish_bump_manager.csv` — Datos para bump charts
 
 ### Código (src/manutd_analysis/)
 - `data.py`:
@@ -34,7 +35,7 @@ Análisis de rendimiento del Manchester United (2014-2024). Datos de Premier Lea
 
 ## Flujo de datos
 ```
-pl-tables-1993-2024.csv → data.cargar_y_filtrar_datos → df United
+data/pl-tables-1993-2024.csv → data.cargar_y_filtrar_datos → df United
 df United → plots / causal_inference / cohort_analysis → gráficos + métricas
 ```
 

@@ -41,7 +41,7 @@ def main():
     df = cargar_y_filtrar_datos()
 
     if df is None:
-        print("❌ No se pudieron cargar los datos. Verifica que 'pl-tables-1993-2024.csv' exista.")
+        print("❌ No se encontró 'data/pl-tables-1993-2024.csv'. Verifica que exista.")
         return
 
     print(f"✅ Datos cargados: {len(df)} temporadas analizadas.\n")

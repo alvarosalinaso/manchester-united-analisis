@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from manutd_analysis.data import cargar_y_filtrar_datos
+from manutd_analysis.data import _resolver_ruta, cargar_y_filtrar_datos
 
 # ── Constantes ────────────────────────────────────────────────────────────────
 _EXPORT_DIR = Path("data/export")
@@ -28,13 +28,7 @@ def _crear_dir_export() -> None:
 
 def _cargar_datos_completos() -> pd.DataFrame:
     """Carga los datos completos de la Premier League para benchmarking."""
-    path = Path("pl-tables-1993-2024.csv")
-    try:
-        return pd.read_csv(path)
-    except FileNotFoundError as err:
-        raise FileNotFoundError(
-            "No se encontró 'pl-tables-1993-2024.csv' en la raíz del proyecto."
-        ) from err
+    return pd.read_csv(_resolver_ruta("pl-tables-1993-2024.csv"))
 
 
 def generar_benchmark_pl(df_completo: pd.DataFrame, temporadas: range = range(2014, 2025)) -> Path:

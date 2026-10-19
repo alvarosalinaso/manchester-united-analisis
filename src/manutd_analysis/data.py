@@ -24,16 +24,21 @@ _REQUIRED_COLS = {"team", "season_end_year", "points", "position", "gf", "ga", "
 
 
 def _resolver_ruta(ruta: str) -> Path:
-    """Busca el archivo en CWD y en la raíz del proyecto."""
+    """Busca el archivo en CWD, data/ y la raíz del proyecto."""
+    raiz = Path(__file__).parent.parent.parent  # src/manutd_analysis → project_root
     candidatos = [
         Path(ruta),
         Path.cwd() / ruta,
-        Path(__file__).parent.parent.parent / ruta,  # src/manutd_analysis → project_root
+        Path.cwd() / "data" / ruta,
+        raiz / "data" / Path(ruta).name,
+        raiz / ruta,
     ]
     for c in candidatos:
         if c.exists():
             return c.resolve()
-    raise FileNotFoundError(f"No se encontró '{ruta}'. Colócalo en la raíz del proyecto.")
+    raise FileNotFoundError(
+        f"No se encontró '{ruta}'. Colócalo en data/ o en la raíz del proyecto."
+    )
 
 
 def cargar_y_filtrar_datos(

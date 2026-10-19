@@ -136,6 +136,20 @@ Percentiles are **within the United squad**: FBref blocks automated access to th
 
 ---
 
+## Data & sources
+
+All data lives in `data/`:
+
+| File | Source | Notes |
+|------|--------|-------|
+| `data/pl-tables-1993-2024.csv` | Premier League final tables (FBref-style export) | 20 teams per season; used for gap, PPG and benchmark |
+| `data/analisis_united_2014_2024.csv` | Derived from the PL tables | United-only KPIs 2014-2024 |
+| `data/passing_players_2425.csv` | [FBref](https://fbref.com) export (via [united-passing-efficiency-24-25](https://github.com/alvarosalinaso/united-passing-efficiency-24-25)) | Passing stats, United squad 2024-25 |
+
+FBref data belongs to its providers (Opta) and is used under FBref's terms of use with attribution; it is **not** covered by this repo's MIT license (the code is). The PL tables CSVs are redistributed with the same attribution requirement.
+
+---
+
 ## How to run
 
 ```bash
@@ -145,9 +159,9 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-python src/causal_inference.py
-python src/cohort_analysis.py
-pytest
+python main.py          # pipeline completo (regenera exports y tablas del README)
+python -m src.findings  # solo recalcula hallazgos y sincroniza README/dashboard
+pytest                  # ruff + pytest en verde (gate de cobertura: 65%)
 ```
 
 ---
@@ -156,10 +170,14 @@ pytest
 
 ```
 manchester-united-analisis/
-├── src/manutd_analysis/     # Main package (data, analysis, plots)
-├── src/causal_inference.py  # before/after + placebo test
+├── data/                  # Datos (PL tables, United KPIs, FBref passing)
+├── src/manutd_analysis/   # Main package (data, analysis, plots)
+├── src/findings.py        # Hallazgos → README/dashboard (fuente de verdad)
+├── src/benchmark_pl.py    # PL avg sin United por temporada
+├── src/passing_90.py      # PrgP/90 y KP/90 (mín. 900 min)
+├── src/causal_inference.py  # before/after + placebo test (semilla fija)
 ├── src/cohort_analysis.py   # Manager tenure & stability by era
-├── tests/                   # Unit tests
+├── tests/                 # Unit tests
 └── requirements.txt
 ```
 

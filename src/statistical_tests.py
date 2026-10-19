@@ -20,9 +20,11 @@ def run_statistical_tests(
     if not SCIPY_AVAILABLE:
         return {}
 
-    csv_path = data_dir / "analisis_united_2014_2024.csv"
+    csv_path = data_dir / "data" / "analisis_united_2014_2024.csv"
     if not csv_path.exists():
-        csv_path = data_dir.parent / "analisis_united_2014_2024.csv"
+        csv_path = data_dir / "analisis_united_2014_2024.csv"
+    if not csv_path.exists():
+        csv_path = data_dir.parent / "data" / "analisis_united_2014_2024.csv"
     df = pd.read_csv(csv_path, encoding="utf-8")
     results = {}
 
