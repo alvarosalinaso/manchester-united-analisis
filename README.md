@@ -73,6 +73,40 @@ Fuente: `pl-tables-1993-2024.csv` (tablas finales de la Premier League incluidas
 
 ---
 
+## Pases por 90 minutos (2024-25) — desde united-passing
+
+Progressive passes (PrgP) and key passes (KP) per 90 minutes for United players with **at least 900 minutes**, computed from the FBref export vendored in `data/passing_players_2425.csv` (source: [united-passing-efficiency-24-25](https://github.com/alvarosalinaso/united-passing-efficiency-24-25)).
+
+Percentiles are **within the United squad**: FBref blocks automated access to the full-league passing table, so league-wide percentiles are not computed here (no figures are invented). The pass network and xT are intentionally excluded.
+
+<!-- FIND:passing -->| Jugador | Pos | 90s | PrgP/90 | KP/90 | Pctl PrgP (plantel) | Pctl KP (plantel) |
+|---------|-----|-----|---------|-------|---------------------|-------------------|
+| Bruno Fernandes | MF | 54.7 | 8.46 | 2.47 | 100 | 100 |
+| Lisandro Martínez | DF | 30.0 | 6.13 | 0.53 | 95 | 38 |
+| Casemiro | MF | 31.1 | 5.05 | 1.16 | 90 | 81 |
+| Mason Mount | MF | 10.8 | 4.35 | 0.83 | 86 | 52 |
+| Christian Eriksen | MF | 19.3 | 3.99 | 2.44 | 81 | 95 |
+| Noussair Mazraoui | DF | 49.8 | 3.86 | 0.58 | 76 | 43 |
+| Diogo Dalot | DF | 49.5 | 3.47 | 0.87 | 71 | 60 |
+| Leny Yoro | DF | 22.8 | 3.25 | 0.22 | 64 | 17 |
+| Patrick Dorgu | DF | 16.9 | 3.25 | 1.07 | 64 | 71 |
+| Kobbie Mainoo | MF | 23.0 | 3.17 | 0.87 | 57 | 60 |
+| Victor Lindelöf | DF | 13.7 | 2.85 | 0.22 | 52 | 17 |
+| Amad Diallo | MF,FW | 30.6 | 2.55 | 1.99 | 48 | 90 |
+| Joshua Zirkzee | FW,MF | 25.2 | 2.54 | 0.75 | 43 | 48 |
+| Manuel Ugarte | MF | 32.0 | 2.47 | 0.47 | 38 | 33 |
+| Harry Maguire | DF | 30.9 | 2.36 | 0.42 | 33 | 29 |
+| Matthijs de Ligt | DF | 34.6 | 2.17 | 0.23 | 29 | 24 |
+| Marcus Rashford | FW,MF | 16.6 | 2.05 | 1.08 | 24 | 76 |
+| Alejandro Garnacho | MF,FW | 39.7 | 1.96 | 1.49 | 19 | 86 |
+| Rasmus Højlund | FW | 36.8 | 0.87 | 0.95 | 14 | 67 |
+| André Onana | GK | 50.7 | 0.08 | 0.02 | 10 | 10 |
+| Altay Bayındır | GK | 10.3 | 0.00 | 0.00 | 5 | 5 |<!-- /FIND:passing -->
+
+**Fuente y licencia de los datos:** FBref (temporada 2024-25). Los datos de FBref pertenecen a sus proveedores (Opta) y se usan citando la fuente según los términos de uso de FBref; **no** están cubiertos por la licencia MIT de este repositorio (el código sí lo está).
+
+---
+
 ## Qué mide y qué no
 
 **Mide (2014-2024, 11 temporadas):**
@@ -80,11 +114,13 @@ Fuente: `pl-tables-1993-2024.csv` (tablas finales de la Premier League incluidas
 - Puntos por partido (PPG) y puntos por gol por entrenador.
 - Comparación descriptiva pre/post de cada cambio de técnico, con test placebo (semilla fija).
 - Benchmark: PPG del United vs media de la Premier League sin United por temporada.
+- Pases progresivos y clave por 90 minutos del plantel del United 2024-25 (mín. 900 minutos), con percentiles dentro del plantel.
 
 **No mide:**
 - No estima efectos causales de los cambios de técnico (sin grupo de control ni tendencias paralelas).
 - No modela gasto de transferencias, plantilla ni valor de mercado (sin fuente fiable no se inventan cifras).
 - No proyecta resultados futuros.
+- No calcula percentiles de pase contra toda la Premier (FBref bloquea el acceso automatizado a la tabla completa de la liga; los percentiles publicados son internos del plantel). No incluye red de pases ni xT.
 
 ---
 
