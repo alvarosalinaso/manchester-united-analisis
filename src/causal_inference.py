@@ -23,6 +23,9 @@ try:
 except ImportError:
     PANDAS_AVAILABLE = False
 
+PLACEBO_SEED = 42
+PLACEBO_SIMULATIONS = 1000
+
 
 def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("data/export")) -> dict:
     """
@@ -137,32 +140,47 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
             else "Tendencia estable",
         }
 
-    # Placebo test: random assignment
-    if "points" in df.columns:
-        real_delta = (
-            results.get("before_after_estimates", [{}])[0].get("delta_points", 0)
-            if results.get("before_after_estimates")
-            else 0
-        )
+    # Placebo test: cortes aleatorios con semilla fija, para TODOS los cambios
+    if "points" in df.columns and results.get("before_after_estimates"):
+        rng = np.random.default_rng(PLACEBO_SEED)
         placebo_deltas = []
-        for _ in range(1000):
-            random_idx = np.random.randint(1, len(df) - 1)
+        for _ in range(PLACEBO_SIMULATIONS):
+            random_idx = int(rng.integers(1, len(df) - 1))
             pre = df.iloc[max(0, random_idx - 3) : random_idx]["points"].dropna()
             post = df.iloc[random_idx : min(len(df), random_idx + 3)]["points"].dropna()
             if len(pre) > 0 and len(post) > 0:
-                placebo_deltas.append(post.mean() - pre.mean())
+                placebo_deltas.append(float(post.mean() - pre.mean()))
 
-        if placebo_deltas:
-            p_placebo = np.mean([abs(a) >= abs(real_delta) for a in placebo_deltas])
-            results["placebo_test"] = {
-                "n_simulations": 1000,
-                "p_value_placebo": round(float(p_placebo), 4),
-                "significant": bool(p_placebo < 0.05),
-                "interpretation": "Δ pre/post mayor que el 95% de cortes aleatorios (descriptivo, no causal)"
-                if p_placebo < 0.05
-                else "Δ pre/post no se distingue de cortes aleatorios (descriptivo)",
-            }
-            print(f"[PRE/POST] Placebo test: p={p_placebo:.4f}")
+        per_change = []
+        for est in results["before_after_estimates"]:
+            real_abs = abs(est["delta_points"])
+            p_val = float(np.mean([abs(a) >= real_abs for a in placebo_deltas]))
+            per_change.append(
+                {
+                    "change": f"{est['from']} → {est['to']}",
+                    "season": est["change_season"],
+                    "delta_points": est["delta_points"],
+                    "p_value_placebo": round(p_val, 4),
+                    "significant": bool(p_val < 0.05),
+                }
+            )
+
+        n_signif = sum(1 for c in per_change if c["significant"])
+        results["placebo_test"] = {
+            "seed": PLACEBO_SEED,
+            "n_simulations": PLACEBO_SIMULATIONS,
+            "n_changes_tested": len(per_change),
+            "n_significant": n_signif,
+            "per_change": per_change,
+            "interpretation": (
+                f"Δ pre/post de cada cambio comparado contra {PLACEBO_SIMULATIONS} cortes "
+                f"aleatorios (semilla {PLACEBO_SEED}) — descriptivo, no causal"
+            ),
+        }
+        print(
+            f"[PRE/POST] Placebo test ({len(per_change)} cambios, semilla {PLACEBO_SEED}): "
+            f"{n_signif} significativos"
+        )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / "before_after_analysis.json", "w", encoding="utf-8") as f:
