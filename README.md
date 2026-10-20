@@ -134,6 +134,11 @@ Percentiles are **within the United squad**: FBref blocks automated access to th
 </div>
 </details>
 
+## Captura
+
+TODO: captura de pantalla pendiente — abrir el dashboard local o regenerar las figuras
+del benchmark y capturar la imagen en `assets/`.
+
 ---
 
 ## Data & sources
