@@ -136,8 +136,7 @@ Percentiles are **within the United squad**: FBref blocks automated access to th
 
 ## Captura
 
-TODO: captura de pantalla pendiente — abrir el dashboard local o regenerar las figuras
-del benchmark y capturar la imagen en `assets/`.
+![Figura de eficiencia y brecha Manchester United](assets/screenshot.png)
 
 ---
 
