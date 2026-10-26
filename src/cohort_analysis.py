@@ -1,5 +1,5 @@
 """
-Análisis de cohortes por era de entrenador — Manchester United.
+Análisis de cohortes por era de entrenador, Manchester United.
 Analiza tenencia, rendimiento y estabilidad de puntos por era de entrenador.
 (no hay datos de jugadores: no se analiza retención de plantel)
 """

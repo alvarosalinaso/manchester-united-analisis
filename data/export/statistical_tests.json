@@ -1,0 +1,29 @@
+{
+  "pearson_brecha_puntos_vs_ataque": {
+    "test": "Pearson correlation",
+    "h0": "No correlacion entre brecha de puntos y brecha de ataque",
+    "r": 0.4435,
+    "r_squared": 0.1967,
+    "p_value": 0.171839,
+    "significant": false,
+    "n_observations": 11
+  },
+  "mannwhitney_top4_vs_resto": {
+    "test": "Mann-Whitney U",
+    "h0": "Top 4 no tiene mas puntos que el resto",
+    "u_statistic": 28.0,
+    "p_value": 0.010633,
+    "significant": true,
+    "top4_median": 74.0,
+    "resto_median": 65.0
+  },
+  "pearson_eficiencia_vs_posicion": {
+    "test": "Pearson correlation",
+    "h0": "No correlacion entre eficiencia (pts/gol) y posicion final",
+    "r": -0.1731,
+    "r_squared": 0.03,
+    "p_value": 0.610755,
+    "significant": false,
+    "n_observations": 11
+  }
+}

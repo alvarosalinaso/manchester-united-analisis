@@ -168,7 +168,7 @@ def graficar_ppg_historico(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Pat
             rotation=30,
         )
 
-    ax.set_title("Puntos por Partido (PPG) — Man Utd 2014-2024", fontweight="bold")
+    ax.set_title("Puntos por Partido (PPG), Man Utd 2014-2024", fontweight="bold")
     ax.set_xlabel("Temporada")
     ax.set_ylabel("PPG")
     ax.axhline(

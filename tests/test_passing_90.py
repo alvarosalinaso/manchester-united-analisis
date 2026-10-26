@@ -1,4 +1,4 @@
-"""Tests para src/passing_90.py — pases por 90' con mínimo de 900 minutos."""
+"""Tests para src/passing_90.py, pases por 90' con mínimo de 900 minutos."""
 
 import pandas as pd
 

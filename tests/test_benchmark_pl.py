@@ -1,4 +1,4 @@
-"""Tests para src/benchmark_pl.py — benchmark PL sin United."""
+"""Tests para src/benchmark_pl.py, benchmark PL sin United."""
 
 import pandas as pd
 

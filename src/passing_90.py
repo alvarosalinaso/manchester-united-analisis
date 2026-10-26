@@ -1,10 +1,10 @@
-"""Métricas de pase por 90 minutos (2024-25) — plantel del Manchester United.
+"""Métricas de pase por 90 minutos (2024-25), plantel del Manchester United.
 
 Fuente de datos: `data/passing_players_2425.csv`, exportación de FBref del
 repositorio united-passing-efficiency-24-25 (solo lectura allí).
 
 - Filtro: mínimo 900 minutos jugados (columna `90s` >= 10).
-- Métricas: PrgP/90 (pases progresivos) y KP/90 (pases clave) — columna FBref `PrgP`, no `Prog`.
+- Métricas: PrgP/90 (pases progresivos) y KP/90 (pases clave), columna FBref `PrgP`, no `Prog`.
 - Percentiles: dentro del plantel del United (FBref bloquea el acceso automatizado
   a la tabla completa de la liga; no se inventan percentiles de liga).
 - NO incluye red de pases ni xT.

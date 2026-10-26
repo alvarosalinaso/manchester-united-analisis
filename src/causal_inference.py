@@ -123,7 +123,7 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
                 "worst_change": min(did_results, key=lambda x: x["delta_points"])
                 if did_results
                 else None,
-                "note": "Descriptivo before/after sin grupo control — no es un efecto causal",
+                "note": "Descriptivo before/after sin grupo control, no es un efecto causal",
             }
 
     # Proyección de tendencia lineal descriptiva (no contrafactual causal)
@@ -176,7 +176,7 @@ def run_causal_analysis(data_dir: Path = Path("."), output_dir: Path = Path("dat
             "per_change": per_change,
             "interpretation": (
                 f"Δ pre/post de cada cambio comparado contra {PLACEBO_SIMULATIONS} cortes "
-                f"aleatorios (semilla {PLACEBO_SEED}) — descriptivo, no causal"
+                f"aleatorios (semilla {PLACEBO_SEED}), descriptivo, no causal"
             ),
         }
         print(

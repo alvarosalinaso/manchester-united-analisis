@@ -1,4 +1,4 @@
-"""Tests para src/causal_inference.py — placebo con semilla sobre todos los cambios."""
+"""Tests para src/causal_inference.py, placebo con semilla sobre todos los cambios."""
 
 from src.causal_inference import PLACEBO_SEED, run_causal_analysis
 

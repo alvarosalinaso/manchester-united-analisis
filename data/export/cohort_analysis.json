@@ -1,0 +1,170 @@
+{
+  "manager_cohorts": [
+    {
+      "manager": "Louis van Gaal",
+      "tenure_seasons": 2,
+      "seasons_range": "2015 - 2016",
+      "avg_points": 68.0,
+      "total_points": 136,
+      "best_season_points": 70,
+      "worst_season_points": 66,
+      "points_std": 2.83,
+      "avg_position": 4.5,
+      "best_position": 4,
+      "stability_score": 0.261
+    },
+    {
+      "manager": "José Mourinho",
+      "tenure_seasons": 2,
+      "seasons_range": "2017 - 2018",
+      "avg_points": 75.0,
+      "total_points": 150,
+      "best_season_points": 81,
+      "worst_season_points": 69,
+      "points_std": 8.49,
+      "avg_position": 4.0,
+      "best_position": 2,
+      "stability_score": 0.105
+    },
+    {
+      "manager": "Ole Gunnar Solskjær",
+      "tenure_seasons": 2,
+      "seasons_range": "2020 - 2021",
+      "avg_points": 70.0,
+      "total_points": 140,
+      "best_season_points": 74,
+      "worst_season_points": 66,
+      "points_std": 5.66,
+      "avg_position": 2.5,
+      "best_position": 2,
+      "stability_score": 0.15
+    },
+    {
+      "manager": "Erik ten Hag",
+      "tenure_seasons": 2,
+      "seasons_range": "2023 - 2024",
+      "avg_points": 67.5,
+      "total_points": 135,
+      "best_season_points": 75,
+      "worst_season_points": 60,
+      "points_std": 10.61,
+      "avg_position": 5.5,
+      "best_position": 3,
+      "stability_score": 0.086
+    },
+    {
+      "manager": "David Moyes",
+      "tenure_seasons": 1,
+      "seasons_range": "2014 - 2014",
+      "avg_points": 64.0,
+      "total_points": 64,
+      "best_season_points": 64,
+      "worst_season_points": 64,
+      "points_std": NaN,
+      "avg_position": 7.0,
+      "best_position": 7,
+      "stability_score": NaN
+    },
+    {
+      "manager": "Mourinho / Solskjær",
+      "tenure_seasons": 1,
+      "seasons_range": "2019 - 2019",
+      "avg_points": 66.0,
+      "total_points": 66,
+      "best_season_points": 66,
+      "worst_season_points": 66,
+      "points_std": NaN,
+      "avg_position": 6.0,
+      "best_position": 6,
+      "stability_score": NaN
+    },
+    {
+      "manager": "Solskjær / Rangnick",
+      "tenure_seasons": 1,
+      "seasons_range": "2022 - 2022",
+      "avg_points": 58.0,
+      "total_points": 58,
+      "best_season_points": 58,
+      "worst_season_points": 58,
+      "points_std": NaN,
+      "avg_position": 6.0,
+      "best_position": 6,
+      "stability_score": NaN
+    }
+  ],
+  "tenure_summary": {
+    "longest_tenure": {
+      "manager": "Louis van Gaal",
+      "seasons": 2
+    },
+    "best_performance": {
+      "manager": "José Mourinho",
+      "avg_points": 75.0
+    },
+    "most_stable": {
+      "manager": "Louis van Gaal",
+      "stability": 0.261
+    },
+    "n_managers": 7,
+    "avg_tenure": 1.6,
+    "avg_tenure_industry": 2.5,
+    "turnover_rate": 0.7
+  },
+  "managerial_transitions": [
+    {
+      "season": 2015,
+      "from": "David Moyes",
+      "to": "Louis van Gaal",
+      "points_before": 64,
+      "points_after": 70,
+      "change": 6
+    },
+    {
+      "season": 2017,
+      "from": "Louis van Gaal",
+      "to": "José Mourinho",
+      "points_before": 66,
+      "points_after": 69,
+      "change": 3
+    },
+    {
+      "season": 2019,
+      "from": "José Mourinho",
+      "to": "Mourinho / Solskjær",
+      "points_before": 81,
+      "points_after": 66,
+      "change": -15
+    },
+    {
+      "season": 2020,
+      "from": "Mourinho / Solskjær",
+      "to": "Ole Gunnar Solskjær",
+      "points_before": 66,
+      "points_after": 66,
+      "change": 0
+    },
+    {
+      "season": 2022,
+      "from": "Ole Gunnar Solskjær",
+      "to": "Solskjær / Rangnick",
+      "points_before": 74,
+      "points_after": 58,
+      "change": -16
+    },
+    {
+      "season": 2023,
+      "from": "Solskjær / Rangnick",
+      "to": "Erik ten Hag",
+      "points_before": 58,
+      "points_after": 75,
+      "change": 17
+    }
+  ],
+  "transition_analysis": {
+    "total_transitions": 6,
+    "improvements": 3,
+    "declines": 3,
+    "improvement_rate": 50.0,
+    "avg_change": -0.83
+  }
+}

@@ -35,7 +35,7 @@ def generate():
 
         tbl = (
             GT(summary.reset_index())
-            .tab_header(title="Rendimiento por Entrenador — Man United 2014-2024")
+            .tab_header(title="Rendimiento por Entrenador, Man United 2014-2024")
             .tab_source_note("Fuente: FBref/Transfermarkt | Análisis: Álvaro Salinas")
         )
         Path("assets").mkdir(exist_ok=True)
@@ -45,7 +45,7 @@ def generate():
         # Fallback: pandas styling
         styled = (
             summary.reset_index()
-            .style.set_caption("Rendimiento por Entrenador — Man United 2014-2024")
+            .style.set_caption("Rendimiento por Entrenador, Man United 2014-2024")
             .set_table_styles(
                 [
                     {

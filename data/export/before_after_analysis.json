@@ -1,0 +1,202 @@
+{
+  "managerial_changes": [
+    {
+      "season": 2015,
+      "from_manager": "David Moyes",
+      "to_manager": "Louis van Gaal",
+      "index": 1
+    },
+    {
+      "season": 2017,
+      "from_manager": "Louis van Gaal",
+      "to_manager": "José Mourinho",
+      "index": 3
+    },
+    {
+      "season": 2019,
+      "from_manager": "José Mourinho",
+      "to_manager": "Mourinho / Solskjær",
+      "index": 5
+    },
+    {
+      "season": 2020,
+      "from_manager": "Mourinho / Solskjær",
+      "to_manager": "Ole Gunnar Solskjær",
+      "index": 6
+    },
+    {
+      "season": 2022,
+      "from_manager": "Ole Gunnar Solskjær",
+      "to_manager": "Solskjær / Rangnick",
+      "index": 8
+    },
+    {
+      "season": 2023,
+      "from_manager": "Solskjær / Rangnick",
+      "to_manager": "Erik ten Hag",
+      "index": 9
+    }
+  ],
+  "before_after_estimates": [
+    {
+      "change_season": 2015,
+      "from": "David Moyes",
+      "to": "Louis van Gaal",
+      "pre_points_mean": 64.0,
+      "post_points_mean": 68.33,
+      "delta_points": 4.33,
+      "t_statistic": 0.0,
+      "p_value": 1.0,
+      "significant": false,
+      "direction": "mejora"
+    },
+    {
+      "change_season": 2017,
+      "from": "Louis van Gaal",
+      "to": "José Mourinho",
+      "pre_points_mean": 66.67,
+      "post_points_mean": 72.0,
+      "delta_points": 5.33,
+      "t_statistic": -1.0862,
+      "p_value": 0.3385,
+      "significant": false,
+      "direction": "mejora"
+    },
+    {
+      "change_season": 2019,
+      "from": "José Mourinho",
+      "to": "Mourinho / Solskjær",
+      "pre_points_mean": 72.0,
+      "post_points_mean": 68.67,
+      "delta_points": -3.33,
+      "t_statistic": 0.6287,
+      "p_value": 0.5637,
+      "significant": false,
+      "direction": "deterioro"
+    },
+    {
+      "change_season": 2020,
+      "from": "Mourinho / Solskjær",
+      "to": "Ole Gunnar Solskjær",
+      "pre_points_mean": 72.0,
+      "post_points_mean": 66.0,
+      "delta_points": -6.0,
+      "t_statistic": 0.9222,
+      "p_value": 0.4086,
+      "significant": false,
+      "direction": "deterioro"
+    },
+    {
+      "change_season": 2022,
+      "from": "Ole Gunnar Solskjær",
+      "to": "Solskjær / Rangnick",
+      "pre_points_mean": 68.67,
+      "post_points_mean": 64.33,
+      "delta_points": -4.33,
+      "t_statistic": 0.7233,
+      "p_value": 0.5095,
+      "significant": false,
+      "direction": "deterioro"
+    },
+    {
+      "change_season": 2023,
+      "from": "Solskjær / Rangnick",
+      "to": "Erik ten Hag",
+      "pre_points_mean": 66.0,
+      "post_points_mean": 67.5,
+      "delta_points": 1.5,
+      "t_statistic": 0.0,
+      "p_value": 1.0,
+      "significant": false,
+      "direction": "mejora"
+    }
+  ],
+  "before_after_summary": {
+    "n_changes": 6,
+    "n_significant": 0,
+    "mean_delta": -0.42,
+    "median_delta": -0.92,
+    "best_change": {
+      "change_season": 2017,
+      "from": "Louis van Gaal",
+      "to": "José Mourinho",
+      "pre_points_mean": 66.67,
+      "post_points_mean": 72.0,
+      "delta_points": 5.33,
+      "t_statistic": -1.0862,
+      "p_value": 0.3385,
+      "significant": false,
+      "direction": "mejora"
+    },
+    "worst_change": {
+      "change_season": 2020,
+      "from": "Mourinho / Solskjær",
+      "to": "Ole Gunnar Solskjær",
+      "pre_points_mean": 72.0,
+      "post_points_mean": 66.0,
+      "delta_points": -6.0,
+      "t_statistic": 0.9222,
+      "p_value": 0.4086,
+      "significant": false,
+      "direction": "deterioro"
+    },
+    "note": "Descriptivo before/after sin grupo control, no es un efecto causal"
+  },
+  "trend_projection": {
+    "trend_slope": -0.264,
+    "projected_2025_points": 66.5,
+    "actual_2025_points": 60.0,
+    "interpretation": "Tendencia estable"
+  },
+  "placebo_test": {
+    "seed": 42,
+    "n_simulations": 1000,
+    "n_changes_tested": 6,
+    "n_significant": 0,
+    "per_change": [
+      {
+        "change": "David Moyes → Louis van Gaal",
+        "season": 2015,
+        "delta_points": 4.33,
+        "p_value_placebo": 0.558,
+        "significant": false
+      },
+      {
+        "change": "Louis van Gaal → José Mourinho",
+        "season": 2017,
+        "delta_points": 5.33,
+        "p_value_placebo": 0.22,
+        "significant": false
+      },
+      {
+        "change": "José Mourinho → Mourinho / Solskjær",
+        "season": 2019,
+        "delta_points": -3.33,
+        "p_value_placebo": 0.687,
+        "significant": false
+      },
+      {
+        "change": "Mourinho / Solskjær → Ole Gunnar Solskjær",
+        "season": 2020,
+        "delta_points": -6.0,
+        "p_value_placebo": 0.109,
+        "significant": false
+      },
+      {
+        "change": "Ole Gunnar Solskjær → Solskjær / Rangnick",
+        "season": 2022,
+        "delta_points": -4.33,
+        "p_value_placebo": 0.558,
+        "significant": false
+      },
+      {
+        "change": "Solskjær / Rangnick → Erik ten Hag",
+        "season": 2023,
+        "delta_points": 1.5,
+        "p_value_placebo": 1.0,
+        "significant": false
+      }
+    ],
+    "interpretation": "Δ pre/post de cada cambio comparado contra 1000 cortes aleatorios (semilla 42), descriptivo, no causal"
+  }
+}

@@ -1,4 +1,4 @@
-# Embed Snippets — Visualizaciones Man Utd
+# Embed Snippets, Visualizaciones Man Utd
 
 ## 1. Datawrapper: Benchmark PL (PPG Comparison)
 
@@ -6,7 +6,7 @@
 <div style="width: 100%; max-width: 800px; margin: 0 auto;">
   <iframe
     src="https://www.datawrapper.dw-news.net/DATASET_ID/"
-    title="Benchmark PL — Man Utd PPG vs Top 6 vs Rest"
+    title="Benchmark PL, Man Utd PPG vs Top 6 vs Rest"
     width="100%"
     height="400"
     frameborder="0"
@@ -29,7 +29,7 @@
 <div style="width: 100%; max-width: 900px; margin: 0 auto;">
   <iframe
     src="https://flo.uri.sh/visualisation/VISUALISATION_ID/embed"
-    title="Bump Chart — Manager Performance Timeline"
+    title="Bump Chart, Manager Performance Timeline"
     width="100%"
     height="500"
     frameborder="0"
@@ -52,7 +52,7 @@
 <div style="width: 100%; max-width: 800px; margin: 0 auto;">
   <iframe
     src="https://observablehq.com/@observablehq/MANU_CORRELACION_ID"
-    title="Correlation Matrix — Points, GF, GA, GD, Wins, Position"
+    title="Correlation Matrix, Points, GF, GA, GD, Wins, Position"
     width="100%"
     height="600"
     frameborder="0"

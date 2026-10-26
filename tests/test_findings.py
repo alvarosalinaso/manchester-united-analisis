@@ -1,4 +1,4 @@
-"""Tests para src/findings.py — hallazgos clave sincronizados."""
+"""Tests para src/findings.py, hallazgos clave sincronizados."""
 
 from pathlib import Path
 
