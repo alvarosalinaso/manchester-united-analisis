@@ -144,8 +144,8 @@
   },
   "trend_projection": {
     "trend_slope": -0.264,
-    "projected_2025_points": 66.5,
-    "actual_2025_points": 60.0,
+    "projected_next_season_points": 66.5,
+    "last_season_points": 60.0,
     "interpretation": "Tendencia estable"
   },
   "placebo_test": {

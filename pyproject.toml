@@ -4,34 +4,45 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "manutd_analysis"
-version = "0.1.0"
+version = "1.0.0"
 authors = [
-  { name = "Alvaro Salinas Ortiz", email = "alvaro@example.com" },
+  { name = "Álvaro Salinas Ortiz" },
 ]
-description = "Análisis de rendimiento del Manchester United (2014-2024)"
+description = "Pipeline analítico del costo de la inestabilidad técnica en el Manchester United (2014-2024)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pandas>=1.5",
-    "matplotlib>=3.7",
-    "seaborn>=0.13",
+    "numpy>=1.26,<3.0",
+    "pandas>=2.1,<4.0",
+    "scipy>=1.11,<2.0",
+    "matplotlib>=3.8,<4.0",
+    "seaborn>=0.13,<0.14",
+    "great_tables>=0.10,<2.0",
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "ruff>=0.5",
+app = [
+    "plotly>=5.20,<8.0",
+    "streamlit>=1.46,<2.0",
 ]
+dev = [
+    "pytest>=8.0,<10.0",
+    "pytest-cov>=5.0,<8.0",
+    "ruff>=0.6,<1.0",
+]
+
+[project.scripts]
+manutd-analysis = "manutd_analysis.pipeline:main"
 
 [project.urls]
 "Homepage" = "https://github.com/alvarosalinaso/manchester-united-analisis"
@@ -42,14 +53,13 @@ where = ["src"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py39"
-extend-exclude = ["*.ipynb"]
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "UP", "B"]
 ignore = ["E501"]
 
 [tool.pytest.ini_options]
-minversion = "7.0"
-addopts = "-ra -q --cov=manutd_analysis --cov-report=term-missing --cov-report=xml --cov-fail-under=65"
+minversion = "8.0"
+addopts = "-ra -q --cov=manutd_analysis --cov-report=term-missing --cov-report=xml --cov-fail-under=85"
 testpaths = ["tests"]

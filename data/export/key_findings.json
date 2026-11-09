@@ -1,9 +1,16 @@
 {
   "rango": "2014-2024",
   "n_temporadas": 11,
+  "n_entrenadores": 5,
+  "n_temporadas_transicion": 2,
   "brecha_media": 23.1,
+  "brecha_min": 12,
+  "brecha_max": 35,
   "pts_promedio": 68.1,
   "ppg_promedio": 1.792,
+  "ppg_campeon_promedio": 2.4,
+  "pos_media": 4.7,
+  "temporadas_top4": 5,
   "mejor_dt": {
     "nombre": "José Mourinho",
     "ppg": 1.97
@@ -12,5 +19,6 @@
     "nombre": "David Moyes",
     "ppg": 1.68
   },
-  "costo_inestabilidad": 7.4
+  "costo_inestabilidad": 7.4,
+  "ventaja_ppg_vs_pl": 0.43
 }

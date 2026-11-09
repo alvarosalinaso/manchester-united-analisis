@@ -3,7 +3,8 @@
     {
       "manager": "Louis van Gaal",
       "tenure_seasons": 2,
-      "seasons_range": "2015 - 2016",
+      "first_season": 2015,
+      "last_season": 2016,
       "avg_points": 68.0,
       "total_points": 136,
       "best_season_points": 70,
@@ -16,7 +17,8 @@
     {
       "manager": "José Mourinho",
       "tenure_seasons": 2,
-      "seasons_range": "2017 - 2018",
+      "first_season": 2017,
+      "last_season": 2018,
       "avg_points": 75.0,
       "total_points": 150,
       "best_season_points": 81,
@@ -29,7 +31,8 @@
     {
       "manager": "Ole Gunnar Solskjær",
       "tenure_seasons": 2,
-      "seasons_range": "2020 - 2021",
+      "first_season": 2020,
+      "last_season": 2021,
       "avg_points": 70.0,
       "total_points": 140,
       "best_season_points": 74,
@@ -42,7 +45,8 @@
     {
       "manager": "Erik ten Hag",
       "tenure_seasons": 2,
-      "seasons_range": "2023 - 2024",
+      "first_season": 2023,
+      "last_season": 2024,
       "avg_points": 67.5,
       "total_points": 135,
       "best_season_points": 75,
@@ -55,41 +59,44 @@
     {
       "manager": "David Moyes",
       "tenure_seasons": 1,
-      "seasons_range": "2014 - 2014",
+      "first_season": 2014,
+      "last_season": 2014,
       "avg_points": 64.0,
       "total_points": 64,
       "best_season_points": 64,
       "worst_season_points": 64,
-      "points_std": NaN,
+      "points_std": null,
       "avg_position": 7.0,
       "best_position": 7,
-      "stability_score": NaN
+      "stability_score": null
     },
     {
       "manager": "Mourinho / Solskjær",
       "tenure_seasons": 1,
-      "seasons_range": "2019 - 2019",
+      "first_season": 2019,
+      "last_season": 2019,
       "avg_points": 66.0,
       "total_points": 66,
       "best_season_points": 66,
       "worst_season_points": 66,
-      "points_std": NaN,
+      "points_std": null,
       "avg_position": 6.0,
       "best_position": 6,
-      "stability_score": NaN
+      "stability_score": null
     },
     {
       "manager": "Solskjær / Rangnick",
       "tenure_seasons": 1,
-      "seasons_range": "2022 - 2022",
+      "first_season": 2022,
+      "last_season": 2022,
       "avg_points": 58.0,
       "total_points": 58,
       "best_season_points": 58,
       "worst_season_points": 58,
-      "points_std": NaN,
+      "points_std": null,
       "avg_position": 6.0,
       "best_position": 6,
-      "stability_score": NaN
+      "stability_score": null
     }
   ],
   "tenure_summary": {
@@ -107,8 +114,8 @@
     },
     "n_managers": 7,
     "avg_tenure": 1.6,
-    "avg_tenure_industry": 2.5,
-    "turnover_rate": 0.7
+    "turnover_rate": 6.36,
+    "turnover_rate_unit": "entrenadores por cada 10 temporadas"
   },
   "managerial_transitions": [
     {
