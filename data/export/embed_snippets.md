@@ -1,72 +1,27 @@
-# Embed Snippets, Visualizaciones Man Utd
+# Embed snippets, visualizaciones Man Utd
 
-## 1. Datawrapper: Benchmark PL (PPG Comparison)
+Reemplaza los identificadores `*_ID` por los de tu visualización publicada.
 
-```html
-<div style="width: 100%; max-width: 800px; margin: 0 auto;">
-  <iframe
-    src="https://www.datawrapper.dw-news.net/DATASET_ID/"
-    title="Benchmark PL, Man Utd PPG vs Top 6 vs Rest"
-    width="100%"
-    height="400"
-    frameborder="0"
-    allow="fullscreen"
-    loading="lazy"
-  ></iframe>
-  <noscript>
-    <p>Ver <a href="data/export/dw_benchmark_pl.csv">datos del benchmark</a>.</p>
-  </noscript>
-</div>
-```
-
-**Archivo de datos:** `data/export/dw_benchmark_pl.csv`
-
----
-
-## 2. Flourish: Bump Chart (Manager Timeline)
+## 1. Datawrapper: benchmark PL (PPG United vs Top 6 vs resto)
 
 ```html
-<div style="width: 100%; max-width: 900px; margin: 0 auto;">
-  <iframe
-    src="https://flo.uri.sh/visualisation/VISUALISATION_ID/embed"
-    title="Bump Chart, Manager Performance Timeline"
-    width="100%"
-    height="500"
-    frameborder="0"
-    allow="fullscreen"
-    loading="lazy"
-  ></iframe>
-  <noscript>
-    <p>Ver <a href="data/export/flourish_bump_manager.csv">datos del bump chart</a>.</p>
-  </noscript>
-</div>
+<iframe src="https://datawrapper.dwcdn.net/DATASET_ID/" title="Benchmark PL"
+  width="100%" height="400" frameborder="0" loading="lazy"></iframe>
 ```
 
-**Archivo de datos:** `data/export/flourish_bump_manager.csv`
+Datos: `data/export/dw_benchmark_pl.csv`
 
----
-
-## 3. Observable Plot: Correlation Matrix
+## 2. Flourish: bump chart por entrenador
 
 ```html
-<div style="width: 100%; max-width: 800px; margin: 0 auto;">
-  <iframe
-    src="https://observablehq.com/@observablehq/MANU_CORRELACION_ID"
-    title="Correlation Matrix, Points, GF, GA, GD, Wins, Position"
-    width="100%"
-    height="600"
-    frameborder="0"
-    allow="fullscreen"
-    loading="lazy"
-  ></iframe>
-  <noscript>
-    <p>Ver <a href="data/export/observable_correlacion.csv">datos de correlación</a>.</p>
-  </noscript>
-</div>
+<iframe src="https://flo.uri.sh/visualisation/VISUALISATION_ID/embed" title="Bump chart"
+  width="100%" height="500" frameborder="0" loading="lazy"></iframe>
 ```
 
-**Archivo de datos:** `data/export/observable_correlacion.csv`
+Datos: `data/export/flourish_bump_manager.csv`
 
----
+## 3. Observable Plot: matriz de correlación
 
-*Generado por `manutd_analysis.export_visualizations`.*
+Datos: `data/export/observable_correlacion.csv`
+
+*Generado por `manutd_analysis.exports`.*

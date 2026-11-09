@@ -1,36 +1,37 @@
-"""Módulo de visualización del análisis del Manchester United."""
+"""Figuras estáticas (matplotlib) para README e informes."""
 
+from __future__ import annotations
+
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import pandas as pd
+import seaborn as sns
 
-try:
-    import seaborn as sns
+from manutd_analysis.config import ProjectPaths
 
-    sns.set_theme(style="whitegrid", palette="muted")
-    HAS_SEABORN = True
-except ImportError:
-    HAS_SEABORN = False
+sns.set_theme(style="whitegrid", palette="muted")
+logger = logging.getLogger(__name__)
 
-_DEFAULT_OUT = "assets/figures"
+_DEFAULT_OUT = ProjectPaths.default().figures_dir
 _RED = "#c0392b"
 _BLUE = "#2980b9"
 _DARK = "#2c3e50"
 
 
-def _guardar(fig: plt.Figure, nombre: str, out_dir: str) -> Path:
+def _guardar(fig: plt.Figure, nombre: str, out_dir: str | Path) -> Path:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     ruta = out / nombre
     fig.savefig(ruta, dpi=150, bbox_inches="tight")
     plt.close(fig)
-    print(f"  ✅ Guardado: {ruta}")
+    logger.info("Figura guardada: %s", ruta)
     return ruta
 
 
-def graficar_eficiencia_y_brecha(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Path:
+def graficar_eficiencia_y_brecha(df: pd.DataFrame, out_dir: str | Path = _DEFAULT_OUT) -> Path:
     """
     Genera un panel de 2 gráficos:
       - Izquierda: Eficiencia media (Pts/Gol) por entrenador (barras).
@@ -83,7 +84,7 @@ def graficar_eficiencia_y_brecha(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) 
     return _guardar(fig, "eficiencia_y_brecha.png", out_dir)
 
 
-def graficar_rentabilidad_ofensiva(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Path:
+def graficar_rentabilidad_ofensiva(df: pd.DataFrame, out_dir: str | Path = _DEFAULT_OUT) -> Path:
     """
     Scatter plot: Volumen ofensivo (Goles/temporada) vs. Eficiencia (Pts/Gol)
     con cuadrantes centrados en el promedio grupal.
@@ -149,7 +150,7 @@ def graficar_rentabilidad_ofensiva(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT
     return _guardar(fig, "rentabilidad_ofensiva.png", out_dir)
 
 
-def graficar_ppg_historico(df: pd.DataFrame, out_dir: str = _DEFAULT_OUT) -> Path:
+def graficar_ppg_historico(df: pd.DataFrame, out_dir: str | Path = _DEFAULT_OUT) -> Path:
     """
     Línea temporal de Puntos por Partido (PPG) con anotación del entrenador.
     """

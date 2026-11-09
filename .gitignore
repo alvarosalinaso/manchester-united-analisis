@@ -70,3 +70,12 @@ desktop.ini
 # Editors
 .vscode/
 .idea/
+# Streamlit / temporales
+.streamlit/secrets.toml
+*.tmp
+*.log
+*.bak
+~$*
+
+# Herramientas locales
+.claude/
